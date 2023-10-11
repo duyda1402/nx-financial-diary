@@ -10,6 +10,8 @@
 
 To start the server run `npm run start:api`. Base url http://localhost:5000/v1/api Happy coding!
 
+Document API: [view on the docs](https://documenter.getpostman.com/view/16887408/2s9YJjRJvE)
+
 ### expo
 
 To start the app run `npm run start:expo`. Scan QR with Expo Go!
