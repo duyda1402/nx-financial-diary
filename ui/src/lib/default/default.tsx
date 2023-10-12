@@ -12,13 +12,17 @@ import {
 } from 'react-native';
 import Svg, { Path } from 'react-native-svg';
 
-export const App = () => {
+/* eslint-disable-next-line */
+export interface DefaultProps {
+  navigation: any;
+}
+
+export function DefaultUI({ navigation }: DefaultProps) {
   const [whatsNextYCoord, setWhatsNextYCoord] = useState<number>(0);
   const scrollViewRef = useRef<null | ScrollView>(null);
-
   return (
-    <>
-      <StatusBar barStyle="dark-content" />
+    <React.Fragment>
+      {/* <StatusBar barStyle="dark-content" /> */}
       <SafeAreaView>
         <ScrollView
           ref={(ref) => {
@@ -28,9 +32,9 @@ export const App = () => {
           style={styles.scrollView}
         >
           <View style={styles.section}>
-            <Text style={styles.textLg}>Hello there,</Text>
+            <Text style={styles.textLg}>Hello,</Text>
             <Text style={[styles.textXL, styles.appTitleText]} testID="heading">
-              Welcome ExpoApp 👋
+              Welcome Do Duy
             </Text>
           </View>
           <View style={styles.section}>
@@ -57,15 +61,14 @@ export const App = () => {
               <TouchableOpacity
                 style={styles.whatsNextButton}
                 onPress={() => {
-                  scrollViewRef.current?.scrollTo({
-                    x: 0,
-                    y: whatsNextYCoord,
-                  });
+                  navigation.navigate('Login');
+                  // scrollViewRef.current?.scrollTo({
+                  //   x: 0,
+                  //   y: whatsNextYCoord,
+                  // });
                 }}
               >
-                <Text style={[styles.textMd, styles.textCenter]}>
-                  What's next?
-                </Text>
+                <Text style={[styles.textMd, styles.textCenter]}>Login</Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -576,12 +579,15 @@ export const App = () => {
           </View>
         </ScrollView>
       </SafeAreaView>
-    </>
+    </React.Fragment>
   );
-};
+}
+
+export default DefaultUI;
+
 const styles = StyleSheet.create({
   scrollView: {
-    backgroundColor: '#ffffff',
+    // backgroundColor: '#ffffff',
   },
   codeBlock: {
     backgroundColor: 'rgba(55, 65, 81, 1)',
@@ -702,5 +708,3 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
-
-export default App;

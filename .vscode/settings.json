@@ -3,6 +3,7 @@
           "nestjs",
           "otps",
           "passcode",
+          "Pressable",
           "typeorm"
      ]
 }
