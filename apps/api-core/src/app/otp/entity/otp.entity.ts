@@ -26,6 +26,9 @@ export class OtpEntity extends BaseEntity {
      @Column({ default: StatusOtp.pending, enum: StatusOtp, type: "enum", })
      status: StatusOtp;
 
+     @Column({ nullable: true })
+     startAt: Date;
+
      @CreateDateColumn()
      createdAt: Date;
 

@@ -1,7 +1,7 @@
 import { ArgumentsHost, Catch, ExceptionFilter, HttpException, Logger, HttpStatus } from '@nestjs/common';
 import { Response } from 'express';
 import { ApiResponse } from './api.response';
-import { MessageCode } from './enum/error.enum';
+import { MessageCode } from './enum/message-code.enum';
 
 interface Err {
      message: string;

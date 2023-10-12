@@ -1,10 +1,8 @@
-import { BadRequestException, Body, Controller, Post, Get, Param } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Post, Get, Param, UseGuards } from '@nestjs/common';
 import { UserService } from './user.service';
 import { ApiResponse } from '../../common/api.response';
-import { MessageCode } from '../../common/enum/error.enum';
-
-
-
+import { MessageCode } from '../../common/enum/message-code.enum';
+import { AuthGuard } from '../auth/guard/auth.guard';
 
 @Controller()
 export class UserController {
@@ -34,6 +32,7 @@ export class UserController {
      }
 
      @Get("users/:userId")
+     @UseGuards(AuthGuard)
      async getUser(@Param() params: { userId: string }): Promise<ApiResponse> {
           const user = await this.userService.findUserBy({ userId: params.userId })
           // eslint-disable-next-line @typescript-eslint/no-unused-vars

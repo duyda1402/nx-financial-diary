@@ -1,13 +1,22 @@
-import { UserService } from './../user/user.service';
-import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { OtpService } from '../otp/otp.service';
-import { MessageCode } from '../../common/enum/error.enum';
+import { BadGatewayException, BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 
+import { JwtService } from '@nestjs/jwt';
+import { OtpService } from '../otp/otp.service';
+import { UserService } from './../user/user.service';
+
+import { MessageCode } from '../../common/enum/message-code.enum';
+import { UserEntity } from '../user/entity/user.entity';
+import { Tokens } from './dto/token.dto';
+
+import * as bcrypt from 'bcrypt';
+import { ERROR_UNAUTHORIZED } from '../../common/error.common';
+import { PayloadToken } from '../../common/types/payload.types';
 @Injectable()
 export class AuthService {
      constructor(
           private userService: UserService,
-          private otpService: OtpService
+          private otpService: OtpService,
+          private jwtService: JwtService
      ) { }
 
      async initialize(email: string, userId: string) {
@@ -17,23 +26,67 @@ export class AuthService {
           }
           const otp = await this.otpService.generateOtp(userId)
           return {
-               createAt: otp.createdAt,
+               createAt: otp.startAt,
                id: otp.transactionId,
                ttl: otp.ttl
           }
      }
 
-     async finalize(transactionId: string, codeOtp: string) {
+     async finalize(transactionId: string, codeOtp: string): Promise<Tokens> {
           const verified = await this.otpService.verifyOtp(transactionId, codeOtp)
-          if (!verified) {
-               throw new UnauthorizedException({ code: MessageCode.UNAUTHORIZED, message: "Otp is not authorized" })
+
+          const user = await this.userService.findUserBy({ userId: verified.userId })
+          if (!user.isVerified) {
+               this.userService.updateUserById(verified.userId, { isVerified: true })
           }
-          await this.userService.updateUserById(verified.userId, { isVerified: true, lastedLoginAt: new Date() })
-          // TODO: 
-          // Save Cookies and Authentication JWT
-          return {
-               auth: true
-          }
+          const tokens = await this.generateTokens(user)
+          // Save Cookies and Authentication JWT , lastedLoginAt
+          return tokens
      }
 
+     async handlerResetToken(refreshToken: string): Promise<Tokens> {
+          if (!refreshToken) {
+               throw new UnauthorizedException(ERROR_UNAUTHORIZED);
+          }
+          let payload: PayloadToken
+          try {
+               payload = await this.jwtService.verifyAsync(
+                    refreshToken,
+                    {
+                         secret: process.env.JWT_SECRET_RT
+                    }
+               );
+          } catch {
+               throw new UnauthorizedException(ERROR_UNAUTHORIZED);
+          }
+          const user = await this.userService.findUserBy({ userId: payload.sub })
+          if (!user) {
+               throw new UnauthorizedException(ERROR_UNAUTHORIZED);
+          }
+          const tokens = this.generateTokens(user)
+          return tokens
+     }
+
+     async generateTokens(user: UserEntity): Promise<Tokens> {
+          const payload = {
+               sub: user.userId,
+               email: user.email
+          }
+          const accessToken = await this.jwtService.signAsync(payload, {
+               secret: process.env.JWT_SECRET_AT,
+               expiresIn: '15m'
+          })
+          const refreshToken = await this.jwtService.signAsync(payload, {
+               expiresIn: '7d',
+               secret: process.env.JWT_SECRET_RT
+          })
+          bcrypt.hash(refreshToken, 10, (err, hash) => {
+               if (err) {
+                    throw new BadGatewayException("Generate hash token failed")
+               }
+               this.userService.updateUserById(user.userId, { lastedLoginAt: new Date(), hash })
+          })
+
+          return { accessToken, refreshToken }
+     }
 }
