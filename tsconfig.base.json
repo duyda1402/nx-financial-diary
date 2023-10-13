@@ -15,7 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nfd/ui": ["ui/src/index.ts"]
+      "@nfd/fe-sdk": ["fe-sdk/src/index.ts"],
+      "@nfd/styles": ["styles/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

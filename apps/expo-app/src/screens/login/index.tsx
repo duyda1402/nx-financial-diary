@@ -1,82 +1,65 @@
-import { View, Text } from '@nfd/ui';
-import { StyleSheet, Image } from 'react-native';
-import CustomButton from 'ui/src/lib/button/button';
-import CustomInput from 'ui/src/lib/inputs/inputs';
-
+import { styles } from '@nfd/styles';
+import { Button, Layout, Text } from '@ui-kitten/components';
+import { useForm } from 'react-hook-form';
+import { Alert, Image, View } from 'react-native';
+import EmailInput from '../../components/input-ui/EmailInput';
+import { useState } from 'react';
+import LoadingIndicator from '../../components/loader/LoaderIndicator';
 export interface LoginScreenProps {
-  navigation: any;
+  navigation?: any;
 }
 
+type Form = {
+  email: string;
+};
+
 function LoginScreen({ navigation }: LoginScreenProps) {
+  const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
+  const { control, handleSubmit } = useForm();
+
+  const onSubmit = (data: any) => {
+    setLoadingSubmit(() => true);
+    Alert.alert(JSON.stringify(data));
+    setLoadingSubmit(() => false);
+  };
+
   return (
-    <View style={styles.container}>
-      <View style={styles.section}>
+    <Layout style={styles.container}>
+      <View style={styles.stackCenter}>
         <Image
-          style={styles.image}
+          style={{ height: 80, width: 80 }}
           source={{
             uri: 'https://cdn-icons-png.flaticon.com/512/1087/1087171.png',
           }}
         />
-        <Text style={styles.textName}>{process.env.NAME_APP}</Text>
+        {/* <Text style={[styles.textLg, styles.textSemiBold]}>
+          {process.env.EXPO_PUBLIC_NAME_APP}
+        </Text> */}
       </View>
-      <View style={styles.stack}>
-        <CustomInput placeholder="example@test.app" />
-        <CustomButton
-          label="Login"
-          onPress={() => navigation.navigate('Home')}
-        />
+
+      <View style={[styles.stackCenter]}>
+        <EmailInput name="email" control={control} withAsterisk />
+
+        {loadingSubmit ? (
+          <Button
+            status="info"
+            accessoryLeft={() => <LoadingIndicator />}
+            appearance="outline"
+          >
+            Continue
+          </Button>
+        ) : (
+          <Button
+            status="info"
+            onPress={handleSubmit(onSubmit)}
+            appearance="outline"
+          >
+            Continue
+          </Button>
+        )}
       </View>
-    </View>
+    </Layout>
   );
 }
 
 export default LoginScreen;
-
-const styles = StyleSheet.create({
-  hero: {
-    borderRadius: 12,
-    backgroundColor: '#143055',
-    padding: 36,
-    marginBottom: 24,
-  },
-  stack: {
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    gap: 1,
-    display: 'flex',
-  },
-  section: {
-    marginVertical: 24,
-    marginHorizontal: 12,
-  },
-  container: {
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-    padding: 20,
-  },
-  image: {
-    width: 120,
-    height: 120,
-  },
-
-  textName: {
-    fontWeight: 'bold',
-    fontSize: 18,
-  },
-  header: {
-    alignItems: 'center',
-  },
-  text: {
-    fontSize: 16,
-  },
-  textLink: {
-    fontSize: 16,
-    color: '#2563eb',
-  },
-  select: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-});

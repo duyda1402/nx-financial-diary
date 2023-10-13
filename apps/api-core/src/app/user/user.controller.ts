@@ -15,11 +15,12 @@ export class UserController {
                throw new BadRequestException({ code: MessageCode.NOT_FOUND, message: "Not Found" });
           }
           return ApiResponse.success({
-               address: user.email,
+               email: user.email,
                createAt: user.createdAt,
                updateAt: user.updatedAt,
                id: user.userId,
-               verified: user.isVerified
+               userId: user.userId,
+               isVerified: user.isVerified
           });
      }
 

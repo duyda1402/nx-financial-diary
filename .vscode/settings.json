@@ -4,6 +4,7 @@
           "otps",
           "passcode",
           "Pressable",
+          "Proguard",
           "typeorm"
      ]
 }
