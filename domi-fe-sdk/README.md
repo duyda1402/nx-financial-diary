@@ -134,11 +134,11 @@ const removeEventListener = domiCore.onSessionCreated((eventDetail) => {
 
 The following events are available:
 
-- "Domi-auth-flow-completed": Will be triggered after a session has been created and the user has completed possible
+- "auth-flow-completed": Will be triggered after a session has been created and the user has completed possible
   additional steps (e.g. passkey registration or password recovery) via the `<Domi-auth>` element.
 
-```js
-Domi.onAuthFlowCompleted((authFlowCompletedDetail) => {
+```typescript
+domiCore.onAuthFlowCompleted((authFlowCompletedDetail) => {
   // Login, registration or recovery has been completed successfully. You can now take control and redirect the
   // user to protected pages.
   console.info(
@@ -147,38 +147,38 @@ Domi.onAuthFlowCompleted((authFlowCompletedDetail) => {
 });
 ```
 
-```js
-Domi.onSessionCreated((sessionDetail) => {
+```typescript
+domiCore.onSessionCreated((sessionDetail) => {
   // A new JWT has been issued.
-  console.info(`Session created or updated (user-id: "${sessionDetail.userID}", jwt: ${sessionDetail.jwt})`);
+  console.info(`Session created or updated (user-id: "${sessionDetail.userId}", jwt: ${sessionDetail.jwt})`);
 });
 ```
 
-- "Domi-session-expired": Will be triggered when the session has expired, or when the session has been removed in
+- "session-expired": Will be triggered when the session has expired, or when the session has been removed in
   another browser window, because the user has logged out, or deleted the account.
 
-```js
-Domi.onSessionExpired(() => {
+```typescript
+domiCore.onSessionExpired(() => {
   // You can redirect the user to a login page or show the `<Domi-auth>` element, or to prompt the user to log in again.
   console.info("Session expired");
 });
 ```
 
-- "Domi-user-logged-out": Will be triggered, when the user actively logs out. In other browser windows, a "Domi-session-expired" event
+- "user-logged-out": Will be triggered, when the user actively logs out. In other browser windows, a "Domi-session-expired" event
   will be triggered at the same time.
 
-```js
-Domi.onUserLoggedOut(() => {
+```typescript
+domiCore.onUserLoggedOut(() => {
   // You can redirect the user to a login page or show the `<Domi-auth>` element.
   console.info("User logged out");
 });
 ```
 
-- "Domi-user-deleted": Will be triggered when the user has deleted the account. In other browser windows, a "Domi-session-expired" event
+- "user-deleted": Will be triggered when the user has deleted the account. In other browser windows, a "Domi-session-expired" event
   will be triggered at the same time.
 
-```js
-Domi.onUserDeleted(() => {
+```typescript
+domiCore.onUserDeleted(() => {
   // You can redirect the user to a login page or show the `<Domi-auth>` element.
   console.info("User has been deleted");
 });
