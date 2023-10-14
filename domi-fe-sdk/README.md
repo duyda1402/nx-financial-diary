@@ -6,7 +6,7 @@ This package utilizes the [Api-Core](https://documenter.getpostman.com/view/1688
 
 ## Running unit tests
 
-Run `nx test fe-sdk` to execute the unit tests via [Jest](https://jestjs.io).
+Run `npx nx test domi-fe-sdk` to execute the unit tests via [Jest](https://jestjs.io).
 
 ## Usage
 
