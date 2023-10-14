@@ -19,9 +19,9 @@ import { LocalStoragePasscode } from "./passcode";
  * @property {LocalStoragePassword=} password - Information about the password login attempts.
  */
 interface LocalStorageUser {
-     // webauthn?: LocalStorageWebauthn;
-     passcode?: LocalStoragePasscode;
-     // password?: LocalStoragePassword;
+  // webauthn?: LocalStorageWebauthn;
+  passcode?: LocalStoragePasscode;
+  // password?: LocalStoragePassword;
 }
 
 /**
@@ -31,7 +31,7 @@ interface LocalStorageUser {
  * @property {Object.<string, LocalStorageUser>} - A dictionary for mapping users to their states.
  */
 export interface LocalStorageUsers {
-     [userID: string]: LocalStorageUser;
+  [userID: string]: LocalStorageUser;
 }
 
 /**
@@ -44,21 +44,21 @@ export interface LocalStorageUsers {
  * @subcategory Internal
  */
 abstract class UserState extends State {
-     /**
-      * Gets the state of the specified user.
-      *
-      * @param {string} userID - The UUID of the user.
-      * @return {LocalStorageUser}
-      */
-     getUserState(userID: string): LocalStorageUser {
-          this.ls.users ||= {};
+  /**
+   * Gets the state of the specified user.
+   *
+   * @param {string} userID - The UUID of the user.
+   * @return {LocalStorageUser}
+   */
+  getUserState(userID: string): LocalStorageUser {
+    this.ls.users ||= {};
 
-          if (!Object.prototype.hasOwnProperty.call(this.ls.users, userID)) {
-               this.ls.users[userID] = {};
-          }
+    if (!Object.prototype.hasOwnProperty.call(this.ls.users, userID)) {
+      this.ls.users[userID] = {};
+    }
 
-          return this.ls.users[userID];
-     }
+    return this.ls.users[userID];
+  }
 }
 
 export { UserState };

@@ -1,10 +1,12 @@
 {
-     "cSpell.words": [
-          "nestjs",
-          "otps",
-          "passcode",
-          "Pressable",
-          "Proguard",
-          "typeorm"
-     ]
+  "cSpell.words": [
+    "Domi",
+    "instanceof",
+    "nestjs",
+    "otps",
+    "passcode",
+    "Pressable",
+    "Proguard",
+    "typeorm"
+  ]
 }

@@ -8,10 +8,10 @@
  * @property {AccountConfig} account - Controls the behaviour regarding user accounts.
  */
 export interface Config {
-     password: PasswordConfig;
-     emails: EmailConfig;
-     providers: string[];
-     account: AccountConfig;
+  password: PasswordConfig;
+  emails: EmailConfig;
+  providers: string[];
+  account: AccountConfig;
 }
 
 /**
@@ -22,8 +22,8 @@ export interface Config {
  * @property {number} min_password_length - The minimum length of a password. To be used for password validation.
  */
 export interface PasswordConfig {
-     enabled: boolean;
-     min_password_length: number;
+  enabled: boolean;
+  min_password_length: number;
 }
 
 /**
@@ -34,8 +34,8 @@ export interface PasswordConfig {
  * @property {number} max_num_of_addresses - The maximum number of email addresses a user can have.
  */
 export interface EmailConfig {
-     require_verification: boolean;
-     max_num_of_addresses: number;
+  require_verification: boolean;
+  max_num_of_addresses: number;
 }
 
 /**
@@ -46,21 +46,20 @@ export interface EmailConfig {
  * @property {boolean} allow_signup - Indicates the current user is allowed to sign up.
  */
 export interface AccountConfig {
-     allow_deletion: boolean;
-     allow_signup: boolean;
+  allow_deletion: boolean;
+  allow_signup: boolean;
 }
 
-
 export interface UserInfo {
-     email: string,
-     createAt: Date,
-     updateAt: Date,
-     id: string | number,
-     userId: string
-     isVerified: boolean
-     displayName?: string,
-     profileUrl?: string,
-     lastedLoginAt?: Date,
+  email: string;
+  createAt: Date;
+  updateAt: Date;
+  id: string | number;
+  userId: string;
+  isVerified: boolean;
+  displayName?: string;
+  profileUrl?: string;
+  lastedLoginAt?: Date;
 }
 
 /**
@@ -71,11 +70,11 @@ export interface UserInfo {
  * @ignore
  */
 export interface Me {
-     id: string;
+  id: string;
 }
 
 export type Tokens = {
-     accessToken: string;
-     refreshToken: string;
-     expiration: number
-}
+  accessToken: string;
+  refreshToken: string;
+  expiration: number;
+};

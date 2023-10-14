@@ -5,7 +5,8 @@
   "scripts": {
     "start:api": "npx nx serve api-core",
     "start:expo-ngrok": "npx nx start expo-app -- --tunnel",
-    "start:expo": "npx nx start expo-app -- --port=19000"
+    "start:expo": "npx nx start expo-app -- --port=19000",
+    "format": "prettier . --write"
   },
   "private": true,
   "dependencies": {

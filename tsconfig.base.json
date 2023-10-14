@@ -15,7 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@nfd/fe-sdk": ["fe-sdk/src/index.ts"],
+      "@nfd/domi-fe-sdk": ["domi-fe-sdk/src/index.ts"],
       "@nfd/styles": ["styles/src/index.ts"]
     }
   },

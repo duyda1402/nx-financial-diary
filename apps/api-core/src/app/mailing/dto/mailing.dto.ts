@@ -1,16 +1,16 @@
-import { IsEmail, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
 
 export class EmailDto {
-     @IsEmail()
-     toMail: string;
+  @IsEmail()
+  toMail: string;
 
-     @IsNotEmpty()
-     subject: string;
+  @IsNotEmpty()
+  subject: string;
 
-     @IsNotEmpty()
-     data: Record<string, unknown>;
+  @IsNotEmpty()
+  data: Record<string, unknown>;
 
-     @IsNotEmpty()
-     @IsOptional()
-     templates?: string;
+  @IsNotEmpty()
+  @IsOptional()
+  templates?: string;
 }

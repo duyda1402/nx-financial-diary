@@ -1,10 +1,10 @@
-import { styles } from '@nfd/styles';
-import { Button, Layout, Text } from '@ui-kitten/components';
-import { useForm } from 'react-hook-form';
-import { Alert, Image, View } from 'react-native';
-import EmailInput from '../../components/input-ui/EmailInput';
-import { useState } from 'react';
-import LoadingIndicator from '../../components/loader/LoaderIndicator';
+import { styles } from "@nfd/styles";
+import { Button, Layout, Text } from "@ui-kitten/components";
+import { useForm } from "react-hook-form";
+import { Alert, Image, View } from "react-native";
+import EmailInput from "../../components/input-ui/EmailInput";
+import { useState } from "react";
+import LoadingIndicator from "../../components/loader/LoaderIndicator";
 export interface LoginScreenProps {
   navigation?: any;
 }
@@ -29,7 +29,7 @@ function LoginScreen({ navigation }: LoginScreenProps) {
         <Image
           style={{ height: 80, width: 80 }}
           source={{
-            uri: 'https://cdn-icons-png.flaticon.com/512/1087/1087171.png',
+            uri: "https://cdn-icons-png.flaticon.com/512/1087/1087171.png",
           }}
         />
         {/* <Text style={[styles.textLg, styles.textSemiBold]}>
@@ -41,19 +41,11 @@ function LoginScreen({ navigation }: LoginScreenProps) {
         <EmailInput name="email" control={control} withAsterisk />
 
         {loadingSubmit ? (
-          <Button
-            status="info"
-            accessoryLeft={() => <LoadingIndicator />}
-            appearance="outline"
-          >
+          <Button status="info" accessoryLeft={() => <LoadingIndicator />} appearance="outline">
             Continue
           </Button>
         ) : (
-          <Button
-            status="info"
-            onPress={handleSubmit(onSubmit)}
-            appearance="outline"
-          >
+          <Button status="info" onPress={handleSubmit(onSubmit)} appearance="outline">
             Continue
           </Button>
         )}

@@ -1,41 +1,41 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet } from "react-native";
 
 export const styles = StyleSheet.create({
   //Flex
-  flexRow: { flexDirection: 'row' },
-  flexDirectionReverse: { flexDirection: 'row-reverse' },
-  flexCol: { flexDirection: 'column' },
-  flexColReverse: { flexDirection: 'column-reverse' },
-  flexWrap: { flexWrap: 'wrap' },
-  flexWrapReverse: { flexWrap: 'wrap-reverse' },
-  flexNoWrap: { flexWrap: 'nowrap' },
+  flexRow: { flexDirection: "row" },
+  flexDirectionReverse: { flexDirection: "row-reverse" },
+  flexCol: { flexDirection: "column" },
+  flexColReverse: { flexDirection: "column-reverse" },
+  flexWrap: { flexWrap: "wrap" },
+  flexWrapReverse: { flexWrap: "wrap-reverse" },
+  flexNoWrap: { flexWrap: "nowrap" },
   grow: { flexGrow: 1 },
   growNone: { flexGrow: 0 },
   container: {
     flex: 1,
-    alignItems: 'stretch',
-    justifyContent: 'center',
-    flexDirection: 'column',
+    alignItems: "stretch",
+    justifyContent: "center",
+    flexDirection: "column",
     padding: 20,
     gap: 20,
   },
   indicator: {
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   stackStretch: {
-    flexDirection: 'column',
-    alignItems: 'stretch',
-    justifyContent: 'center',
+    flexDirection: "column",
+    alignItems: "stretch",
+    justifyContent: "center",
     gap: 20,
-    display: 'flex',
+    display: "flex",
   },
   stackCenter: {
-    flexDirection: 'column',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
     gap: 20,
-    display: 'flex',
+    display: "flex",
   },
   gapXs: {},
   gapSm: {},
@@ -43,18 +43,18 @@ export const styles = StyleSheet.create({
   gapLg: {},
   gapXl: {},
   codeBlock: {
-    backgroundColor: 'rgba(55, 65, 81, 1)',
+    backgroundColor: "rgba(55, 65, 81, 1)",
     marginVertical: 12,
     padding: 12,
     borderRadius: 4,
   },
   monospace: {
-    color: '#ffffff',
-    fontFamily: 'Courier New',
+    color: "#ffffff",
+    fontFamily: "Courier New",
     marginVertical: 4,
   },
   comment: {
-    color: '#cccccc',
+    color: "#cccccc",
   },
   marginBottomSm: {
     marginBottom: 6,
@@ -66,16 +66,16 @@ export const styles = StyleSheet.create({
     marginBottom: 24,
   },
   textLight: {
-    fontWeight: '300',
+    fontWeight: "300",
   },
   textBold: {
-    fontWeight: '500',
+    fontWeight: "500",
   },
   textSemiBold: {
-    fontWeight: '700',
+    fontWeight: "700",
   },
   textCenter: {
-    textAlign: 'center',
+    textAlign: "center",
   },
   text2Xs: {
     fontSize: 12,
@@ -99,16 +99,16 @@ export const styles = StyleSheet.create({
     marginVertical: 12,
   },
   textSubtle: {
-    color: '#6b7280',
+    color: "#6b7280",
   },
   section: {
     marginVertical: 24,
     marginHorizontal: 12,
   },
   shadowBox: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderRadius: 24,
-    shadowColor: 'black',
+    shadowColor: "black",
     shadowOpacity: 0.15,
     shadowOffset: {
       width: 1,
@@ -119,9 +119,9 @@ export const styles = StyleSheet.create({
     marginBottom: 24,
   },
   listItem: {
-    display: 'flex',
-    flexDirection: 'row',
-    alignItems: 'center',
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
   },
   listItemTextContainer: {
     marginLeft: 12,
@@ -129,31 +129,31 @@ export const styles = StyleSheet.create({
   },
   appTitleText: {
     paddingTop: 12,
-    fontWeight: '500',
+    fontWeight: "500",
   },
   hero: {
     borderRadius: 12,
-    backgroundColor: '#143055',
+    backgroundColor: "#143055",
     padding: 36,
     marginBottom: 24,
   },
   heroTitle: {
     flex: 1,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   heroTitleText: {
-    color: '#ffffff',
+    color: "#ffffff",
     marginLeft: 12,
   },
   heroText: {
-    color: '#ffffff',
+    color: "#ffffff",
     marginVertical: 12,
   },
   whatsNextButton: {
-    backgroundColor: '#ffffff',
+    backgroundColor: "#ffffff",
     paddingVertical: 16,
     borderRadius: 8,
-    width: '50%',
+    width: "50%",
     marginTop: 24,
   },
   learning: {
@@ -161,6 +161,6 @@ export const styles = StyleSheet.create({
   },
   love: {
     marginTop: 12,
-    justifyContent: 'center',
+    justifyContent: "center",
   },
 });

@@ -1,7 +1,7 @@
-import { styles } from '@nfd/styles';
-import { Input, Text } from '@ui-kitten/components';
-import { Control, FieldValues, useController } from 'react-hook-form';
-import { StyleProp, TextStyle, View } from 'react-native';
+import { styles } from "@nfd/styles";
+import { Input, Text } from "@ui-kitten/components";
+import { Control, FieldValues, useController } from "react-hook-form";
+import { StyleProp, TextStyle, View } from "react-native";
 export interface EmailInput {
   name: string;
   defaultValue?: string;
@@ -10,13 +10,7 @@ export interface EmailInput {
   withAsterisk?: boolean;
 }
 
-const EmailInput = ({
-  name,
-  control,
-  defaultValue = '',
-  style,
-  withAsterisk = false,
-}: EmailInput) => {
+const EmailInput = ({ name, control, defaultValue = "", style, withAsterisk = false }: EmailInput) => {
   const {
     field: { value, onBlur, onChange },
     fieldState: { invalid, error },
@@ -27,7 +21,7 @@ const EmailInput = ({
     rules: {
       pattern: {
         value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-        message: 'Invalid email address',
+        message: "Invalid email address",
       },
       required: {
         value: withAsterisk,
@@ -38,10 +32,10 @@ const EmailInput = ({
   return (
     <View
       style={{
-        alignItems: 'stretch',
-        flexDirection: 'column',
-        width: '100%',
-        display: 'flex',
+        alignItems: "stretch",
+        flexDirection: "column",
+        width: "100%",
+        display: "flex",
       }}
     >
       {invalid && (
@@ -50,7 +44,7 @@ const EmailInput = ({
         </Text>
       )}
       <Input
-        status={invalid ? 'danger' : 'info'}
+        status={invalid ? "danger" : "info"}
         value={value}
         onChangeText={onChange}
         onBlur={onBlur}

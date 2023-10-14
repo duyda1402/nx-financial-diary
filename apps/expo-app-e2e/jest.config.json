@@ -1,10 +1,7 @@
 {
   "preset": "../../jest.preset",
   "rootDir": ".",
-  "testMatch": [
-    "<rootDir>/src/**/*.test.ts?(x)",
-    "<rootDir>/src/**/*.spec.ts?(x)"
-  ],
+  "testMatch": ["<rootDir>/src/**/*.test.ts?(x)", "<rootDir>/src/**/*.spec.ts?(x)"],
   "testTimeout": 120000,
   "maxWorkers": 1,
   "globalSetup": "detox/runners/jest/globalSetup",

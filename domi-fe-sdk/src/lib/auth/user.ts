@@ -2,7 +2,6 @@ import { Me, UserInfo } from "../dto";
 import { ConflictError, ForbiddenError, NotFoundError, TechnicalError, UnauthorizedError } from "../error";
 import { ApiAbstract } from "../instance/api";
 
-
 /**
  * A class to manage user information.
  *
@@ -12,16 +11,16 @@ import { ApiAbstract } from "../instance/api";
  */
 class UserClient extends ApiAbstract {
   /**
-    * Fetches basic information about the user identified by the given email address. Can be used while the user is logged out
-    * and is helpful in deciding which type of login to choose. For example, if the user's email is not verified, you may
-    * want to log in with a passcode.
-    *
-    * @param {string} email - The user's email address.
-    * @return {Promise<UserInfo>}
-    * @throws {NotFoundError}
-    * @throws {RequestTimeoutError}
-    * @throws {TechnicalError}
-    */
+   * Fetches basic information about the user identified by the given email address. Can be used while the user is logged out
+   * and is helpful in deciding which type of login to choose. For example, if the user's email is not verified, you may
+   * want to log in with a passcode.
+   *
+   * @param {string} email - The user's email address.
+   * @return {Promise<UserInfo>}
+   * @throws {NotFoundError}
+   * @throws {RequestTimeoutError}
+   * @throws {TechnicalError}
+   */
   async getInfo(email: string): Promise<UserInfo> {
     const response = await this.apiAbstract.instance.post("/user", { email });
 
@@ -35,21 +34,22 @@ class UserClient extends ApiAbstract {
   }
 
   /**
-    * Creates a new user. Afterwards, verify the email address via passcode. If a 'ConflictError'
-    * occurred, you may want to prompt the user to log in.
-    *
-    * @param {string} email - The email address of the user to be created.
-    * @return {Promise<UserInfo>}
-    * @throws {ConflictError}
-    * @throws {RequestTimeoutError}
-    * @throws {TechnicalError}
-    */
+   * Creates a new user. Afterwards, verify the email address via passcode. If a 'ConflictError'
+   * occurred, you may want to prompt the user to log in.
+   *
+   * @param {string} email - The email address of the user to be created.
+   * @return {Promise<UserInfo>}
+   * @throws {ConflictError}
+   * @throws {RequestTimeoutError}
+   * @throws {TechnicalError}
+   */
   async create(email: string): Promise<UserInfo> {
     const response = await this.apiAbstract.instance.post("/users", { email });
 
     if (response.status === 409) {
       throw new ConflictError();
-    } if (response.status === 403) {
+    }
+    if (response.status === 403) {
       throw new ForbiddenError();
     } else if (response.status <= 200 || response.status >= 299) {
       throw new TechnicalError();
@@ -95,12 +95,12 @@ class UserClient extends ApiAbstract {
   }
 
   /**
-    * Logs out the current user and expires the existing session cookie. A valid session cookie is required to call the logout endpoint.
-    *
-    * @return {Promise<void>}
-    * @throws {RequestTimeoutError}
-    * @throws {TechnicalError}
-    */
+   * Logs out the current user and expires the existing session cookie. A valid session cookie is required to call the logout endpoint.
+   *
+   * @return {Promise<void>}
+   * @throws {RequestTimeoutError}
+   * @throws {TechnicalError}
+   */
   async logout(): Promise<void> {
     const logoutResponse = await this.apiAbstract.instance.post("/logout");
 
@@ -118,8 +118,6 @@ class UserClient extends ApiAbstract {
       throw new TechnicalError();
     }
   }
-
-
 }
 
 export { UserClient };
