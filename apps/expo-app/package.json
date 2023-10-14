@@ -19,7 +19,13 @@
     "react-native-ui-lib": "*",
     "@ui-kitten/components": "*",
     "@eva-design/eva": "*",
-    "react-hook-form": "*"
+    "react-hook-form": "*",
+    "js-cookie": "*",
+    "axios": "*",
+    "react-native-event-listeners": "*",
+    "events": "*",
+    "eventemitter2": "*",
+    "@react-native-async-storage/async-storage": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/expo-app && cp package-lock.json apps/expo-app",

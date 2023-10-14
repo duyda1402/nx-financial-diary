@@ -9,8 +9,6 @@ import { ScreenName } from "../../common/enum";
 import Group from "../../components/layout/Group";
 import Stack from "../../components/layout/Stack";
 import LoadingIndicator from "../../components/loader/LoaderIndicator";
-import EmailInput from "../../components/input-ui/EmailInput";
-import { useForm } from "react-hook-form";
 
 export interface LoginScreenProps {
   navigation?: any;
@@ -18,10 +16,8 @@ export interface LoginScreenProps {
 
 const API_URL = process.env.EXPO_PUBLIC_API_BASE_URL!;
 
-function LoginScreen({ navigation }: LoginScreenProps) {
-  const { control, handleSubmit } = useForm();
-
-  console.log(LoginScreen.name);
+function NewUserScreen({ navigation }: LoginScreenProps) {
+  console.log(NewUserScreen.name);
   // State Init
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
 
@@ -33,15 +29,22 @@ function LoginScreen({ navigation }: LoginScreenProps) {
     navigation.navigate(ScreenName.WELCOME_SCREEN, { replace: true });
   }, [navigation]);
 
-  const redirectToNewUser = useCallback(() => {
-    navigation.navigate(ScreenName.NEW_USER_SCREEN, { replace: true });
+  const redirectToSignIn = useCallback(() => {
+    navigation.navigate(ScreenName.SIGN_IN_SCREEN, { replace: true });
   }, [navigation]);
 
-  const onSubmit = (data: any) => {
-    setLoadingSubmit(() => true);
-    setLoadingSubmit(() => false);
-    redirectToNewUser();
-  };
+  const handlerSignUp = useCallback(() => {
+    // setLoadingSubmit(() => true);
+    // domiCore.user
+    //   .create("tuntun@gmail.com")
+    //   .then((result) => {
+    //     console.log(result);
+    //   })
+    //   .catch((error: any) => {
+    //     console.log(JSON.stringify(error?.stack));
+    //   })
+    //   .finally(() => setLoadingSubmit(() => false));
+  }, []);
 
   //Effect Init
   useEffect(() => {}, []);
@@ -53,18 +56,18 @@ function LoginScreen({ navigation }: LoginScreenProps) {
       </Group>
 
       <Stack>
-        <EmailInput name="email" control={control} withAsterisk />
+        <Text style={[sx.textMd]}>No account exists for "tuntun@gmail.com". Do you want to create a new account?</Text>
         <Group position="between">
-          <Button status="info" onPress={redirectToHome} appearance="ghost">
+          <Button status="info" onPress={redirectToSignIn} appearance="ghost">
             Back
           </Button>
           {loadingSubmit ? (
             <Button status="info" accessoryLeft={() => <LoadingIndicator />} appearance="outline">
-              Continue
+              Sign up
             </Button>
           ) : (
-            <Button status="info" onPress={handleSubmit(onSubmit)} appearance="outline">
-              Continue
+            <Button status="info" onPress={handlerSignUp} appearance="outline">
+              Sign up
             </Button>
           )}
         </Group>
@@ -73,4 +76,4 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   );
 }
 
-export default LoginScreen;
+export default NewUserScreen;

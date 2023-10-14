@@ -5,19 +5,19 @@ import { State } from "../index";
  *
  * @category SDK
  * @subcategory Internal
- * @property {string} localStorageKey - The prefix / name of the local storage keys.
+ * @property {string} CurrentStorageKey - The prefix / name of the local storage keys.
  */
 interface SessionStateOptions {
-  localStorageKey: string;
+  storageKey: string;
 }
 
 /**
  * @interface
  * @category SDK
  * @subcategory Internal
- * @property {Object.<string, LocalStorageSession>} - A dictionary for mapping users to their states.
+ * @property {Object.<string, CurrentStorageSession>} - A dictionary for mapping users to their states.
  */
-export interface LocalStorageSession {
+export interface CurrentStorageSession {
   expiry: number | undefined;
   userId: string | undefined;
   authFlowCompleted: boolean;
@@ -25,25 +25,14 @@ export interface LocalStorageSession {
 
 /**
  * A class to read and write local storage contents regarding sessions.
- *
- * @extends State
- * @param {SessionStateOptions} options - The options that can be used
- * @category SDK
- * @subcategory Internal
  */
+
 class SessionState extends State {
-  // eslint-disable-next-line require-jsdoc
   constructor(options: SessionStateOptions) {
-    super(`${options.localStorageKey}_session`);
+    super(`${options.storageKey}_session`);
   }
 
-  /**
-   * Reads the current state.
-   *
-   * @public
-   * @return {SessionState}
-   */
-  read(): SessionState {
+  async read(): Promise<SessionState> {
     super.read();
 
     return this;
@@ -52,74 +41,40 @@ class SessionState extends State {
   /**
    * Gets the session state.
    *
-   * @return {LocalStorageSession}
+   * @return {CurrentStorageSession}
    */
-  getState(): LocalStorageSession {
-    this.ls.session ||= { expiry: 0, userId: "", authFlowCompleted: false };
-    return this.ls.session;
+  getState(): CurrentStorageSession {
+    this.storage.session ||= { expiry: 0, userId: "", authFlowCompleted: false };
+    return this.storage.session;
   }
 
-  /**
-   * Gets the number of seconds until the active session is valid.
-   *
-   * @return {number}
-   */
   getExpirationSeconds(): number {
     return State.timeToRemainingSeconds(this.getState().expiry);
   }
 
-  /**
-   * Sets the number of seconds until the active session is valid.
-   *
-   * @param {number} seconds - The number of seconds
-   * @return {SessionState}
-   */
   setExpirationSeconds(seconds: number): SessionState {
     this.getState().expiry = State.remainingSecondsToTime(seconds);
     return this;
   }
 
-  /**
-   * Gets the user id.
-   */
   getUserId(): string {
     return this.getState().userId!;
   }
 
-  /**
-   * Sets the user id.
-   *
-   * @param {string} userId - The user id
-   * @return {SessionState}
-   */
   setUserId(userId: string): SessionState {
     this.getState().userId = userId;
     return this;
   }
 
-  /**
-   * Gets the authFlowCompleted indicator.
-   */
   getAuthFlowCompleted(): boolean {
     return this.getState().authFlowCompleted;
   }
 
-  /**
-   * Sets the authFlowCompleted indicator.
-   *
-   * @param {string} completed - The authFlowCompleted indicator.
-   * @return {SessionState}
-   */
   setAuthFlowCompleted(completed: boolean): SessionState {
     this.getState().authFlowCompleted = completed;
     return this;
   }
 
-  /**
-   * Removes the session details.
-   *
-   * @return {SessionState}
-   */
   reset(): SessionState {
     const session = this.getState();
 

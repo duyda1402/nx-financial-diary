@@ -13,7 +13,9 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": ["**/*"],
+    "assetBundlePatterns": [
+      "**/*"
+    ],
     "ios": {
       "supportsTablet": true
     },
@@ -25,14 +27,24 @@
     },
     "web": {
       "favicon": "./assets/favicon.png",
-      "bundler": "metro"
+      "bundler": "metro",
+      "build": {
+        "babel": {
+          "include": [
+            "@ui-kitten/components"
+          ]
+        }
+      }
     },
     "plugins": [
       [
         "@config-plugins/detox",
         {
           "skipProguard": false,
-          "subdomains": ["10.0.2.2", "localhost"]
+          "subdomains": [
+            "10.0.2.2",
+            "localhost"
+          ]
         }
       ]
     ]

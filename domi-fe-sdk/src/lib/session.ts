@@ -2,25 +2,13 @@ import { SessionDetail } from "./events/events";
 import { SessionState } from "./state/session";
 import { Cookie } from "./cookie";
 
-/**
- * Options for Session
- *
- * @category SDK
- * @subcategory Internal
- * @property {string} cookieName - The name of the session cookie set from the SDK.
- * @property {string} localStorageKey - The prefix / name of the local storage keys.
- */
 interface SessionOptions {
   cookieName: string;
-  localStorageKey: string;
+  storageKey: string;
 }
 
 /**
  A class representing a session.
-
- @category SDK
- @subcategory Session
- @param {SessionOptions} options - The options that can be used
  */
 export class Session {
   _sessionState: SessionState;
@@ -74,8 +62,6 @@ export class Session {
 
   /**
    Checks if the auth flow is completed. The value resets after the next login attempt.
-
-   @returns {boolean} Returns true if the authentication flow is completed, false otherwise
    */
   public isAuthFlowCompleted(): boolean {
     this._sessionState.read();
@@ -84,10 +70,6 @@ export class Session {
 
   /**
    Validates the session.
-
-   @private
-   @param {SessionDetail} detail - The session details to validate.
-   @returns {boolean} true if the session details are valid, false otherwise.
    */
   private static validate(detail: SessionDetail): boolean {
     return !!(detail.expirationSeconds > 0 && detail.userId?.length);

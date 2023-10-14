@@ -25,6 +25,7 @@ export * from "./lib/error";
 export * from "./lib/cookie";
 export * from "./lib/session";
 export * from "./lib/throttle";
+export * from "./lib/utils";
 
 // Main SDK
-export * from "./lib/main-sdk";
+export * from "./lib/main";

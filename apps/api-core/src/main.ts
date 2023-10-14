@@ -5,7 +5,7 @@
 
 import { Logger } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
-
+import * as ngrok from "ngrok";
 import { AppModule } from "./app/app.module";
 
 async function bootstrap() {
@@ -15,9 +15,10 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
 
   const port = process.env.PORT || 3000;
-
+  const urlNgrok = await ngrok.connect(+port);
   await app.listen(port);
-  Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
+  Logger.log(`🚀 Application is running Local on: http://localhost:${port}/${globalPrefix}`);
+  Logger.log(`🚀 Application is running Ngrok on: ${urlNgrok}/${globalPrefix}`);
 }
 
 bootstrap();

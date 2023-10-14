@@ -26,7 +26,7 @@ You can pass certain options, when creating a new `Domi` instance:
 const defaultOptions = {
   timeout: 13000, // The timeout (in ms) for the HTTP requests.
   cookieName: "domi-cookie", // The cookie name under which the session token is set.
-  localStorageKey: "domi-key", // The prefix / name of the localStorage keys.
+  storageKey: "domi-key", // The prefix / name of the localStorage keys.
 };
 const domiCore = new DomiCore("http://localhost:3000/v1/api", defaultOptions);
 ```

@@ -5,12 +5,12 @@ import { UserState } from "./index";
  * @interface
  * @category SDK
  * @subcategory Internal
- * @property {string=} id - The UUID of the active passcode.
- * @property {number=} ttl - Timestamp until when the passcode is valid in seconds (since January 1, 1970 00:00:00 UTC).
- * @property {number=} resendAfter - Seconds until a passcode can be resent.
- * @property {email=} email - The email address ID.
+ * @property {string} id - The UUID of the active passcode.
+ * @property {number} ttl - Timestamp until when the passcode is valid in seconds (since January 1, 1970 00:00:00 UTC).
+ * @property {number} resendAfter - Seconds until a passcode can be resent.
+ * @property {email} email - The email address ID.
  */
-export interface LocalStoragePasscode {
+export interface CurrentStoragePasscode {
   id?: string;
   ttl?: number;
   resendAfter?: number;
@@ -30,9 +30,9 @@ class PasscodeState extends UserState {
    *
    * @private
    * @param {string} userId - The UUID of the user.
-   * @return {LocalStoragePasscode}
+   * @return {CurrentStoragePasscode}
    */
-  private getState(userId: string): LocalStoragePasscode {
+  private getState(userId: string): CurrentStoragePasscode {
     return (super.getUserState(userId).passcode ||= {});
   }
 
@@ -42,7 +42,7 @@ class PasscodeState extends UserState {
    * @public
    * @return {PasscodeState}
    */
-  read(): PasscodeState {
+  async read(): Promise<PasscodeState> {
     super.read();
 
     return this;

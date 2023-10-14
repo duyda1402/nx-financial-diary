@@ -6,24 +6,14 @@ import { Session } from "../session";
 
 /**
  * Options for Relay
- *
- * @category SDK
- * @subcategory Internal
- * @property {string} cookieName - The name of the session cookie set from the SDK.
- * @property {string} localStorageKey - The prefix / name of the local storage keys.
  */
 interface RelayOptions {
   cookieName: string;
-  localStorageKey: string;
+  storageKey: string;
 }
 
 /**
  * A class that dispatches events and scheduled events, based on other events.
- *
- * @category SDK
- * @subcategory Internal
- * @extends Dispatcher
- * @param {RelayOptions} options - The options that can be used
  */
 export class Relay extends Dispatcher {
   _listener = new Listener();
@@ -38,8 +28,8 @@ export class Relay extends Dispatcher {
   }
 
   /**
-   * Removes the scheduled "nfd-session-expired" event and re-schedules a new event with updated expirationSeconds, to
-   * ensure the "nfd-session-expired" event won't be triggered too early.
+   * Removes the scheduled "domi-session-expired" event and re-schedules a new event with updated expirationSeconds, to
+   * ensure the "domi-session-expired" event won't be triggered too early.
    *
    * @private
    * @param {SessionDetail} detail - The event detail.
@@ -54,7 +44,7 @@ export class Relay extends Dispatcher {
   };
 
   /**
-   * Cancels scheduled "nfd-session-expired" events, to prevent it from being triggered again (e.g. when there are
+   * Cancels scheduled "domi-session-expired" events, to prevent it from being triggered again (e.g. when there are
    * multiple SDK instances).
    *
    * @private
@@ -65,14 +55,14 @@ export class Relay extends Dispatcher {
 
   /**
    * Handles the "storage" event in case the local storage entry, that contains the session detail has been changed by
-   * another window. Depending on the new value of `expirationSeconds`, it either dispatches a "nfd-session-created"
-   * or a "nfd-session-expired" event.
+   * another window. Depending on the new value of `expirationSeconds`, it either dispatches a "domi-session-created"
+   * or a "domi-session-expired" event.
    *
    * @private
    * @param {StorageEvent} event - The storage event object.
    */
   private handleStorageEvent = (event: StorageEvent) => {
-    if (event.key !== "nfd_session") return;
+    if (event.key !== "domi_session") return;
 
     const sessionDetail = this._session.get();
 
@@ -101,7 +91,7 @@ export class Relay extends Dispatcher {
     this._listener.onUserLoggedOut(this.cancelSessionExpiredEvent);
 
     // Handle cases, where the session has been changed by another window.
-    window.addEventListener("storage", this.handleStorageEvent);
+    this.on("storage", this.handleStorageEvent);
 
     const sessionDetail = this._session.get();
 

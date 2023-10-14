@@ -1,4 +1,4 @@
-import { styles } from "@nfd/styles";
+import { sx } from "@nfd/styles";
 import { Input, Text } from "@ui-kitten/components";
 import { Control, FieldValues, useController } from "react-hook-form";
 import { StyleProp, TextStyle, View } from "react-native";
@@ -8,9 +8,17 @@ export interface EmailInput {
   control: Control<FieldValues, any>;
   style?: StyleProp<TextStyle>;
   withAsterisk?: boolean;
+  placeholder?: string;
 }
 
-const EmailInput = ({ name, control, defaultValue = "", style, withAsterisk = false }: EmailInput) => {
+const EmailInput = ({
+  name,
+  control,
+  defaultValue = "",
+  style,
+  withAsterisk = false,
+  placeholder = "email@example.com",
+}: EmailInput) => {
   const {
     field: { value, onBlur, onChange },
     fieldState: { invalid, error },
@@ -39,7 +47,7 @@ const EmailInput = ({ name, control, defaultValue = "", style, withAsterisk = fa
       }}
     >
       {invalid && (
-        <Text style={[styles.textXs, styles.textLight]} status="danger">
+        <Text style={[sx.textXs, sx.textLight]} status="danger">
           {error?.message as string}
         </Text>
       )}
@@ -49,7 +57,7 @@ const EmailInput = ({ name, control, defaultValue = "", style, withAsterisk = fa
         onChangeText={onChange}
         onBlur={onBlur}
         style={style}
-        placeholder="example@example.com"
+        placeholder={placeholder}
       />
     </View>
   );

@@ -1,15 +1,10 @@
-import { LocalStorageUsers } from "./users/index";
-import { LocalStorageSession } from "./session";
-
-/**
- * @interface
- * @category SDK
- * @subcategory Internal
- * @property {LocalStorageUsers=} users - The user states.
- */
-interface LocalStorage {
-  users?: LocalStorageUsers;
-  session?: LocalStorageSession;
+import { CurrentStorageUsers } from "./users/index";
+import { CurrentStorageSession } from "./session";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { base64ToJson, jsonToBase64 } from "../utils";
+interface CurrentStorage {
+  users?: CurrentStorageUsers;
+  session?: CurrentStorageSession;
 }
 
 /**
@@ -22,80 +17,57 @@ interface LocalStorage {
  */
 abstract class State {
   key: string;
-  ls: LocalStorage;
+  storage: CurrentStorage;
 
-  // eslint-disable-next-line require-jsdoc
   constructor(key: string) {
-    /**
-     *  @private
-     *  @type {string}
-     */
     this.key = key;
-    /**
-     *  @type {LocalStorage}
-     */
-    this.ls = {};
+    this.storage = {};
   }
 
   /**
-   * Reads and decodes the locally stored data.
+   * Reads and decodes the stored data.
    *
    * @return {State}
    */
-  read(): State {
-    let store: LocalStorage;
+  async read(): Promise<State> {
+    // let store: CurrentStorage;
 
     try {
-      const data = localStorage.getItem(this.key)!;
-      const decoded = decodeURIComponent(decodeURI(window.atob(data)));
-      store = JSON.parse(decoded);
+      const data = await AsyncStorage.getItem(this.key);
+      if (data) {
+        this.storage = base64ToJson(data);
+      }
     } catch (e) {
-      this.ls = {};
-
+      this.storage = {};
       return this;
     }
-
-    this.ls = store;
 
     return this;
   }
 
   /**
-   * Encodes and writes the data to the local storage.
+   * Encodes and writes the data to the storage.
    *
    * @return {State}
    */
   write(): State {
-    const data = JSON.stringify(this.ls);
-    const encoded = window.btoa(encodeURI(encodeURIComponent(data)));
-
-    localStorage.setItem(this.key, encoded);
-
+    try {
+      const encoded = jsonToBase64(this.storage);
+      AsyncStorage.setItem(this.key, encoded);
+    } catch (err: any) {
+      console.log(err);
+    }
     return this;
   }
 
-  /**
-   * Converts a timestamp into remaining seconds that you can count down.
-   *
-   * @static
-   * @param {number} time - Timestamp in seconds (since January 1, 1970 00:00:00 UTC).
-   * @return {number}
-   */
   static timeToRemainingSeconds(time = 0) {
     return time - Math.floor(Date.now() / 1000);
   }
 
-  /**
-   * Converts a number of seconds into a timestamp.
-   *
-   * @static
-   * @param {number} seconds - Remaining seconds to be converted into a timestamp.
-   * @return {number}
-   */
   static remainingSecondsToTime(seconds = 0) {
     return Math.floor(Date.now() / 1000) + seconds;
   }
 }
 
 export { State };
-export type { LocalStorage };
+export type { CurrentStorage };

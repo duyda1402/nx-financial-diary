@@ -5,7 +5,7 @@ import { Cookie } from "../cookie";
 import { Tokens } from "../dto";
 import { SessionState } from "../state/session";
 
-export type ApiOptions = CreateAxiosDefaults<any> & { cookieName: string; localStorageKey: string };
+export type ApiOptions = CreateAxiosDefaults<any> & { cookieName: string; storageKey: string };
 
 class Instance {
   instance: AxiosInstance;
@@ -26,8 +26,8 @@ class Instance {
     });
     this.passcodeState = new PasscodeState(options.cookieName);
     this.cookie = new Cookie({ cookieName: options.cookieName });
-    this.dispatcher = new Dispatcher({ localStorageKey: options.localStorageKey });
-    this.sessionState = new SessionState({ localStorageKey: options.localStorageKey });
+    this.dispatcher = new Dispatcher({ storageKey: options.storageKey });
+    this.sessionState = new SessionState({ storageKey: options.storageKey });
   }
 
   processResponseHeadersOnLogin(userId: string, response: AxiosResponse) {
