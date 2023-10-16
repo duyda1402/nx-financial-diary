@@ -7,7 +7,7 @@ export interface EmailInput {
   defaultValue?: string;
   control: Control<FieldValues, any>;
   style?: StyleProp<TextStyle>;
-  withAsterisk?: boolean;
+  required?: boolean;
   placeholder?: string;
 }
 
@@ -16,7 +16,7 @@ const EmailInput = ({
   control,
   defaultValue = "",
   style,
-  withAsterisk = false,
+  required = false,
   placeholder = "email@example.com",
 }: EmailInput) => {
   const {
@@ -32,7 +32,7 @@ const EmailInput = ({
         message: "Invalid email address",
       },
       required: {
-        value: withAsterisk,
+        value: required,
         message: 'The "email" field is required',
       },
     },

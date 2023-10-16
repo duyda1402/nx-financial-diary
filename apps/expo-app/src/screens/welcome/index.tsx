@@ -1,7 +1,7 @@
-import { sx } from "@nfd/styles";
+import { colors, sx } from "@nfd/styles";
 import { Button, Text } from "@ui-kitten/components";
 import { useCallback, useEffect, useState } from "react";
-import { Image } from "react-native";
+import { Dimensions, Image } from "react-native";
 import { ScreenName } from "../../common/enum";
 
 import { LOGO_URL } from "../../common";
@@ -16,7 +16,9 @@ const API_URL = process.env.EXPO_PUBLIC_API_BASE_URL!;
 function WelcomeScreen({ navigation }: WelcomeScreenProps) {
   console.log(WelcomeScreen.name);
   // State Init
+  const window = Dimensions.get("window");
   const [loadingScreen, setLoadingScreen] = useState<boolean>(false);
+
   //Callback Init
   const redirectToSignIn = useCallback(() => {
     navigation.navigate(ScreenName.SIGN_IN_SCREEN, { replace: true });
@@ -31,8 +33,8 @@ function WelcomeScreen({ navigation }: WelcomeScreenProps) {
   }, []);
 
   return (
-    <Stack style={[sx.flex1, sx.mMd]}>
-      <Stack align="center">
+    <Stack style={[{ height: window.height, backgroundColor: colors.white }, sx.pMd]} justify="space-between">
+      <Stack align="center" style={[sx.mtXl]}>
         <Image style={{ height: 80, width: 80 }} source={{ uri: LOGO_URL }} />
         <Text style={[sx.textLg, sx.textSemiBold]}>Welcome</Text>
       </Stack>
@@ -40,9 +42,6 @@ function WelcomeScreen({ navigation }: WelcomeScreenProps) {
       <Stack>
         <Button status="info" onPress={redirectToSignIn}>
           Login
-        </Button>
-        <Button status="info" appearance="ghost">
-          Cancel
         </Button>
       </Stack>
     </Stack>

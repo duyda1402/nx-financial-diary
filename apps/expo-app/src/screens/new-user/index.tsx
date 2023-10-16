@@ -1,9 +1,9 @@
-import { sx } from "@nfd/styles";
+import { colors, sx } from "@nfd/styles";
 
 import { useCallback, useEffect, useState } from "react";
 
 import { Button, Layout, Text } from "@ui-kitten/components";
-import { View } from "react-native";
+import { Dimensions, View } from "react-native";
 
 import { ScreenName } from "../../common/enum";
 import Group from "../../components/layout/Group";
@@ -19,14 +19,15 @@ const API_URL = process.env.EXPO_PUBLIC_API_BASE_URL!;
 function NewUserScreen({ navigation }: LoginScreenProps) {
   console.log(NewUserScreen.name);
   // State Init
+  const window = Dimensions.get("window");
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
 
   // FE SDK Init
   // const domiCore = useMemo(() => new DomiCore(API_URL), []);
 
   //Callback Init
-  const redirectToHome = useCallback(() => {
-    navigation.navigate(ScreenName.WELCOME_SCREEN, { replace: true });
+  const redirectToValidateOtp = useCallback(() => {
+    navigation.navigate(ScreenName.VALIDATE_OTP_SCREEN, { replace: true });
   }, [navigation]);
 
   const redirectToSignIn = useCallback(() => {
@@ -34,6 +35,7 @@ function NewUserScreen({ navigation }: LoginScreenProps) {
   }, [navigation]);
 
   const handlerSignUp = useCallback(() => {
+    redirectToValidateOtp();
     // setLoadingSubmit(() => true);
     // domiCore.user
     //   .create("tuntun@gmail.com")
@@ -50,28 +52,26 @@ function NewUserScreen({ navigation }: LoginScreenProps) {
   useEffect(() => {}, []);
 
   return (
-    <Stack style={[sx.flex1, sx.mMd]}>
-      <Group>
-        <Text style={[sx.textLg, sx.textSemiBold]}>Create account?</Text>
-      </Group>
-
-      <Stack>
-        <Text style={[sx.textMd]}>No account exists for "tuntun@gmail.com". Do you want to create a new account?</Text>
-        <Group position="between">
-          <Button status="info" onPress={redirectToHome} appearance="ghost">
-            Back
-          </Button>
-          {loadingSubmit ? (
-            <Button status="info" accessoryLeft={() => <LoadingIndicator />} appearance="outline">
-              Sign up
-            </Button>
-          ) : (
-            <Button status="info" onPress={redirectToSignIn} appearance="outline">
-              Sign up
-            </Button>
-          )}
+    <Stack style={[{ height: window.height, backgroundColor: colors.white }, sx.pxMd, sx.pyXl]} justify="space-between">
+      <Stack style={[sx.mtXl]}>
+        <Group position="center">
+          <Text style={[sx.textLg, sx.textSemiBold]}>Create account?</Text>
         </Group>
+        <Stack spacing="sm">
+          <Text style={[sx.textMd]}>
+            No account exists for "tuntun@gmail.com". Do you want to create a new account?
+          </Text>
+        </Stack>
       </Stack>
+      {loadingSubmit ? (
+        <Button status="info" accessoryLeft={() => <LoadingIndicator />}>
+          Sign up
+        </Button>
+      ) : (
+        <Button status="info" onPress={handlerSignUp}>
+          Sign up
+        </Button>
+      )}
     </Stack>
   );
 }

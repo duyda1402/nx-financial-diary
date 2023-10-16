@@ -1,15 +1,14 @@
 import { colors, sx } from "@nfd/styles";
-
 import { Button, Text } from "@ui-kitten/components";
 import { useCallback, useEffect, useState } from "react";
 
 import { useForm } from "react-hook-form";
 import { ScreenName } from "../../common/enum";
-import EmailInput from "../../components/input-ui/EmailInput";
 import Group from "../../components/layout/Group";
 import Stack from "../../components/layout/Stack";
 import LoadingIndicator from "../../components/loader/LoaderIndicator";
-import { Dimensions } from "react-native";
+import { Dimensions, Keyboard } from "react-native";
+import OtpInput from "../../components/input-ui/OtpInput";
 
 export interface LoginScreenProps {
   navigation?: any;
@@ -17,13 +16,24 @@ export interface LoginScreenProps {
 
 const API_URL = process.env.EXPO_PUBLIC_API_BASE_URL!;
 
-function LoginScreen({ navigation }: LoginScreenProps) {
-  console.log(LoginScreen.name);
+function ValidateOtpScreen({ navigation }: LoginScreenProps) {
+  console.log(ValidateOtpScreen.name);
   // State Init
-  const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const window = Dimensions.get("window");
+  const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
+  const [heightScreen, setHeightScree] = useState<number>(window.height);
+
   // FE SDK Init
   // const domiCore = useMemo(() => new DomiCore(API_URL), []);
+  //Keyboard Init
+  Keyboard.addListener("keyboardDidShow", (event) => {
+    const keyboardHeight = event.endCoordinates.height;
+    setHeightScree(window.height - keyboardHeight);
+  });
+
+  Keyboard.addListener("keyboardDidHide", () => {
+    setHeightScree(window.height);
+  });
   // Form Init
   const { control, handleSubmit } = useForm();
   //Callback Init
@@ -37,6 +47,7 @@ function LoginScreen({ navigation }: LoginScreenProps) {
 
   const onSubmit = (data: any) => {
     setLoadingSubmit(() => true);
+    console.log("OTP", data?.otp);
     setLoadingSubmit(() => false);
     redirectToNewUser();
   };
@@ -45,14 +56,18 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   useEffect(() => {}, []);
 
   return (
-    <Stack style={[{ height: window.height, backgroundColor: colors.white }, sx.pxMd, sx.pyXl]} justify="space-between">
+    <Stack style={[{ height: heightScreen, backgroundColor: colors.white }, sx.pxMd, sx.pyXl]} justify="space-between">
       <Stack style={[sx.mtXl]}>
         <Group position="center">
-          <Text style={[sx.textLg, sx.textSemiBold]}>Sign in or sign up</Text>
+          <Text style={[sx.textLg, sx.textSemiBold]}>Sign in</Text>
         </Group>
         <Stack spacing="sm">
-          <Text>Enter Email:</Text>
-          <EmailInput name="email" control={control} required />
+          <Text>Enter OTP:</Text>
+          <OtpInput name="otp" control={control} required />
+          <Group position="center" spacing="xs">
+            <Text style={[{ color: colors.gray500 }, sx.mtSm]}>Resend the OTP code in</Text>
+            <Text style={[sx.textSemiBold]}>150s</Text>
+          </Group>
         </Stack>
       </Stack>
       {loadingSubmit ? (
@@ -68,4 +83,4 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   );
 }
 
-export default LoginScreen;
+export default ValidateOtpScreen;
