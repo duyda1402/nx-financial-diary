@@ -58,7 +58,7 @@ function NewUserScreen({ navigation }: LoginScreenProps) {
       <Stack>
         <Text style={[sx.textMd]}>No account exists for "tuntun@gmail.com". Do you want to create a new account?</Text>
         <Group position="between">
-          <Button status="info" onPress={redirectToSignIn} appearance="ghost">
+          <Button status="info" onPress={redirectToHome} appearance="ghost">
             Back
           </Button>
           {loadingSubmit ? (
@@ -66,7 +66,7 @@ function NewUserScreen({ navigation }: LoginScreenProps) {
               Sign up
             </Button>
           ) : (
-            <Button status="info" onPress={handlerSignUp} appearance="outline">
+            <Button status="info" onPress={redirectToSignIn} appearance="outline">
               Sign up
             </Button>
           )}

@@ -11,6 +11,8 @@ import NewUserScreen from "./screens/new-user";
 
 const Stack = createNativeStackNavigator();
 
+// const domiCore =
+
 export const AppMain = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>

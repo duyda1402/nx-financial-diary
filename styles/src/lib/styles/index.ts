@@ -100,32 +100,11 @@ export const sx = StyleSheet.create({
 
   wFull: { width: "100%" },
 
-  container: {
-    flex: 1,
-    alignItems: "stretch",
-    justifyContent: "center",
-    flexDirection: "column",
-    padding: 20,
-    gap: 20,
-  },
   indicator: {
     justifyContent: "center",
     alignItems: "center",
   },
-  stackStretch: {
-    flexDirection: "column",
-    alignItems: "stretch",
-    justifyContent: "center",
-    gap: 20,
-    display: "flex",
-  },
-  stackCenter: {
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    gap: 20,
-    display: "flex",
-  },
+
   codeBlock: {
     backgroundColor: "rgba(55, 65, 81, 1)",
     marginVertical: 12,
