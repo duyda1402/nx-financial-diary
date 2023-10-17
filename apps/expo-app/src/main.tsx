@@ -7,7 +7,7 @@ import React from "react";
 import LoginScreen from "./screens/login";
 import WelcomeScreen from "./screens/welcome";
 import { ScreenName } from "./common/enum";
-import NewUserScreen from "./screens/new-user";
+import CreateAccountScreen from "./screens/create-account";
 import ValidateOtpScreen from "./screens/validate-otp";
 import HomeScreen from "./screens/home";
 const Stack = createNativeStackNavigator();
@@ -16,10 +16,14 @@ export const AppMain = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={ScreenName.NEW_USER_SCREEN}>
+        <Stack.Navigator initialRouteName={ScreenName.CREATE_ACCOUNT_SCREEN}>
           <Stack.Screen name={ScreenName.WELCOME_SCREEN} component={WelcomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name={ScreenName.SIGN_IN_SCREEN} component={LoginScreen} options={{ headerShown: false }} />
-          <Stack.Screen name={ScreenName.NEW_USER_SCREEN} component={NewUserScreen} options={{ headerShown: false }} />
+          <Stack.Screen
+            name={ScreenName.CREATE_ACCOUNT_SCREEN}
+            component={CreateAccountScreen}
+            options={{ headerShown: false }}
+          />
           <Stack.Screen
             name={ScreenName.VALIDATE_OTP_SCREEN}
             component={ValidateOtpScreen}

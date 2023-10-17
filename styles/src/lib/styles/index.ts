@@ -99,6 +99,7 @@ export const sx = StyleSheet.create({
   myXl: { marginBottom: 24, marginTop: 24 },
 
   wFull: { width: "100%" },
+  hFull: { height: "100%" },
 
   indicator: {
     justifyContent: "center",
@@ -128,35 +129,85 @@ export const sx = StyleSheet.create({
   marginBottomLg: {
     marginBottom: 24,
   },
-  textLight: {
+  fontLight: {
     fontWeight: "300",
   },
-  textBold: {
+  fontThin: {
+    fontWeight: "100",
+  },
+  fontNormal: {
+    fontWeight: "400",
+  },
+  fontMedium: {
     fontWeight: "500",
   },
-  textSemiBold: {
+  fontExtraLight: {
+    fontWeight: "200",
+  },
+  fontBold: {
     fontWeight: "700",
   },
-  textCenter: {
-    textAlign: "center",
+  fontSemiBold: {
+    fontWeight: "600",
   },
-  text2Xs: {
-    fontSize: 12,
+
+  fontExtraBold: {
+    fontWeight: "800",
+  },
+  fontBlack: {
+    fontWeight: "900",
   },
   textXs: {
-    fontSize: 14,
+    fontSize: 12,
+    lineHeight: 16,
   },
   textSm: {
-    fontSize: 16,
+    fontSize: 14,
+    lineHeight: 20,
   },
-  textMd: {
-    fontSize: 18,
+  textBase: {
+    fontSize: 16,
+    lineHeight: 24,
   },
   textLg: {
-    fontSize: 24,
+    fontSize: 18,
+    lineHeight: 28,
   },
   textXl: {
+    fontSize: 20,
+    lineHeight: 28,
+  },
+  text2Xl: {
+    fontSize: 24,
+    lineHeight: 32,
+  },
+  text3Xl: {
+    fontSize: 30,
+    lineHeight: 36,
+  },
+  text4Xl: {
+    fontSize: 36,
+    lineHeight: 40,
+  },
+  text5Xl: {
     fontSize: 48,
+    lineHeight: 1,
+  },
+  text6Xl: {
+    fontSize: 60,
+    lineHeight: 1,
+  },
+  text7l: {
+    fontSize: 72,
+    lineHeight: 1,
+  },
+  text8Xl: {
+    fontSize: 96,
+    lineHeight: 1,
+  },
+  text9Xl: {
+    fontSize: 128,
+    lineHeight: 1,
   },
   textContainer: {
     marginVertical: 12,
@@ -196,8 +247,7 @@ export const sx = StyleSheet.create({
   },
   hero: {
     borderRadius: 12,
-    backgroundColor: "#143055",
-    padding: 36,
+    padding: 18,
     marginBottom: 24,
   },
   heroTitle: {

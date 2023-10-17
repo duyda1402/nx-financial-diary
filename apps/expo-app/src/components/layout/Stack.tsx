@@ -2,7 +2,7 @@ import { sx } from "@nfd/styles";
 
 import { FlexAlignType, StyleProp, View, ViewStyle, FlexStyle } from "react-native";
 
-interface LoadingIndicatorProps {
+interface StackProps {
   justify?: "flex-start" | "flex-end" | "center" | "space-between" | "space-around" | "space-evenly" | undefined;
   style?: StyleProp<ViewStyle>;
   align?: FlexAlignType;
@@ -16,7 +16,7 @@ const Stack = ({
   align = "stretch",
   style = {},
   children,
-}: LoadingIndicatorProps): React.ReactElement => {
+}: StackProps): React.ReactElement => {
   const sOpts = {
     xs: sx.gapXs,
     sm: sx.gapSm,

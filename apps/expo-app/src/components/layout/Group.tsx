@@ -2,7 +2,7 @@ import { sx } from "@nfd/styles";
 
 import { FlexAlignType, StyleProp, View, ViewStyle } from "react-native";
 
-interface LoadingIndicatorProps {
+interface GroupProps {
   position?: "center" | "right" | "between" | "left";
   style?: StyleProp<ViewStyle>;
   align?: FlexAlignType;
@@ -17,7 +17,7 @@ const Group = ({
   align = "baseline",
   style = {},
   children,
-}: LoadingIndicatorProps): React.ReactElement => {
+}: GroupProps): React.ReactElement => {
   const pOpts = {
     center: sx.justifyCenter,
     right: sx.justifyEnd,

@@ -1,8 +1,9 @@
 import { Input } from "@ui-kitten/components";
 import React, { useRef, useState } from "react";
 import { Control, FieldValues, useController } from "react-hook-form";
-import { StyleProp, TextStyle } from "react-native";
+import { StyleProp, TextInput, TextStyle, View } from "react-native";
 import Group from "../layout/Group";
+import { colors, sx } from "@nfd/styles";
 
 export interface OtpInputProps {
   name: string;
@@ -11,9 +12,10 @@ export interface OtpInputProps {
   style?: StyleProp<TextStyle>;
   placeholder?: string;
   required?: boolean;
+  noWrap?: boolean;
 }
 
-const OtpInput = ({ name, control, pinCount = 6, style, required = false }: OtpInputProps) => {
+const OtpInput = ({ name, control, pinCount = 6, style, required = false, noWrap }: OtpInputProps) => {
   const [curValue, setCurValue] = useState<string[]>([]);
   const {
     field: { onChange },
@@ -56,23 +58,32 @@ const OtpInput = ({ name, control, pinCount = 6, style, required = false }: OtpI
   };
 
   return (
-    <Group position="center">
+    <Group position="center" noWrap={noWrap} spacing="xs">
       {[...new Array(pinCount)].map((_value, index: number) => (
-        <React.Fragment key={`${name}_${index}`}>
-          <Input
-            ref={(ref) => {
-              if (ref && !inputRefs.current.includes(ref)) {
-                inputRefs.current = [...inputRefs.current, ref];
-              }
-            }}
-            status={invalid && (!curValue[index] || !/^[0-9]{1}$/.test(curValue[index])) ? "danger" : "info"}
-            keyboardType="decimal-pad"
-            selectTextOnFocus
-            maxLength={1}
-            onChangeText={(text) => onChangeValue(text, index)}
-            contextMenuHidden
-          />
-        </React.Fragment>
+        <TextInput
+          key={`${name}_${index}`}
+          style={[
+            style,
+            {
+              backgroundColor: colors.gray50,
+              textAlign: "center",
+              borderRadius: 10,
+              borderWidth: 1.5,
+              borderColor:
+                invalid && (!curValue[index] || !/^[0-9]{1}$/.test(curValue[index])) ? colors.rose400 : colors.blue300,
+              fontSize: 18,
+              minWidth: 45,
+              minHeight: 50,
+            },
+            sx.pXs,
+          ]}
+          ref={(ref) => (inputRefs.current[index] = ref)}
+          keyboardType="decimal-pad"
+          selectTextOnFocus
+          maxLength={1}
+          onChangeText={(text) => onChangeValue(text, index)}
+          contextMenuHidden
+        />
       ))}
     </Group>
   );
