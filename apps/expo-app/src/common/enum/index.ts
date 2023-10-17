@@ -3,4 +3,5 @@ export enum ScreenName {
   SIGN_IN_SCREEN = "sign-in",
   NEW_USER_SCREEN = "new-user",
   VALIDATE_OTP_SCREEN = "validate-otp",
+  HOME_SCREEN = "home",
 }

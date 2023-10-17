@@ -26,7 +26,8 @@
     "events": "*",
     "eventemitter2": "*",
     "@react-native-async-storage/async-storage": "*",
-    "react-native-keyboard-aware-scroll-view": "*"
+    "react-native-keyboard-aware-scroll-view": "*",
+    "@react-navigation/bottom-tabs": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/expo-app && cp package-lock.json apps/expo-app",

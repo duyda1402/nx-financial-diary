@@ -38,7 +38,7 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
   const { control, handleSubmit } = useForm();
   //Callback Init
   const redirectToHome = useCallback(() => {
-    navigation.navigate(ScreenName.WELCOME_SCREEN, { replace: true });
+    navigation.navigate(ScreenName.HOME_SCREEN, { replace: true });
   }, [navigation]);
 
   const redirectToNewUser = useCallback(() => {
@@ -49,7 +49,7 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
     setLoadingSubmit(() => true);
     console.log("OTP", data?.otp);
     setLoadingSubmit(() => false);
-    redirectToNewUser();
+    redirectToHome();
   };
 
   //Effect Init

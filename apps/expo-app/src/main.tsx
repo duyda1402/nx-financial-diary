@@ -9,6 +9,7 @@ import WelcomeScreen from "./screens/welcome";
 import { ScreenName } from "./common/enum";
 import NewUserScreen from "./screens/new-user";
 import ValidateOtpScreen from "./screens/validate-otp";
+import HomeScreen from "./screens/home";
 const Stack = createNativeStackNavigator();
 
 export const AppMain = () => {
@@ -24,6 +25,7 @@ export const AppMain = () => {
             component={ValidateOtpScreen}
             options={{ headerShown: false }}
           />
+          <Stack.Screen name={ScreenName.HOME_SCREEN} component={HomeScreen} options={{ headerShown: false }} />
         </Stack.Navigator>
       </NavigationContainer>
     </ApplicationProvider>
