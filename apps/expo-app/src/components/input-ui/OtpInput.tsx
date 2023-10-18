@@ -83,6 +83,7 @@ const OtpInput = ({ name, control, pinCount = 6, style, required = false, noWrap
           maxLength={1}
           onChangeText={(text) => onChangeValue(text, index)}
           contextMenuHidden
+          placeholder="•"
         />
       ))}
     </Group>

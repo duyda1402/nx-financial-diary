@@ -7,9 +7,9 @@ import { useForm } from "react-hook-form";
 import { ScreenName } from "../../common/enum";
 import EmailInput from "../../components/input-ui/EmailInput";
 import Container from "../../components/layout/Container";
-import Group from "../../components/layout/Group";
 import Stack from "../../components/layout/Stack";
 import LoadingIndicator from "../../components/loader/LoaderIndicator";
+import BranchApp from "../../components/logo";
 
 export interface LoginScreenProps {
   navigation?: any;
@@ -47,11 +47,13 @@ function LoginScreen({ navigation }: LoginScreenProps) {
     <Container style={[sx.pxMd]}>
       <Stack style={[sx.hFull]} justify="space-between">
         <Stack style={[sx.mtXl]}>
-          <Group position="center">
-            <Text style={[sx.textXl, sx.fontBold]}>Sign in or sign up</Text>
-          </Group>
+          <BranchApp position="center" />
+
+          <Stack align="center" style={[sx.mtXl]}>
+            <Text style={[sx.text3Xl, sx.fontBold]}>Sign in or sign up</Text>
+            <Text>Just your enter your email!</Text>
+          </Stack>
           <Stack spacing="sm">
-            <Text>Enter Email:</Text>
             <EmailInput name="email" control={control} required />
           </Stack>
         </Stack>
@@ -60,7 +62,7 @@ function LoginScreen({ navigation }: LoginScreenProps) {
             Continue
           </Button>
         ) : (
-          <Button status="info" onPress={handleSubmit(onSubmit)}>
+          <Button size="" status="info" onPress={handleSubmit(onSubmit)}>
             Continue
           </Button>
         )}

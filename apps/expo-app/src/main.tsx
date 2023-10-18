@@ -16,7 +16,7 @@ export const AppMain = () => {
   return (
     <ApplicationProvider {...eva} theme={eva.light}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName={ScreenName.CREATE_ACCOUNT_SCREEN}>
+        <Stack.Navigator initialRouteName={ScreenName.SIGN_IN_SCREEN}>
           <Stack.Screen name={ScreenName.WELCOME_SCREEN} component={WelcomeScreen} options={{ headerShown: false }} />
           <Stack.Screen name={ScreenName.SIGN_IN_SCREEN} component={LoginScreen} options={{ headerShown: false }} />
           <Stack.Screen
