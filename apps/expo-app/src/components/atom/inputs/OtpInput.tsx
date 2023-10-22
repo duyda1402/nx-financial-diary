@@ -1,9 +1,8 @@
-import { Input } from "@ui-kitten/components";
+import { colors, sx } from "@nfd/styles";
 import React, { useRef, useState } from "react";
 import { Control, FieldValues, useController } from "react-hook-form";
-import { StyleProp, TextInput, TextStyle, View } from "react-native";
+import { StyleProp, TextInput, TextStyle } from "react-native";
 import Group from "../layout/Group";
-import { colors, sx } from "@nfd/styles";
 
 export interface OtpInputProps {
   name: string;

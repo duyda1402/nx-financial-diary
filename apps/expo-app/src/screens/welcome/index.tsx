@@ -5,8 +5,7 @@ import { Image } from "react-native";
 import { ScreenName } from "../../common/enum";
 
 import { LOGO_URL } from "../../common";
-import Container from "../../components/layout/Container";
-import Stack from "../../components/layout/Stack";
+import { Container, Stack } from "../../components/atom";
 
 export interface WelcomeScreenProps {
   navigation?: any;

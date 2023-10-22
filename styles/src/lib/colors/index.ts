@@ -266,3 +266,30 @@ export const colors = {
   rose900: "#881337",
   rose950: "#4c0519",
 };
+
+export type ColorKeys = keyof typeof colors;
+export type ColorBase =
+  | "white"
+  | "black"
+  | "slate"
+  | "gray"
+  | "zinc"
+  | "neutral"
+  | "stone"
+  | "red"
+  | "orange"
+  | "amber"
+  | "yellow"
+  | "lime"
+  | "green"
+  | "emerald"
+  | "teal"
+  | "cyan"
+  | "sky"
+  | "blue"
+  | "indigo"
+  | "violet"
+  | "purple"
+  | "fuchsia"
+  | "pink"
+  | "rose";

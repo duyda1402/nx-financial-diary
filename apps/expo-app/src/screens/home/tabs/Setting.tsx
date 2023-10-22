@@ -1,9 +1,11 @@
 import { sx } from "@nfd/styles";
 import { Text } from "@ui-kitten/components";
-import Container from "apps/expo-app/src/components/layout/Container";
-import Stack from "apps/expo-app/src/components/layout/Stack";
+import { ScreenName } from "apps/expo-app/src/common/enum";
+import { Stack, Container } from "apps/expo-app/src/components/atom";
+
 import LoadingIndicator from "apps/expo-app/src/components/loader/LoaderIndicator";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { Button } from "react-native";
 
 export interface SettingTabProps {
   navigation?: any;
@@ -20,6 +22,10 @@ function SettingTab({ navigation }: SettingTabProps) {
     setTimeout(() => setLoading(() => false), 500);
   }, []);
 
+  const redirectToNewUser = useCallback(() => {
+    navigation.navigate(ScreenName.SIGN_IN_SCREEN, { replace: true });
+  }, [navigation]);
+
   return (
     <>
       {loading ? (
@@ -30,6 +36,7 @@ function SettingTab({ navigation }: SettingTabProps) {
         <Container style={[sx.pxMd]}>
           <Stack>
             <Text>Setting Tabs</Text>
+            <Button title="Logout" onPress={redirectToNewUser} />
           </Stack>
         </Container>
       )}

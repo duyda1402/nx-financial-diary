@@ -1,7 +1,8 @@
-import { sx } from "@nfd/styles";
-import { Input, Text } from "@ui-kitten/components";
+import { Input } from "@ui-kitten/components";
 import { Control, FieldValues, useController } from "react-hook-form";
 import { StyleProp, TextStyle, View } from "react-native";
+import TextBase from "../typography/Text";
+
 export interface EmailInput {
   name: string;
   defaultValue?: string;
@@ -11,21 +12,13 @@ export interface EmailInput {
   placeholder?: string;
 }
 
-const EmailInput = ({
-  name,
-  control,
-  defaultValue = "",
-  style,
-  required = false,
-  placeholder = "email@example.com",
-}: EmailInput) => {
+const EmailInput = ({ name, control, style, required = false, placeholder = "email@example.com" }: EmailInput) => {
   const {
     field: { value, onBlur, onChange },
     fieldState: { invalid, error },
   } = useController({
     name,
     control,
-    defaultValue,
     rules: {
       pattern: {
         value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
@@ -47,9 +40,9 @@ const EmailInput = ({
       }}
     >
       {invalid && (
-        <Text style={[sx.textXs, sx.textLight]} status="danger">
+        <TextBase fw="light" size="xs" color="rose500">
           {error?.message as string}
-        </Text>
+        </TextBase>
       )}
       <Input
         status={invalid ? "danger" : "info"}

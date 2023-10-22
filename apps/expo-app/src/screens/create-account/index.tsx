@@ -1,28 +1,19 @@
 import { sx } from "@nfd/styles";
 
 import { useCallback, useEffect, useState } from "react";
-
-import { Button, Text } from "@ui-kitten/components";
-
 import { ScreenName } from "../../common/enum";
-import Container from "../../components/layout/Container";
-import Group from "../../components/layout/Group";
-import Stack from "../../components/layout/Stack";
-import LoadingIndicator from "../../components/loader/LoaderIndicator";
+
+import { ButtonUI, Container, Group, Stack, TextUI } from "../../components/atom";
+import BranchApp from "../../components/logo";
 
 export interface CreateAccountScreenProps {
   navigation?: any;
 }
 
-const API_URL = process.env.EXPO_PUBLIC_API_BASE_URL!;
-
 function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
   console.log(CreateAccountScreen.name);
   // State Init
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
-
-  // FE SDK Init
-  // const domiCore = useMemo(() => new DomiCore(API_URL), []);
 
   //Callback Init
   const redirectToValidateOtp = useCallback(() => {
@@ -43,25 +34,24 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
   return (
     <Container style={[sx.pxMd]}>
       <Stack style={[sx.hFull]} justify="space-between">
-        <Stack style={[sx.mtXl]}>
-          <Group position="center">
-            <Text style={[sx.textXl, sx.fontBold]}>Create account?</Text>
-          </Group>
-          <Stack spacing="sm">
-            <Text style={[sx.textBase]}>
-              No account exists for "tuntun@gmail.com". Do you want to create a new account?
-            </Text>
+        <Stack style={sx.mtXl}>
+          <BranchApp position="center" />
+          <Stack style={sx.mtXl}>
+            <TextUI fw="bold" size="4xl" ta="center">
+              Create account?
+            </TextUI>
+            <Stack spacing="sm">
+              <TextUI>
+                No account exists for <TextUI fw="semi-bold">"tuntun@gmail.com"</TextUI>. Do you want to create a new
+                account?
+              </TextUI>
+            </Stack>
           </Stack>
         </Stack>
-        {loadingSubmit ? (
-          <Button status="info" accessoryLeft={() => <LoadingIndicator />}>
-            Sign up
-          </Button>
-        ) : (
-          <Button status="info" onPress={handlerSignUp}>
-            Sign up
-          </Button>
-        )}
+
+        <ButtonUI size="lg" color="orange" variant="filled" radius="xl" onPress={handlerSignUp} loading={loadingSubmit}>
+          Sign up
+        </ButtonUI>
       </Stack>
     </Container>
   );

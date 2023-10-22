@@ -1,9 +1,9 @@
 import React from "react";
-import Group from "../layout/Group";
 import { Image } from "react-native";
 import { LOGO_URL } from "../../common";
 import { Text } from "@ui-kitten/components";
 import { colors, sx } from "@nfd/styles";
+import { Group } from "../atom";
 type Props = {
   position?: "center" | "right" | "left";
 };

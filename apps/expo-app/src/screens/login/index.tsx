@@ -1,14 +1,9 @@
-import { sx } from "@nfd/styles";
-
-import { Button, Text } from "@ui-kitten/components";
+import { colors, sx } from "@nfd/styles";
 import { useCallback, useEffect, useState } from "react";
-
 import { useForm } from "react-hook-form";
+import { Keyboard } from "react-native";
 import { ScreenName } from "../../common/enum";
-import EmailInput from "../../components/input-ui/EmailInput";
-import Container from "../../components/layout/Container";
-import Stack from "../../components/layout/Stack";
-import LoadingIndicator from "../../components/loader/LoaderIndicator";
+import { ButtonUI, Container, EmailInput, IconUserCircle, Stack, TextUI } from "../../components/atom";
 import BranchApp from "../../components/logo";
 
 export interface LoginScreenProps {
@@ -21,14 +16,19 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   console.log(LoginScreen.name);
   // State Init
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
-  // FE SDK Init
-  // const domiCore = useMemo(() => new DomiCore(API_URL), []);
+  const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
+
+  //Keyboard Init
+  Keyboard.addListener("keyboardDidShow", (event) => {
+    const keyboardHeight = event.endCoordinates.height;
+    setKeyboardHeight(keyboardHeight);
+  });
+
+  Keyboard.addListener("keyboardDidHide", () => {
+    setKeyboardHeight(0);
+  });
   // Form Init
   const { control, handleSubmit } = useForm();
-  //Callback Init
-  const redirectToHome = useCallback(() => {
-    navigation.navigate(ScreenName.WELCOME_SCREEN, { replace: true });
-  }, [navigation]);
 
   const redirectToNewUser = useCallback(() => {
     navigation.navigate(ScreenName.CREATE_ACCOUNT_SCREEN, { replace: true });
@@ -36,36 +36,40 @@ function LoginScreen({ navigation }: LoginScreenProps) {
 
   const onSubmit = (data: any) => {
     setLoadingSubmit(() => true);
-    setLoadingSubmit(() => false);
-    redirectToNewUser();
+    setTimeout(() => {
+      setLoadingSubmit(() => false);
+      redirectToNewUser();
+    }, 2000);
   };
-
   //Effect Init
   useEffect(() => {}, []);
 
   return (
-    <Container style={[sx.pxMd]}>
-      <Stack style={[sx.hFull]} justify="space-between">
-        <Stack style={[sx.mtXl]}>
+    <Container style={[sx.pxMd]} keyboardHeight={keyboardHeight}>
+      <Stack style={{ height: "100%" }} justify="space-between">
+        <Stack style={sx.mtXl}>
           <BranchApp position="center" />
-
-          <Stack align="center" style={[sx.mtXl]}>
-            <Text style={[sx.text3Xl, sx.fontBold]}>Sign in or sign up</Text>
-            <Text>Just your enter your email!</Text>
-          </Stack>
-          <Stack spacing="sm">
-            <EmailInput name="email" control={control} required />
+          <Stack style={sx.mtXl}>
+            <TextUI fw="bold" size="4xl" ta="center">
+              Sign in or sign up
+            </TextUI>
+            <Stack spacing="sm">
+              <TextUI>Your email!</TextUI>
+              <EmailInput name="email" control={control} required />
+            </Stack>
           </Stack>
         </Stack>
-        {loadingSubmit ? (
-          <Button status="info" accessoryLeft={() => <LoadingIndicator />}>
-            Continue
-          </Button>
-        ) : (
-          <Button size="" status="info" onPress={handleSubmit(onSubmit)}>
-            Continue
-          </Button>
-        )}
+
+        <ButtonUI
+          color="orange"
+          variant="filled"
+          radius="xl"
+          size="lg"
+          onPress={handleSubmit(onSubmit)}
+          loading={loadingSubmit}
+        >
+          Continue
+        </ButtonUI>
       </Stack>
     </Container>
   );

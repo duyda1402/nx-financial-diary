@@ -1,4 +1,6 @@
+import { ColorBase, ColorKeys, colors } from "@nfd/styles";
 import { StyleSheet } from "react-native";
+import { JustifyType, PositionType, RadiusSize, SizeBase } from "../types";
 
 export const sx = StyleSheet.create({
   //Flex
@@ -25,11 +27,11 @@ export const sx = StyleSheet.create({
   gapXl: { gap: 24 },
 
   //padding
-  pXs: { padding: 10 },
-  pSm: { padding: 12 },
-  pLg: { padding: 20 },
-  pMd: { padding: 16 },
-  pXl: { padding: 24 },
+  pXs: { padding: 14 },
+  pSm: { padding: 18 },
+  pMd: { padding: 22 },
+  pLg: { padding: 26 },
+  pXl: { padding: 32 },
   ptXs: { paddingTop: 10 },
   ptSm: { paddingTop: 12 },
   ptLg: { paddingTop: 20 },
@@ -191,23 +193,23 @@ export const sx = StyleSheet.create({
   },
   text5Xl: {
     fontSize: 48,
-    lineHeight: 1,
+    lineHeight: 48,
   },
   text6Xl: {
     fontSize: 60,
-    lineHeight: 1,
+    lineHeight: 60,
   },
   text7l: {
     fontSize: 72,
-    lineHeight: 1,
+    lineHeight: 72,
   },
   text8Xl: {
     fontSize: 96,
-    lineHeight: 1,
+    lineHeight: 96,
   },
   text9Xl: {
     fontSize: 128,
-    lineHeight: 1,
+    lineHeight: 128,
   },
   textContainer: {
     marginVertical: 12,
@@ -277,3 +279,61 @@ export const sx = StyleSheet.create({
     justifyContent: "center",
   },
 });
+
+export class DomiTheme {
+  public radius = (props: RadiusSize = "sm") => {
+    const options = {
+      xs: 2,
+      sm: 4,
+      md: 8,
+      lg: 16,
+      xl: 32,
+      full: 99999,
+    };
+    return typeof props === "number" ? props : options[props];
+  };
+  public sizes = (props: SizeBase = "md") => {
+    const options = {
+      xs: 20,
+      sm: 32,
+      md: 40,
+      lg: 52,
+      xl: 80,
+    };
+    return typeof props === "number" ? props : options[props];
+  };
+  public spacings = (props: SizeBase = "md") => {
+    const options = {
+      xs: 10,
+      sm: 12,
+      md: 16,
+      lg: 20,
+      xl: 24,
+    };
+    return typeof props === "number" ? props : options[props];
+  };
+  public justify = (props: PositionType = "left"): JustifyType => {
+    const options = {
+      center: "center",
+      right: "flex-end",
+      between: "space-between",
+      left: "flex-start",
+    };
+    return options[props] as JustifyType;
+  };
+  public colors = (props: ColorBase, index = 5) => {
+    const value = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950];
+    const key = props === "black" || props === "white" ? props : (`${props}${value[index]}` as ColorKeys);
+    return colors[key];
+  };
+  public padding = (props: SizeBase = "sm") => {
+    const options = {
+      xs: 12,
+      sm: 16,
+      md: 20,
+      lg: 24,
+      xl: 28,
+    };
+    return typeof props === "number" ? props : options[props];
+  };
+}

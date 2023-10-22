@@ -1,23 +1,36 @@
 import { colors, sx } from "@nfd/styles";
-import { Avatar, Icon, IconElement, Text } from "@ui-kitten/components";
 import { AVATAR_DEFAULT } from "apps/expo-app/src/common";
-import Container from "apps/expo-app/src/components/layout/Container";
-import Group from "apps/expo-app/src/components/layout/Group";
-import Stack from "apps/expo-app/src/components/layout/Stack";
+import {
+  AvatarUI,
+  ButtonUI,
+  Container,
+  Group,
+  IconEye,
+  IconEyeOff,
+  IconPlus,
+  Stack,
+  TextUI,
+} from "apps/expo-app/src/components/atom";
 import LoadingIndicator from "apps/expo-app/src/components/loader/LoaderIndicator";
-import { formatNumberWithCommas } from "apps/expo-app/src/ultis";
+import Wallets from "apps/expo-app/src/components/wallets";
+import { formatNumberWithCommas } from "apps/expo-app/src/utils";
 import { useEffect, useState } from "react";
+import { ImageBackground, Pressable } from "react-native";
 
 export interface HomeTabProps {
   navigation?: any;
 }
 
 function HomeTab({ navigation }: HomeTabProps) {
-  console.log(HomeTab.name);
+  // Navigate Init
+
   // State Init
   const [loading, setLoading] = useState<boolean>(false);
+  const [isShowBalance, setIsShowBalance] = useState<boolean>(false);
   const name = "Do Duy";
   const totalBalance = 80000;
+  const bg =
+    "https://images.unsplash.com/photo-1696838559410-33ef740126b0?auto=format&fit=crop&q=80&w=1335&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
   //Effect Init
   useEffect(() => {}, []);
 
@@ -28,31 +41,61 @@ function HomeTab({ navigation }: HomeTabProps) {
           <LoadingIndicator />
         </Stack>
       ) : (
-        <Container style={[]} bg={colors.sky400}>
-          <Stack style={[sx.mtMd, sx.pxMd]}>
-            <Group position="between" align="center">
-              <Text style={[{ color: colors.white }, sx.fontBold, sx.text2Xl]}>Hello {name}!</Text>
-              <Avatar
-                style={{ borderWidth: 2, borderColor: colors.white }}
-                size="medium"
-                source={{
-                  uri: AVATAR_DEFAULT,
-                }}
-              />
-            </Group>
-            <Stack style={[sx.hero, { backgroundColor: colors.gray100 }]}>
-              <Group position="between">
-                <Stack spacing="sm">
-                  <Text style={[{ color: colors.gray500 }]}>Total balance:</Text>
-                  <Text style={[{ color: colors.sky400 }, sx.textXl, sx.fontBold]}>
-                    {formatNumberWithCommas(totalBalance)} $
-                  </Text>
-                </Stack>
+        <>
+          <ImageBackground
+            style={{ paddingTop: 32, backgroundColor: "rgba(0, 0, 0, 1)" }}
+            imageStyle={{ opacity: 0.6 }}
+            source={{ uri: bg }}
+          >
+            <Stack style={[sx.mtMd, sx.pxMd]}>
+              <Group position="between" align="center">
+                <TextUI color="white" fw="bold" size="2xl">
+                  Hello {name}!
+                </TextUI>
+                <AvatarUI uri={AVATAR_DEFAULT} radius="xl" withBorder />
               </Group>
+              <Stack style={[sx.hero]} bg="gray50">
+                <Stack spacing="sm">
+                  <TextUI color="gray400" fw="semi-bold">
+                    Total balance:
+                  </TextUI>
+                  <Group position="between" align="center">
+                    <TextUI color="sky400" size="xl" fw="bold">
+                      $ {isShowBalance ? formatNumberWithCommas(totalBalance) : "******"}
+                    </TextUI>
+                    <Pressable onPress={() => setIsShowBalance(!isShowBalance)}>
+                      {isShowBalance ? <IconEyeOff color={colors.gray400} /> : <IconEye color={colors.gray400} />}
+                    </Pressable>
+                  </Group>
+                </Stack>
+              </Stack>
             </Stack>
-          </Stack>
-          <Stack style={[{ backgroundColor: colors.gray100, height: 800 }]}></Stack>
-        </Container>
+          </ImageBackground>
+          {/* Wallets */}
+          <Group style={[{ width: "100%", padding: 16 }]} position="between" align="center">
+            <TextUI fw="semi-bold" size="lg" color="gray700">
+              Your Wallet
+            </TextUI>
+            <ButtonUI
+              compact
+              variant="subtle"
+              leftSection={<IconPlus size={18} strokeWidth={2} color={colors.sky500} />}
+              color="sky"
+            >
+              Add New
+            </ButtonUI>
+          </Group>
+          <Wallets />
+          {/* Wallets */}
+          <Group style={[{ width: "100%", padding: 16 }]} position="between" align="center">
+            <TextUI fw="semi-bold" size="lg" color="gray700">
+              Recent Transactions
+            </TextUI>
+            <ButtonUI compact variant="subtle" color="sky" onPress={() => navigation.navigate("Details")}>
+              See All
+            </ButtonUI>
+          </Group>
+        </>
       )}
     </>
   );

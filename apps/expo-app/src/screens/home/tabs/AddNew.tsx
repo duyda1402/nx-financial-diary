@@ -1,7 +1,7 @@
-import { colors, sx } from "@nfd/styles";
+import { sx } from "@nfd/styles";
 import { Text } from "@ui-kitten/components";
-import Container from "apps/expo-app/src/components/layout/Container";
-import Stack from "apps/expo-app/src/components/layout/Stack";
+import { Container, Stack } from "apps/expo-app/src/components/atom";
+
 import LoadingIndicator from "apps/expo-app/src/components/loader/LoaderIndicator";
 import { useEffect, useState } from "react";
 
