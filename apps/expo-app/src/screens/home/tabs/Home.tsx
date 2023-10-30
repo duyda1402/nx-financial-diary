@@ -12,10 +12,11 @@ import {
   TextUI,
 } from "apps/expo-app/src/components/atom";
 import LoadingIndicator from "apps/expo-app/src/components/loader/LoaderIndicator";
+import RecentTransition from "apps/expo-app/src/components/recent";
 import Wallets from "apps/expo-app/src/components/wallets";
 import { formatNumberWithCommas } from "apps/expo-app/src/utils";
 import { useEffect, useState } from "react";
-import { ImageBackground, Pressable } from "react-native";
+import { ImageBackground, Pressable, SafeAreaView, ScrollView } from "react-native";
 
 export interface HomeTabProps {
   navigation?: any;
@@ -35,7 +36,7 @@ function HomeTab({ navigation }: HomeTabProps) {
   useEffect(() => {}, []);
 
   return (
-    <>
+    <ScrollView>
       {loading ? (
         <Stack style={{ flex: 1 }}>
           <LoadingIndicator />
@@ -95,9 +96,10 @@ function HomeTab({ navigation }: HomeTabProps) {
               See All
             </ButtonUI>
           </Group>
+          <RecentTransition />
         </>
       )}
-    </>
+    </ScrollView>
   );
 }
 

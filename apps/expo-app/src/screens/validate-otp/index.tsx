@@ -70,7 +70,7 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
               <OtpInput name="otp" control={control} required noWrap />
               <Group position="center" spacing="xs">
                 <TextUI color="gray500" style={sx.mtSm}>
-                  Resend the OTP code in
+                  Re-send the OTP code in
                 </TextUI>
                 <TextUI fw="bold">{ttl}s</TextUI>
               </Group>

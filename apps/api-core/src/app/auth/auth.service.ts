@@ -1,3 +1,4 @@
+import { WalletService } from "./../wallet/wallet.service";
 import { BadGatewayException, BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 
 import { JwtService } from "@nestjs/jwt";
@@ -11,9 +12,16 @@ import { Tokens } from "./dto/token.dto";
 import * as bcrypt from "bcrypt";
 import { ERROR_UNAUTHORIZED } from "../../common/error.common";
 import { PayloadToken } from "../../common/types/payload.types";
+import { AttributeService } from "../attribute/attribute.service";
 @Injectable()
 export class AuthService {
-  constructor(private userService: UserService, private otpService: OtpService, private jwtService: JwtService) {}
+  constructor(
+    private userService: UserService,
+    private otpService: OtpService,
+    private jwtService: JwtService,
+    private walletService: WalletService,
+    private attributeService: AttributeService,
+  ) {}
 
   async initialize(email: string, userId: string) {
     const user = await this.userService.findUserBy({ email, userId });
@@ -33,7 +41,12 @@ export class AuthService {
 
     const user = await this.userService.findUserBy({ userId: verified.userId });
     if (!user.isVerified) {
-      this.userService.updateUserById(verified.userId, { isVerified: true });
+      this.userService.updateUserById(user.userId, { isVerified: true });
+      this.attributeService.create({ userId: user.userId });
+      this.walletService.create({
+        userId: user.userId,
+        name: "My Wallets",
+      });
     }
     const tokens = await this.generateTokens(user);
     // Save Cookies and Authentication JWT , lastedLoginAt

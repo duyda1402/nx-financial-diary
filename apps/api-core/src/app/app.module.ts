@@ -9,6 +9,7 @@ import { APP_FILTER, APP_INTERCEPTOR } from "@nestjs/core";
 import { HttpExceptionFilter } from "../common/http-exception.filter";
 import { StatusSuccessInterceptor } from "../common/interceptor/status-success.interceptor";
 import { AuthModule } from "./auth/auth.module";
+import { WalletModule } from "./wallet/wallet.module";
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { AuthModule } from "./auth/auth.module";
     OtpModule,
     UserModule,
     AuthModule,
+    WalletModule,
   ],
   controllers: [AppController],
   providers: [

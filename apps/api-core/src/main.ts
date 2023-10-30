@@ -3,7 +3,7 @@
  * This is only a minimal backend to get started.
  */
 
-import { Logger } from "@nestjs/common";
+import { Logger, ValidationPipe } from "@nestjs/common";
 import { NestFactory } from "@nestjs/core";
 import * as ngrok from "ngrok";
 import { AppModule } from "./app/app.module";
@@ -15,10 +15,12 @@ async function bootstrap() {
   app.setGlobalPrefix(globalPrefix);
 
   const port = process.env.PORT || 3000;
-  const urlNgrok = await ngrok.connect(+port);
+  // const urlNgrok = await ngrok.connect(+port);
+  app.useGlobalPipes(new ValidationPipe());
+
   await app.listen(port);
   Logger.log(`🚀 Application is running Local on: http://localhost:${port}/${globalPrefix}`);
-  Logger.log(`🚀 Application is running Ngrok on: ${urlNgrok}/${globalPrefix}`);
+  // Logger.log(`🚀 Application is running Ngrok on: ${urlNgrok}/${globalPrefix}`);
 }
 
 bootstrap();

@@ -27,6 +27,7 @@
     "axios": "^1.0.0",
     "bcrypt": "^5.1.1",
     "Buffer": "^0.0.0",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
     "expo": "49.0.10",
     "expo-splash-screen": "~0.20.5",
