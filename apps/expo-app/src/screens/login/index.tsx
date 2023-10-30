@@ -1,23 +1,24 @@
-import { colors, sx } from "@nfd/styles";
+import { sx } from "@nfd/styles";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Keyboard } from "react-native";
+import { apiFetchUserByEmail, apiLoginInitialize } from "../../api/auth.api";
 import { ScreenName } from "../../common/enum";
-import { ButtonUI, Container, EmailInput, IconUserCircle, Stack, TextUI } from "../../components/atom";
+import { ButtonUI, Container, EmailInput, Stack, TextUI } from "../../components/atom";
 import BranchApp from "../../components/logo";
+import { useDispatch } from "react-redux";
+import { actionSetCredentials, actionSetEmail, actionSetUserId, actionSetUserInfo } from "../../store/feature/auth";
 
 export interface LoginScreenProps {
   navigation?: any;
 }
-
-const API_URL = process.env.EXPO_PUBLIC_API_BASE_URL!;
 
 function LoginScreen({ navigation }: LoginScreenProps) {
   console.log(LoginScreen.name);
   // State Init
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
-
+  const dispatch = useDispatch();
   //Keyboard Init
   Keyboard.addListener("keyboardDidShow", (event) => {
     const keyboardHeight = event.endCoordinates.height;
@@ -34,13 +35,32 @@ function LoginScreen({ navigation }: LoginScreenProps) {
     navigation.navigate(ScreenName.CREATE_ACCOUNT_SCREEN, { replace: true });
   }, [navigation]);
 
+  const redirectToOTP = useCallback(() => {
+    navigation.navigate(ScreenName.VALIDATE_OTP_SCREEN, { replace: true });
+  }, [navigation]);
+
   const onSubmit = (data: any) => {
+    const email = data.email.toLowerCase();
     setLoadingSubmit(() => true);
-    setTimeout(() => {
-      setLoadingSubmit(() => false);
-      redirectToNewUser();
-    }, 2000);
+    apiFetchUserByEmail(`${email}`)
+      .then((result) => {
+        const user = result.data;
+        dispatch(actionSetUserId(user?.userId));
+        dispatch(actionSetUserInfo(user));
+        apiLoginInitialize(email, user?.userId).then((res) => {
+          dispatch(actionSetCredentials(res.data));
+          redirectToOTP();
+        });
+      })
+      .catch((_error) => {
+        dispatch(actionSetEmail(email));
+        redirectToNewUser();
+      })
+      .finally(() => {
+        setLoadingSubmit(() => false);
+      });
   };
+
   //Effect Init
   useEffect(() => {}, []);
 
@@ -55,11 +75,10 @@ function LoginScreen({ navigation }: LoginScreenProps) {
             </TextUI>
             <Stack spacing="sm">
               <TextUI>Your email!</TextUI>
-              <EmailInput name="email" control={control} required />
+              <EmailInput defaultValue="nhc39102@omeie.com" name="email" control={control} required />
             </Stack>
           </Stack>
         </Stack>
-
         <ButtonUI
           color="orange"
           variant="filled"

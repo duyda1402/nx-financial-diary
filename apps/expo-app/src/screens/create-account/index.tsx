@@ -5,6 +5,10 @@ import { ScreenName } from "../../common/enum";
 
 import { ButtonUI, Container, Group, Stack, TextUI } from "../../components/atom";
 import BranchApp from "../../components/logo";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "../../store";
+import { apiCreateUserByEmail, apiLoginInitialize } from "../../api/auth.api";
+import { actionSetCredentials, actionSetUserId, actionSetUserInfo } from "../../store/feature/auth";
 
 export interface CreateAccountScreenProps {
   navigation?: any;
@@ -14,7 +18,8 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
   console.log(CreateAccountScreen.name);
   // State Init
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
-
+  const authStore = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   //Callback Init
   const redirectToValidateOtp = useCallback(() => {
     navigation.navigate(ScreenName.VALIDATE_OTP_SCREEN, { replace: true });
@@ -24,9 +29,17 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
     navigation.navigate(ScreenName.SIGN_IN_SCREEN, { replace: true });
   }, [navigation]);
 
-  const handlerSignUp = useCallback(() => {
+  const handlerSignUp = async () => {
+    setLoadingSubmit(() => true);
+    const result = await apiCreateUserByEmail(authStore.email);
+    const user = result.data;
+    dispatch(actionSetUserId(user?.userId));
+    dispatch(actionSetUserInfo(user));
+    const initialize = await apiLoginInitialize(authStore.email, user?.userId);
+    dispatch(actionSetCredentials(initialize.data));
     redirectToValidateOtp();
-  }, []);
+    setLoadingSubmit(() => false);
+  };
 
   //Effect Init
   useEffect(() => {}, []);
@@ -42,16 +55,27 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
             </TextUI>
             <Stack spacing="sm">
               <TextUI>
-                No account exists for <TextUI fw="semi-bold">"tuntun@gmail.com"</TextUI>. Do you want to create a new
+                No account exists for <TextUI fw="semi-bold">{authStore.email}</TextUI>. Do you want to create a new
                 account?
               </TextUI>
             </Stack>
           </Stack>
         </Stack>
-
-        <ButtonUI size="lg" color="orange" variant="filled" radius="xl" onPress={handlerSignUp} loading={loadingSubmit}>
-          Sign up
-        </ButtonUI>
+        <Stack spacing="sm">
+          <ButtonUI
+            size="lg"
+            color="orange"
+            variant="filled"
+            radius="xl"
+            onPress={handlerSignUp}
+            loading={loadingSubmit}
+          >
+            Sign up
+          </ButtonUI>
+          <ButtonUI size="lg" color="gray" variant="subtle" radius="xl" onPress={redirectToSignIn}>
+            Back
+          </ButtonUI>
+        </Stack>
       </Stack>
     </Container>
   );

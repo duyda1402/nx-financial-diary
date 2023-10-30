@@ -1,24 +1,30 @@
-import { colors, sx } from "@nfd/styles";
+import { sx } from "@nfd/styles";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Keyboard } from "react-native";
+import { Alert, Keyboard } from "react-native";
 import { ScreenName } from "../../common/enum";
 
+import { useDispatch, useSelector } from "react-redux";
 import { ButtonUI, Container, Group, OtpInput, Stack, TextUI } from "../../components/atom";
 import BranchApp from "../../components/logo";
+import { RootState } from "../../store";
+import { apiLoginFinalize, apiLoginInitialize } from "../../api/auth.api";
+import { actionSetCredentials, actionSetTokenInfo } from "../../store/feature/auth";
 
 export interface LoginScreenProps {
   navigation?: any;
 }
 
-const API_URL = process.env.EXPO_PUBLIC_API_BASE_URL!;
-
 function ValidateOtpScreen({ navigation }: LoginScreenProps) {
-  // console.log(ValidateOtpScreen.name);
+  //console.log(ValidateOtpScreen.name);
   // State Init
+  const authStore = useSelector((state: RootState) => state.auth);
+  const dispatch = useDispatch();
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
-  const [ttl, setTtl] = useState<number>(300);
+  const [ttl, setTtl] = useState<number>(authStore?.credentials?.ttl || 300);
+  const [isResend, setIsResend] = useState<boolean>(false);
+
   //Keyboard Init
   Keyboard.addListener("keyboardDidShow", (event) => {
     const keyboardHeight = event.endCoordinates.height;
@@ -29,20 +35,40 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
     setKeyboardHeight(0);
   });
   // Form Init
-  const { control, handleSubmit } = useForm();
+  const { control, handleSubmit, setValue } = useForm();
   //Callback Init
   const redirectToHome = useCallback(() => {
     navigation.navigate(ScreenName.HOME_SCREEN, { replace: true });
   }, [navigation]);
 
-  const redirectToNewUser = useCallback(() => {
-    navigation.navigate(ScreenName.CREATE_ACCOUNT_SCREEN, { replace: true });
+  const redirectToLogin = useCallback(() => {
+    navigation.navigate(ScreenName.SIGN_IN_SCREEN, { replace: true });
   }, [navigation]);
 
-  const onSubmit = (data: any) => {
+  const handlerResendOtp = async () => {
+    const initialize = await apiLoginInitialize(authStore.email, authStore?.userId);
+    dispatch(actionSetCredentials(initialize.data));
+    setTtl(initialize.data.ttl);
+  };
+
+  const onSubmit = async (data: any) => {
     setLoadingSubmit(() => true);
-    setLoadingSubmit(() => false);
-    redirectToHome();
+    try {
+      const res = await apiLoginFinalize(`${authStore?.credentials?.id}`, data.otp);
+      dispatch(actionSetTokenInfo(res.data));
+      redirectToHome();
+    } catch (err) {
+      Alert.alert("Error OTP", "The OTP you entered is invalid, Please try again!", [
+        {
+          text: "Cancel",
+          onPress: () => console.log("Cancel Pressed"),
+          style: "cancel",
+        },
+      ]);
+      setValue("otp", "");
+    } finally {
+      setLoadingSubmit(() => false);
+    }
   };
 
   //Effect Init
@@ -52,7 +78,9 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
         setTtl(ttl - 1);
       }
     }, 1000);
-
+    if (ttl === 0) {
+      setIsResend(true);
+    }
     return () => clearTimeout(interval);
   }, [ttl]);
 
@@ -69,24 +97,30 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
               <TextUI>Enter OTP:</TextUI>
               <OtpInput name="otp" control={control} required noWrap />
               <Group position="center" spacing="xs">
-                <TextUI color="gray500" style={sx.mtSm}>
-                  Re-send the OTP code in
-                </TextUI>
-                <TextUI fw="bold">{ttl}s</TextUI>
+                {isResend ? (
+                  <ButtonUI size="lg" color="orange" variant="subtle" radius="xl" onPress={handlerResendOtp}>
+                    Re-send the OTP
+                  </ButtonUI>
+                ) : (
+                  <>
+                    <TextUI color="gray500" style={sx.mtSm}>
+                      Re-send the OTP code in
+                    </TextUI>
+                    <TextUI fw="bold">{ttl}s</TextUI>
+                  </>
+                )}
               </Group>
             </Stack>
           </Stack>
         </Stack>
-        <ButtonUI
-          size="lg"
-          color="orange"
-          variant="filled"
-          radius="xl"
-          onPress={handleSubmit(onSubmit)}
-          loading={loadingSubmit}
-        >
-          Continue
-        </ButtonUI>
+        <Stack spacing="sm">
+          <ButtonUI size="lg" color="orange" radius="xl" onPress={handleSubmit(onSubmit)} loading={loadingSubmit}>
+            Continue
+          </ButtonUI>
+          <ButtonUI size="lg" color="orange" variant="subtle" radius="xl" onPress={redirectToLogin}>
+            Other Email
+          </ButtonUI>
+        </Stack>
       </Stack>
     </Container>
   );

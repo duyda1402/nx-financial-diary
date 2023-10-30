@@ -1,9 +1,7 @@
 import { colors, sx } from "@nfd/styles";
-import { AVATAR_DEFAULT } from "apps/expo-app/src/common";
 import {
   AvatarUI,
   ButtonUI,
-  Container,
   Group,
   IconEye,
   IconEyeOff,
@@ -14,9 +12,11 @@ import {
 import LoadingIndicator from "apps/expo-app/src/components/loader/LoaderIndicator";
 import RecentTransition from "apps/expo-app/src/components/recent";
 import Wallets from "apps/expo-app/src/components/wallets";
+import { RootState } from "apps/expo-app/src/store";
 import { formatNumberWithCommas } from "apps/expo-app/src/utils";
 import { useEffect, useState } from "react";
-import { ImageBackground, Pressable, SafeAreaView, ScrollView } from "react-native";
+import { ImageBackground, Pressable, ScrollView } from "react-native";
+import { useSelector } from "react-redux";
 
 export interface HomeTabProps {
   navigation?: any;
@@ -24,16 +24,20 @@ export interface HomeTabProps {
 
 function HomeTab({ navigation }: HomeTabProps) {
   // Navigate Init
-
+  // Store Init
+  const userInfo = useSelector((state: RootState) => state.auth.info);
   // State Init
   const [loading, setLoading] = useState<boolean>(false);
   const [isShowBalance, setIsShowBalance] = useState<boolean>(false);
-  const name = "Do Duy";
-  const totalBalance = 80000;
-  const bg =
-    "https://images.unsplash.com/photo-1696838559410-33ef740126b0?auto=format&fit=crop&q=80&w=1335&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+  const [totalBalance, setTotalBalance] = useState<number>(0);
+  const [background, setBackground] = useState<string>("");
   //Effect Init
-  useEffect(() => {}, []);
+  useEffect(() => {
+    setTotalBalance(8000);
+    setBackground(
+      "https://images.unsplash.com/photo-1698571401982-855eac4f6887?auto=format&fit=crop&q=80&w=1932&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+    );
+  }, []);
 
   return (
     <ScrollView>
@@ -46,14 +50,14 @@ function HomeTab({ navigation }: HomeTabProps) {
           <ImageBackground
             style={{ paddingTop: 32, backgroundColor: "rgba(0, 0, 0, 1)" }}
             imageStyle={{ opacity: 0.6 }}
-            source={{ uri: bg }}
+            source={{ uri: background }}
           >
             <Stack style={[sx.mtMd, sx.pxMd]}>
-              <Group position="between" align="center">
-                <TextUI color="white" fw="bold" size="2xl">
-                  Hello {name}!
+              <Group position="between" align="center" noWrap style={{ maxWidth: 300 }}>
+                <TextUI color="white" fw="bold" size="2xl" lineClamp={1}>
+                  Hello {userInfo?.displayName ? userInfo?.displayName : userInfo?.email}!
                 </TextUI>
-                <AvatarUI uri={AVATAR_DEFAULT} radius="xl" withBorder />
+                <AvatarUI uri={userInfo?.profileUrl} radius="xl" withBorder />
               </Group>
               <Stack style={[sx.hero]} bg="gray50">
                 <Stack spacing="sm">

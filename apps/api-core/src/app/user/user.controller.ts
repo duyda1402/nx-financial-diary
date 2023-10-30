@@ -10,7 +10,7 @@ export class UserController {
 
   @Post("user")
   async findUserByEmail(@Body() body: { email: string }): Promise<ApiResponse> {
-    const user = await this.userService.validateUserByEmail(body.email);
+    const user = await this.userService.validateUserByEmail(body.email.toLowerCase());
     if (!user) {
       throw new BadRequestException({ code: MessageCode.NOT_FOUND, message: "Not Found" });
     }
@@ -26,7 +26,7 @@ export class UserController {
 
   @Post("users")
   async createUserByEmail(@Body() body: { email: string }): Promise<ApiResponse> {
-    const user = await this.userService.createUser(body.email);
+    const user = await this.userService.createUser(body.email.toLowerCase());
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { hash, ...result } = user;
     return ApiResponse.success({ ...result, id: user.userId });

@@ -10,7 +10,7 @@ export class AuthController {
 
   @Post("passcode/login/initialize")
   async loginInitialize(@Body() body: { email: string; userId: string }): Promise<ApiResponse> {
-    return ApiResponse.success(await this.authService.initialize(body.email, body.userId));
+    return ApiResponse.success(await this.authService.initialize(body.email.toLowerCase(), body.userId));
   }
 
   @Post("passcode/login/finalize")

@@ -1,0 +1,57 @@
+import axios from "axios";
+
+const instance = axios.create({
+  baseURL: "http://192.168.1.173:5000/v1/api",
+  timeout: 90000,
+});
+
+instance.interceptors.request.use(
+  function (config) {
+    console.log(`
+         |-------------------------------------------
+         |-- [LOG]: REQUEST
+         |-- [Url]: ${config?.baseURL}${config?.url}
+         |-- [Method]: ${config?.method?.toLocaleUpperCase()}
+         |-- [Body]: ${config?.data ? JSON.stringify(config?.data) : "empty"}
+         |-- [Headers]: ${JSON.stringify(config.headers)}
+         |-------------------------------------------
+         `);
+    return config;
+  },
+  function (error) {
+    return Promise.reject(error);
+  },
+);
+
+instance.interceptors.response.use(
+  function (response) {
+    console.log(`
+         |-------------------------------------------
+         |-- [LOG]: RESPONSE SUCCESS
+         |-- [Url]: ${response?.config?.baseURL}${response?.config?.url}
+         |-- [Method]: ${response?.config?.method?.toLocaleUpperCase()}
+         |-- [Body]: ${response?.config?.data ? JSON.stringify(response?.config?.data) : "empty"}
+         |-- [Headers]: ${JSON.stringify(response?.config.headers)}
+         |-- [Status Code]: ${response?.status}
+         |-- [Data]: ${JSON.stringify(response?.data)}
+         |-------------------------------------------
+      `);
+    return response.data;
+  },
+  function (error) {
+    console.log(`
+         |-------------------------------------------
+         |-- [LOG]: RESPONSE ERROR
+         |-- [Url]: ${error?.config?.baseURL}${error?.config?.url}
+         |-- [Method]: ${error?.config?.method?.toLocaleUpperCase()}
+         |-- [Body]: ${error?.config?.data ? JSON.stringify(error?.config?.data) : "empty"}
+         |-- [Headers]: ${JSON.stringify(error?.config.headers)}
+         |-- [Status Code]: ${error?.status}
+         |-- [Message Error]: ${error?.message}
+         |-------------------------------------------
+         `);
+    return Promise.reject(error);
+  },
+);
+
+export default instance;

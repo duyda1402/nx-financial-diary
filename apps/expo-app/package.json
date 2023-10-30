@@ -29,7 +29,9 @@
     "react-native-keyboard-aware-scroll-view": "*",
     "@react-navigation/bottom-tabs": "*",
     "react-native-snap-carousel": "*",
-    "react-native-reanimated-carousel": "*"
+    "react-native-reanimated-carousel": "*",
+    "react-redux": "*",
+    "@reduxjs/toolkit": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/expo-app && cp package-lock.json apps/expo-app",

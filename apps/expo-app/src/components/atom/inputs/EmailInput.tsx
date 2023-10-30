@@ -12,13 +12,21 @@ export interface EmailInput {
   placeholder?: string;
 }
 
-const EmailInput = ({ name, control, style, required = false, placeholder = "email@example.com" }: EmailInput) => {
+const EmailInput = ({
+  name,
+  control,
+  style,
+  required = false,
+  placeholder = "email@example.com",
+  defaultValue,
+}: EmailInput) => {
   const {
     field: { value, onBlur, onChange },
     fieldState: { invalid, error },
   } = useController({
     name,
     control,
+    defaultValue: defaultValue,
     rules: {
       pattern: {
         value: /[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,

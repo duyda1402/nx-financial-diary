@@ -30,7 +30,7 @@ export class AuthService {
     }
     const otp = await this.otpService.generateOtp(userId);
     return {
-      createAt: otp.startAt,
+      createdAt: otp.startAt,
       id: otp.transactionId,
       ttl: otp.ttl,
     };
