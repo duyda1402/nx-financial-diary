@@ -1,42 +1,36 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { FlatList, ImageBackground, SafeAreaView, View } from "react-native";
 import { ButtonUI, Group, IconPlus, Stack, TextUI } from "../atom";
 import Carousel from "react-native-snap-carousel";
 import { colors, sx } from "@nfd/styles";
 import { formatNumberWithCommas } from "../../utils";
+import { apiWalletByUser } from "../../api/wallet.api";
+import { WalletInfo } from "../../common/types/wallet.type";
 type Props = {};
 
 const Wallets = (props: Props) => {
-  const carouselItems = [
-    {
-      title: "My Wallet 1",
-      balance: 12000,
-      uri: "https://images.unsplash.com/photo-1600627255439-a41d2a40b3da?auto=format&fit=crop&q=80&w=1374&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "My Wallet 2",
-      balance: 50000,
-      uri: "https://images.unsplash.com/photo-1600673645627-1c47394132ac?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-    {
-      title: "My Wallet 3",
-      balance: 18000,
-      uri: "https://images.unsplash.com/photo-1556139930-c23fa4a4f934?auto=format&fit=crop&q=80&w=1470&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    },
-  ];
+  const [wallets, setWallets] = useState<Array<WalletInfo>>([]);
+  useEffect(() => {
+    const fetchWallets = async () => {
+      const wallets = await apiWalletByUser();
+      setWallets(wallets);
+    };
+    fetchWallets();
+  }, []);
+
   return (
     <SafeAreaView style={{ backgroundColor: colors.gray100 }}>
       <Carousel
         layout={"default"}
-        data={carouselItems}
+        data={wallets}
         sliderWidth={400}
         itemWidth={300}
         renderItem={({ item }) => (
           <ImageBackground
-            imageStyle={{ borderRadius: 12, opacity: 0.6 }}
+            imageStyle={{ borderRadius: 12, opacity: 0.9 }}
             style={{ backgroundColor: "rgba(0, 0, 0, 1)", borderRadius: 12 }}
             source={{
-              uri: item.uri,
+              uri: `${item?.thumbnail}`,
             }}
             resizeMode="cover"
           >
@@ -50,7 +44,7 @@ const Wallets = (props: Props) => {
               }}
             >
               <TextUI color="white" size="md" fw="bold">
-                {item.title}
+                {item?.name}
               </TextUI>
               <TextUI color="white" size="2xl" fw="extra-bold">
                 ${formatNumberWithCommas(item?.balance || 0)}

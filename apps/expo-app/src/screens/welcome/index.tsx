@@ -11,10 +11,7 @@ export interface WelcomeScreenProps {
   navigation?: any;
 }
 
-const API_URL = process.env.EXPO_PUBLIC_API_BASE_URL!;
-
 function WelcomeScreen({ navigation }: WelcomeScreenProps) {
-  console.log(WelcomeScreen.name);
   // State Init
 
   const [loadingScreen, setLoadingScreen] = useState<boolean>(false);

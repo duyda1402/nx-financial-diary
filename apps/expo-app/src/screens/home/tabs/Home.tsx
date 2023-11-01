@@ -1,4 +1,5 @@
 import { colors, sx } from "@nfd/styles";
+import { apiGetTotalBalance } from "apps/expo-app/src/api/wallet.api";
 import {
   AvatarUI,
   ButtonUI,
@@ -33,7 +34,11 @@ function HomeTab({ navigation }: HomeTabProps) {
   const [background, setBackground] = useState<string>("");
   //Effect Init
   useEffect(() => {
-    setTotalBalance(8000);
+    const fetchTotalBalance = async () => {
+      const total = await apiGetTotalBalance();
+      setTotalBalance(total ?? 0);
+    };
+    fetchTotalBalance();
     setBackground(
       "https://images.unsplash.com/photo-1698571401982-855eac4f6887?auto=format&fit=crop&q=80&w=1932&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
     );
@@ -53,8 +58,8 @@ function HomeTab({ navigation }: HomeTabProps) {
             source={{ uri: background }}
           >
             <Stack style={[sx.mtMd, sx.pxMd]}>
-              <Group position="between" align="center" noWrap style={{ maxWidth: 300 }}>
-                <TextUI color="white" fw="bold" size="2xl" lineClamp={1}>
+              <Group position="between" align="center" noWrap>
+                <TextUI style={{ maxWidth: 300 }} color="white" fw="bold" size="2xl" lineClamp={1}>
                   Hello {userInfo?.displayName ? userInfo?.displayName : userInfo?.email}!
                 </TextUI>
                 <AvatarUI uri={userInfo?.profileUrl} radius="xl" withBorder />

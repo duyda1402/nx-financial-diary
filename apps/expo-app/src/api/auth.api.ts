@@ -31,3 +31,13 @@ export const apiLoginFinalize = async (id: string, code: string) => {
   });
   return res;
 };
+
+export const apiGetMe = async () => {
+  const res = await apiClient.get<any, ResponseAPI<{ id: string }>>("/me");
+  return res;
+};
+
+export const apiGetUserById = async (userId: string) => {
+  const res = await apiClient.get<any, ResponseAPI<UserInfo>>("/users/" + userId);
+  return res;
+};

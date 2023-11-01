@@ -2,7 +2,7 @@ import { sx } from "@nfd/styles";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Keyboard } from "react-native";
-import { apiFetchUserByEmail, apiLoginInitialize } from "../../api/auth.api";
+import { apiFetchUserByEmail, apiGetMe, apiLoginInitialize } from "../../api/auth.api";
 import { ScreenName } from "../../common/enum";
 import { ButtonUI, Container, EmailInput, Stack, TextUI } from "../../components/atom";
 import BranchApp from "../../components/logo";
@@ -35,6 +35,10 @@ function LoginScreen({ navigation }: LoginScreenProps) {
     navigation.navigate(ScreenName.CREATE_ACCOUNT_SCREEN, { replace: true });
   }, [navigation]);
 
+  const redirectToHome = useCallback(() => {
+    navigation.navigate(ScreenName.HOME_SCREEN, { replace: true });
+  }, [navigation]);
+
   const redirectToOTP = useCallback(() => {
     navigation.navigate(ScreenName.VALIDATE_OTP_SCREEN, { replace: true });
   }, [navigation]);
@@ -62,7 +66,15 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   };
 
   //Effect Init
-  useEffect(() => {}, []);
+  useEffect(() => {
+    const fetchAuth = async () => {
+      const resMe = await apiGetMe();
+      if (resMe.code === 200) {
+        return redirectToHome();
+      }
+    };
+    fetchAuth();
+  }, []);
 
   return (
     <Container style={[sx.pxMd]} keyboardHeight={keyboardHeight}>

@@ -1,5 +1,7 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import { KEY_ACCESS_TOKEN, KEY_REFRESH_TOKEN } from "apps/expo-app/src/common";
 import { CredentialOTP, TokenInfo, UserInfo } from "apps/expo-app/src/common/types/user.types";
 
 // Define a type for the slice state
@@ -40,6 +42,12 @@ export const authSlice = createSlice({
       state.credentials = action.payload;
     },
     actionSetTokenInfo: (state, action: PayloadAction<TokenInfo | null>) => {
+      if (action.payload?.accessToken) {
+        AsyncStorage.setItem(KEY_ACCESS_TOKEN, action.payload.accessToken);
+      }
+      if (action.payload?.refreshToken) {
+        AsyncStorage.setItem(KEY_REFRESH_TOKEN, action.payload.refreshToken);
+      }
       state.tokenInfo = action.payload;
     },
   },
