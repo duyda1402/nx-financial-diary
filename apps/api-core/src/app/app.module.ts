@@ -10,6 +10,7 @@ import { HttpExceptionFilter } from "../common/http-exception.filter";
 import { StatusSuccessInterceptor } from "../common/interceptor/status-success.interceptor";
 import { AuthModule } from "./auth/auth.module";
 import { WalletModule } from "./wallet/wallet.module";
+import { AssetModule } from "./asset/asset.module";
 
 @Module({
   imports: [
@@ -25,7 +26,7 @@ import { WalletModule } from "./wallet/wallet.module";
       entities: [__dirname + "/../**/*.entity.ts"],
       synchronize: true,
     }),
-
+    AssetModule,
     OtpModule,
     UserModule,
     AuthModule,
