@@ -50,10 +50,25 @@ export const authSlice = createSlice({
       }
       state.tokenInfo = action.payload;
     },
+    actionRemoveAuth: (state) => {
+      state.email = "";
+      state.userId = "";
+      state.info = null;
+      state.credentials = null;
+      state.tokenInfo = null;
+      AsyncStorage.removeItem(KEY_REFRESH_TOKEN);
+      AsyncStorage.removeItem(KEY_ACCESS_TOKEN);
+    },
   },
 });
 
-export const { actionSetEmail, actionSetUserInfo, actionSetUserId, actionSetCredentials, actionSetTokenInfo } =
-  authSlice.actions;
+export const {
+  actionSetEmail,
+  actionSetUserInfo,
+  actionSetUserId,
+  actionSetCredentials,
+  actionSetTokenInfo,
+  actionRemoveAuth,
+} = authSlice.actions;
 
 export const authReducer = authSlice.reducer;

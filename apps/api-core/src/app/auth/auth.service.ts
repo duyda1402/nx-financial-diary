@@ -1,3 +1,4 @@
+import { MailingService } from "./../mailing/mailing.service";
 import { WalletService } from "./../wallet/wallet.service";
 import { BadGatewayException, BadRequestException, Injectable, UnauthorizedException } from "@nestjs/common";
 
@@ -13,6 +14,7 @@ import * as bcrypt from "bcrypt";
 import { ERROR_UNAUTHORIZED } from "../../common/error.common";
 import { PayloadToken } from "../../common/types/payload.types";
 import { AttributeService } from "../attribute/attribute.service";
+import { TemplateEmail } from "../../common/enum/template-email.enum";
 @Injectable()
 export class AuthService {
   constructor(
@@ -21,6 +23,7 @@ export class AuthService {
     private jwtService: JwtService,
     private walletService: WalletService,
     private attributeService: AttributeService,
+    private mailingService: MailingService,
   ) {}
 
   async initialize(email: string, userId: string) {
@@ -29,6 +32,15 @@ export class AuthService {
       throw new BadRequestException({ code: MessageCode.NOT_FOUND, message: "Not Found" });
     }
     const otp = await this.otpService.generateOtp(userId);
+    this.mailingService.sendEmail({
+      subject: "Sign In Financial Diary By OTP",
+      toMail: email,
+      templates: TemplateEmail.VERIFY_OTP,
+      data: {
+        minutes: Math.ceil(otp.ttl / 60),
+        otp: otp.codeOtp,
+      },
+    });
     return {
       createdAt: otp.startAt,
       id: otp.transactionId,

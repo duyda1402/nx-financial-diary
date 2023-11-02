@@ -19,5 +19,5 @@ export type CredentialOTP = {
 export type TokenInfo = {
   accessToken: string;
   refreshToken: string;
-  expiration: number;
+  expiration?: number;
 };

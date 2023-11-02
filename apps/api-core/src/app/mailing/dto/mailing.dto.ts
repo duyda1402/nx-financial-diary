@@ -1,4 +1,5 @@
-import { IsEmail, IsNotEmpty, IsOptional } from "class-validator";
+import { TemplateEmail } from "apps/api-core/src/common/enum/template-email.enum";
+import { IsEmail, IsEnum, IsNotEmpty, IsOptional } from "class-validator";
 
 export class EmailDto {
   @IsEmail()
@@ -12,5 +13,6 @@ export class EmailDto {
 
   @IsNotEmpty()
   @IsOptional()
-  templates?: string;
+  @IsEnum(TemplateEmail)
+  templates: TemplateEmail;
 }

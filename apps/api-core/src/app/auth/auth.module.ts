@@ -6,6 +6,7 @@ import { AuthController } from "./auth.controller";
 import { JwtModule } from "@nestjs/jwt";
 import { WalletModule } from "../wallet/wallet.module";
 import { AttributeModule } from "../attribute/attribute.module";
+import { MailingModule } from "../mailing/mailing.module";
 
 @Module({
   imports: [
@@ -13,6 +14,7 @@ import { AttributeModule } from "../attribute/attribute.module";
     OtpModule,
     WalletModule,
     AttributeModule,
+    MailingModule,
     JwtModule.register({
       global: true,
     }),
