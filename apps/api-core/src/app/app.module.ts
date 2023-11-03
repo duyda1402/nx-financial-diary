@@ -11,6 +11,7 @@ import { StatusSuccessInterceptor } from "../common/interceptor/status-success.i
 import { AuthModule } from "./auth/auth.module";
 import { WalletModule } from "./wallet/wallet.module";
 import { AssetModule } from "./asset/asset.module";
+import { TransactionModule } from "./transaction/transaction.module";
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { AssetModule } from "./asset/asset.module";
     UserModule,
     AuthModule,
     WalletModule,
+    TransactionModule,
   ],
   controllers: [AppController],
   providers: [

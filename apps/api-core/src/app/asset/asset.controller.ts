@@ -74,7 +74,7 @@ export class AssetController {
     return ApiResponse.success(asset);
   }
 
-  @Get(":filename")
+  @Get("public/:filename")
   async getAsset(@Param("filename") filename: string, @Res() res: Response) {
     // Set content type of response
     const prefix = filename.split("-")[0] || "other";
