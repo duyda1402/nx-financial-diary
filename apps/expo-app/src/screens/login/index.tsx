@@ -68,9 +68,13 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   //Effect Init
   useEffect(() => {
     const fetchAuth = async () => {
-      const resMe = await apiGetMe();
-      if (resMe.code === 200) {
-        return redirectToHome();
+      try {
+        const resMe = await apiGetMe();
+        if (resMe.code === 200) {
+          return redirectToHome();
+        }
+      } catch (err: any) {
+        console.log(err.message);
       }
     };
     fetchAuth();
