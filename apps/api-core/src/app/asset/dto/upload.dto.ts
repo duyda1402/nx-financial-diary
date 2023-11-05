@@ -3,5 +3,5 @@ import { AssetTaxonomy } from "../enum/asset-taxonomy.enum";
 
 export class UploadDto {
   @IsEnum(AssetTaxonomy)
-  taxonomy?: AssetTaxonomy;
+  taxonomy: AssetTaxonomy;
 }

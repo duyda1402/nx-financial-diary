@@ -18,3 +18,23 @@ export class CreateWalletDto {
   @IsString()
   description?: string;
 }
+
+export class UpdateWalletDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsOptional()
+  name?: string;
+
+  @IsOptional()
+  balance?: number;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  thumbnail?: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  description?: string;
+}

@@ -1,6 +1,6 @@
 import { ColorKeys, colors } from "@nfd/styles";
 import { useEffect, useState } from "react";
-import { Dimensions, StyleProp, View, ViewStyle } from "react-native";
+import { Dimensions, ScrollView, StyleProp, ViewStyle } from "react-native";
 
 interface ContainerProps {
   style?: StyleProp<ViewStyle>;
@@ -15,12 +15,9 @@ const Container = ({ style = {}, children, keyboardHeight = 0, bg }: ContainerPr
   useEffect(() => {
     setScreen(window.height - keyboardHeight);
   }, [keyboardHeight]);
-  const styles = [
-    style,
-    { paddingTop: 32, paddingBottom: 20, height: screen, backgroundColor: bg ? colors[bg] : undefined },
-  ] as StyleProp<ViewStyle>;
+  const styles = [style, { height: screen, backgroundColor: bg ? colors[bg] : undefined }] as StyleProp<ViewStyle>;
 
-  return <View style={styles}>{children}</View>;
+  return <ScrollView style={styles}>{children}</ScrollView>;
 };
 
 export default Container;

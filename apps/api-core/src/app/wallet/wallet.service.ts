@@ -1,14 +1,17 @@
-import { Injectable } from "@nestjs/common";
+import { AssetService } from "./../asset/asset.service";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DeepPartial, Repository } from "typeorm";
+import { DeepPartial, Repository, UpdateResult } from "typeorm";
 import { WalletEntity } from "./wallet.entity";
 import { generateUUID } from "../../utils";
+import { AssetTaxonomy } from "../asset/enum/asset-taxonomy.enum";
 
 @Injectable()
 export class WalletService {
   constructor(
     @InjectRepository(WalletEntity)
     private walletRepository: Repository<WalletEntity>,
+    private assetService: AssetService,
   ) {}
 
   async getList(userId: string): Promise<WalletEntity[]> {
@@ -16,14 +19,32 @@ export class WalletService {
       where: {
         userId: userId,
       },
+      order: {
+        createdAt: "ASC",
+      },
     });
     return wallets;
   }
 
   async create(data: DeepPartial<WalletEntity>): Promise<WalletEntity> {
+    let thumbnail = data?.thumbnail;
+    if (!thumbnail) {
+      const assets = await this.assetService.getAssetByTaxonomySystem(AssetTaxonomy.WALLET);
+      thumbnail = assets[0]?.source;
+    }
     const walletId = generateUUID();
-    const wallet = this.walletRepository.create({ ...data, walletId: walletId });
+    const wallet = this.walletRepository.create({ ...data, walletId: walletId, thumbnail: thumbnail });
     return this.walletRepository.save(wallet);
+  }
+
+  async updateWallet(walletId: string, userId: string, data: DeepPartial<WalletEntity>): Promise<UpdateResult> {
+    const wallet = await this.walletRepository.findOne({
+      where: { walletId: walletId, userId: userId },
+    });
+    if (!wallet) {
+      throw new NotFoundException("Wallet not found!");
+    }
+    return this.walletRepository.update({ id: wallet.id }, data);
   }
 
   async getTotalBalance(userId: string): Promise<number> {

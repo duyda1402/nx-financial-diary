@@ -24,6 +24,7 @@ export class UserService {
     const userNew = this.userRepository.create({
       userId: userId,
       email: email,
+      displayName: email.split("@")[0],
     });
     return this.userRepository.save(userNew);
   }

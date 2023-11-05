@@ -16,18 +16,18 @@ export class AssetService {
     return this.assetRepository.findOneBy({ assetId: id });
   }
 
-  async createAsset(body: { userId: string; path: string; taxonomy?: AssetTaxonomy }): Promise<AssetEntity> {
+  async createAsset(body: { userId: string; path: string; taxonomy: AssetTaxonomy }): Promise<AssetEntity> {
     const assetId = generateUUID();
     const asset = this.assetRepository.create({
       assetId,
       source: body.path,
-      taxonomy: body?.taxonomy,
+      taxonomy: body.taxonomy,
       userId: body.userId,
     });
     return this.assetRepository.save(asset);
   }
 
-  async getAssetByTaxonomy(type: AssetTaxonomy): Promise<AssetEntity[]> {
-    return this.assetRepository.find({ where: { taxonomy: type } });
+  async getAssetByTaxonomySystem(taxonomy: AssetTaxonomy): Promise<AssetEntity[]> {
+    return this.assetRepository.find({ where: { taxonomy: taxonomy } });
   }
 }

@@ -1,9 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./feature/auth";
+import { selectorReducer } from "./feature/selector";
+import { resourcesReducer } from "./feature/wallet";
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
+    selector: selectorReducer,
+    resources: resourcesReducer,
   },
 });
 

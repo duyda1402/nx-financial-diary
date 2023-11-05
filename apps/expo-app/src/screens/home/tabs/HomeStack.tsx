@@ -1,5 +1,7 @@
 import { colors, sx } from "@nfd/styles";
 import { apiGetTotalBalance } from "apps/expo-app/src/api/wallet.api";
+import { BG_BASE } from "apps/expo-app/src/common";
+import { ScreenName } from "apps/expo-app/src/common/enum";
 import {
   AvatarUI,
   ButtonUI,
@@ -10,6 +12,7 @@ import {
   Stack,
   TextUI,
 } from "apps/expo-app/src/components/atom";
+import BudgetsComponent from "apps/expo-app/src/components/budgets";
 import LoadingIndicator from "apps/expo-app/src/components/loader/LoaderIndicator";
 import RecentTransition from "apps/expo-app/src/components/recent";
 import Wallets from "apps/expo-app/src/components/wallets";
@@ -39,9 +42,7 @@ function HomeTab({ navigation }: HomeTabProps) {
       setTotalBalance(total ?? 0);
     };
     fetchTotalBalance();
-    setBackground(
-      "https://images.unsplash.com/photo-1698571401982-855eac4f6887?auto=format&fit=crop&q=80&w=1932&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-    );
+    setBackground(BG_BASE);
   }, []);
 
   return (
@@ -71,7 +72,7 @@ function HomeTab({ navigation }: HomeTabProps) {
                   </TextUI>
                   <Group position="between" align="center">
                     <TextUI color="sky400" size="xl" fw="bold">
-                      $ {isShowBalance ? formatNumberWithCommas(totalBalance) : "******"}
+                      {isShowBalance ? formatNumberWithCommas(totalBalance) : "******"}
                     </TextUI>
                     <Pressable onPress={() => setIsShowBalance(!isShowBalance)}>
                       {isShowBalance ? <IconEyeOff color={colors.gray400} /> : <IconEye color={colors.gray400} />}
@@ -81,31 +82,59 @@ function HomeTab({ navigation }: HomeTabProps) {
               </Stack>
             </Stack>
           </ImageBackground>
-          {/* Wallets */}
-          <Group style={[{ width: "100%", padding: 16 }]} position="between" align="center">
-            <TextUI fw="semi-bold" size="lg" color="gray700">
-              Your Wallet
-            </TextUI>
-            <ButtonUI
-              compact
-              variant="subtle"
-              leftSection={<IconPlus size={18} strokeWidth={2} color={colors.sky500} />}
-              color="sky"
-            >
-              Add New
-            </ButtonUI>
-          </Group>
-          <Wallets />
-          {/* Wallets */}
-          <Group style={[{ width: "100%", padding: 16 }]} position="between" align="center">
-            <TextUI fw="semi-bold" size="lg" color="gray700">
-              Recent Transactions
-            </TextUI>
-            <ButtonUI compact variant="subtle" color="sky" onPress={() => navigation.navigate("Details")}>
-              See All
-            </ButtonUI>
-          </Group>
-          <RecentTransition />
+          <Stack style={{ marginTop: 16 }}>
+            {/* Wallets */}
+            <Stack bg="white" style={[sx.pyMd]}>
+              <Group style={[{ width: "100%" }, sx.pxMd]} position="between" align="center">
+                <TextUI fw="semi-bold" size="md" color="gray700">
+                  Your Wallet
+                </TextUI>
+                <ButtonUI
+                  compact
+                  variant="subtle"
+                  leftSection={<IconPlus size={18} strokeWidth={2} color={colors.sky500} />}
+                  color="sky"
+                >
+                  Add New
+                </ButtonUI>
+              </Group>
+              <Wallets />
+            </Stack>
+            {/* Wallets */}
+            <Stack bg="white" style={[sx.pyMd]}>
+              <Group style={[{ width: "100%" }, sx.pxMd]} position="between" align="center">
+                <TextUI fw="semi-bold" size="md" color="gray700">
+                  Expense vs Income
+                </TextUI>
+                <ButtonUI
+                  compact
+                  variant="subtle"
+                  color="sky"
+                  onPress={() => navigation.navigate(ScreenName.TRANSACTION_HISTORY)}
+                >
+                  See History
+                </ButtonUI>
+              </Group>
+              <RecentTransition />
+            </Stack>
+
+            <Stack bg="white" style={[sx.pyMd]}>
+              <Group style={[{ width: "100%" }, sx.pxMd]} position="between" align="center">
+                <TextUI fw="semi-bold" size="md" color="gray700">
+                  Budget
+                </TextUI>
+                <ButtonUI
+                  compact
+                  variant="subtle"
+                  color="sky"
+                  onPress={() => navigation.navigate(ScreenName.BUDGET_LIST)}
+                >
+                  See All
+                </ButtonUI>
+              </Group>
+              <BudgetsComponent />
+            </Stack>
+          </Stack>
         </>
       )}
     </ScrollView>

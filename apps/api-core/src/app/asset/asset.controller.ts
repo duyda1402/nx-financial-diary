@@ -23,6 +23,7 @@ import { join, extname } from "path";
 import { generateUUID } from "../../utils";
 import { ApiResponse } from "../../common/api.response";
 import type { Response } from "express";
+
 @Controller("assets")
 export class AssetController {
   constructor(private readonly assetService: AssetService) {}
@@ -35,7 +36,6 @@ export class AssetController {
         destination: (req, file, cb) => {
           const taxonomy = req?.body?.taxonomy || AssetTaxonomy.OTHER;
           const uploadPath = `./apps/api-core/src/assets/${taxonomy}`;
-          console.log(fs.existsSync(uploadPath));
           if (!fs.existsSync(uploadPath)) {
             fs.mkdirSync(uploadPath, { recursive: true });
           }
@@ -46,7 +46,6 @@ export class AssetController {
           const uniqueSuffix = generateUUID();
           const fileExtName = extname(file.originalname);
           const fileName = `${taxonomy}-${uniqueSuffix}${fileExtName}`;
-          console.log("name-file", fileName);
           cb(null, fileName);
         },
       }),
@@ -65,13 +64,18 @@ export class AssetController {
     @Body() body: UploadDto,
   ): Promise<any> {
     const userId = req["user"]?.sub;
-    const { taxonomy = AssetTaxonomy.OTHER } = body;
     if (!file) {
       throw new BadRequestException("File is missing");
     }
-    const path = file.filename;
-    const asset = await this.assetService.createAsset({ path, taxonomy, userId });
-    return ApiResponse.success(asset);
+    try {
+      const { taxonomy = AssetTaxonomy.OTHER } = body;
+
+      const path = file.filename;
+      const asset = await this.assetService.createAsset({ path, taxonomy, userId });
+      return ApiResponse.success(asset);
+    } catch (err: any) {
+      throw new BadRequestException(err.message);
+    }
   }
 
   @Get("public/:filename")
@@ -81,5 +85,14 @@ export class AssetController {
     res.set("Content-Type", "image/jpeg");
     // Return image file
     res.sendFile(join(__dirname, "..", "api-core/assets/" + prefix, filename));
+  }
+
+  @Get("taxonomy/:taxonomy")
+  async getAssetByTaxonomySystem(@Param("taxonomy") taxonomy: AssetTaxonomy) {
+    try {
+      return ApiResponse.success(await this.assetService.getAssetByTaxonomySystem(taxonomy));
+    } catch (err: any) {
+      throw new BadRequestException(`Invalid input value for enum: 'background','avatar','wallet' or 'category'`);
+    }
   }
 }

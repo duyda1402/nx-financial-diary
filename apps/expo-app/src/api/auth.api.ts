@@ -41,3 +41,8 @@ export const apiGetUserById = async (userId: string) => {
   const res = await apiClient.get<any, ResponseAPI<UserInfo>>("/users/" + userId);
   return res;
 };
+
+export const apiUploadAsset = async (formData: any) => {
+  const res = await apiClient.post<any, ResponseAPI<UserInfo>>("/assets/upload", formData);
+  return res;
+};

@@ -1,24 +1,68 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import React, { useCallback, useEffect, useState } from "react";
-import AddNewTab from "./tabs/AddNew";
-import HomeTab from "./tabs/Home";
-import SettingTab from "./tabs/Setting";
+import MiddleScreen from "./tabs/MiddleScreen";
+import HomeTab from "./tabs/HomeStack";
+import SettingScreen from "./tabs/SettingScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { apiGetMe, apiGetUserById } from "../../api/auth.api";
 import { ScreenName } from "../../common/enum";
 import { useDispatch } from "react-redux";
 import { actionSetEmail, actionSetUserId, actionSetUserInfo } from "../../store/feature/auth";
-import { Stack } from "../../components/atom";
+import { IconEye, Stack } from "../../components/atom";
 import LoadingIndicator from "../../components/loader/LoaderIndicator";
+import EditUserScreen from "../edit-account";
+import { apiWalletByUser } from "../../api/wallet.api";
+import { actionSetWallets } from "../../store/feature/wallet";
+import { actionSelectWallet } from "../../store/feature/selector";
+import SelectWalletScreen from "../select-wallet";
+import IconHome from "../../components/atom/icons/IconHome";
+import { colors } from "@nfd/styles";
+import IconSettingsFilled from "../../components/atom/icons/IconSettingsFilled";
+import IconSquareRoundedPlusFilled from "../../components/atom/icons/IconSquareRoundedPlusFilled";
+import IconAppsFilled from "../../components/atom/icons/IconAppsFilled";
 
 const HomeStack = createNativeStackNavigator();
 
-function HomeStackScreen() {
+function HomeNavigator() {
   return (
-    <HomeStack.Navigator>
+    <HomeStack.Navigator initialRouteName="HomeDefault">
       <HomeStack.Screen name="HomeDefault" component={HomeTab} options={{ headerShown: false }} />
-      <HomeStack.Screen name="Details" component={SettingTab} />
+      <HomeStack.Screen name={ScreenName.TRANSACTION_HISTORY} component={SettingScreen} />
+      <HomeStack.Screen name={ScreenName.BUDGET_LIST} component={SettingScreen} />
     </HomeStack.Navigator>
+  );
+}
+
+const SettingStack = createNativeStackNavigator();
+
+function SettingNavigator() {
+  return (
+    <SettingStack.Navigator initialRouteName="SettingDefault">
+      <SettingStack.Screen name="SettingDefault" component={SettingScreen} options={{ headerShown: false }} />
+      <SettingStack.Screen
+        name={ScreenName.EDIT_USER}
+        component={EditUserScreen}
+        options={{
+          title: "",
+        }}
+      />
+      <SettingStack.Screen name={ScreenName.BUDGET_LIST} component={SettingScreen} />
+    </SettingStack.Navigator>
+  );
+}
+
+const MiddleStack = createNativeStackNavigator();
+
+function MiddleNavigator() {
+  return (
+    <MiddleStack.Navigator initialRouteName="MiddleDefault">
+      <MiddleStack.Screen name="MiddleDefault" component={MiddleScreen} options={{ headerShown: false }} />
+      <MiddleStack.Screen
+        name={ScreenName.SELECT_WALLET_LIST}
+        component={SelectWalletScreen}
+        options={{ headerShown: false }}
+      />
+    </MiddleStack.Navigator>
   );
 }
 
@@ -47,6 +91,9 @@ function HomeScreen({ navigation }: Props) {
       dispatch(actionSetUserInfo(res.data));
       dispatch(actionSetEmail(res.data.email));
       setLoadingScreen(() => false);
+      const wallets = await apiWalletByUser();
+      dispatch(actionSetWallets(wallets));
+      dispatch(actionSelectWallet(wallets[0]));
     };
     fetchAuth();
   }, []);
@@ -59,9 +106,41 @@ function HomeScreen({ navigation }: Props) {
         </Stack>
       ) : (
         <Tab.Navigator initialRouteName="Home">
-          <Tab.Screen name="Home" component={HomeStackScreen} options={{ headerShown: false }} />
-          <Tab.Screen name="New" component={AddNewTab} options={{ headerShown: false }} />
-          <Tab.Screen name="Settings" component={SettingTab} options={{ headerShown: false }} />
+          <Tab.Screen
+            name="Home"
+            component={HomeNavigator}
+            options={{
+              headerShown: false,
+              tabBarInactiveTintColor: colors.gray400,
+              tabBarActiveTintColor: colors.orange400,
+              tabBarIcon: (props) => <IconAppsFilled size={30} color={props.color} />,
+              tabBarShowLabel: false,
+            }}
+          />
+          <Tab.Screen
+            name="Add"
+            component={MiddleNavigator}
+            options={{
+              headerShown: false,
+              tabBarShowLabel: false,
+              tabBarInactiveTintColor: colors.gray400,
+              tabBarActiveTintColor: colors.orange400,
+              tabBarIcon: (props) => <IconSquareRoundedPlusFilled size={32} />,
+            }}
+          />
+          <Tab.Screen
+            name="Settings"
+            component={SettingNavigator}
+            options={{
+              headerShown: false,
+              tabBarInactiveTintColor: colors.gray400,
+              tabBarActiveTintColor: colors.orange400,
+              tabBarIcon: (props) => {
+                return <IconSettingsFilled size={30} color={props.color} />;
+              },
+              tabBarShowLabel: false,
+            }}
+          />
         </Tab.Navigator>
       )}
     </>

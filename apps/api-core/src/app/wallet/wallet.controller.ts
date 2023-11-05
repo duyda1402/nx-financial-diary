@@ -1,8 +1,20 @@
-import { Controller, Get, Req, UseGuards, Request, Post, Body } from "@nestjs/common";
+import {
+  Controller,
+  Get,
+  Req,
+  UseGuards,
+  Request,
+  Post,
+  Body,
+  Put,
+  Param,
+  BadRequestException,
+  BadGatewayException,
+} from "@nestjs/common";
 import { WalletService } from "./wallet.service";
 import { AuthGuard } from "../auth/guard/auth.guard";
 import { ApiResponse } from "../../common/api.response";
-import { CreateWalletDto } from "./wallet.dto";
+import { CreateWalletDto, UpdateWalletDto } from "./wallet.dto";
 
 @Controller("wallet")
 export class WalletController {
@@ -22,6 +34,22 @@ export class WalletController {
     const userId = req["user"]?.sub;
     const result = await this.walletService.create({ ...body, userId });
     return ApiResponse.success(result);
+  }
+
+  @Put(":walletId")
+  @UseGuards(AuthGuard)
+  async updateWallet(
+    @Param("walletId") walletId: string,
+    @Req() req: Request,
+    @Body() body: UpdateWalletDto,
+  ): Promise<ApiResponse> {
+    const userId = req["user"]?.sub;
+    const result = await this.walletService.updateWallet(walletId, userId, body);
+    if (result.affected !== 0) {
+      return ApiResponse.success();
+    } else {
+      throw new BadRequestException("something went wrong!");
+    }
   }
 
   @Get("balance")

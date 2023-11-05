@@ -31,7 +31,10 @@
     "react-native-snap-carousel": "*",
     "react-native-reanimated-carousel": "*",
     "react-redux": "*",
-    "@reduxjs/toolkit": "*"
+    "@reduxjs/toolkit": "*",
+    "expo-asset": "*",
+    "expo-image-picker": "*",
+    "@react-native-community/datetimepicker": "*"
   },
   "scripts": {
     "eas-build-pre-install": "cd ../../ && node tools/scripts/eas-build-pre-install.mjs . apps/expo-app && cp package-lock.json apps/expo-app",

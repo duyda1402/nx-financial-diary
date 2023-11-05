@@ -52,7 +52,10 @@
     "rxjs": "^7.8.0",
     "tslib": "^2.3.0",
     "typeorm": "^0.3.17",
-    "uuid": "^9.0.1"
+    "uuid": "^9.0.1",
+    "expo-asset": "~8.10.1",
+    "expo-image-picker": "~14.3.2",
+    "@react-native-community/datetimepicker": "7.2.0"
   },
   "devDependencies": {
     "@config-plugins/detox": "~6.0.0",

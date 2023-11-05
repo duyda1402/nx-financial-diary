@@ -10,13 +10,15 @@ import BranchApp from "../../components/logo";
 import { RootState } from "../../store";
 import { apiLoginFinalize, apiLoginInitialize } from "../../api/auth.api";
 import { actionSetCredentials, actionSetTokenInfo } from "../../store/feature/auth";
+import { useNavigation } from "@react-navigation/native";
 
 export interface LoginScreenProps {
-  navigation?: any;
+  navigation: any;
 }
 
 function ValidateOtpScreen({ navigation }: LoginScreenProps) {
   //console.log(ValidateOtpScreen.name);
+  // const navigation = useNavigation();
   // State Init
   const authStore = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
@@ -38,11 +40,17 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
   const { control, handleSubmit, setValue } = useForm();
   //Callback Init
   const redirectToHome = useCallback(() => {
-    navigation.navigate(ScreenName.HOME_SCREEN, { replace: true });
+    navigation.reset({
+      index: 0,
+      routes: [{ name: ScreenName.HOME_SCREEN }],
+    });
   }, [navigation]);
 
   const redirectToLogin = useCallback(() => {
-    navigation.navigate(ScreenName.SIGN_IN_SCREEN, { replace: true });
+    navigation.reset({
+      index: 0,
+      routes: [{ name: ScreenName.SIGN_IN_SCREEN }],
+    });
   }, [navigation]);
 
   const handlerResendOtp = async () => {

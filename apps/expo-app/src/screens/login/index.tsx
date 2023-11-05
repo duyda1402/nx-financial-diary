@@ -36,7 +36,10 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   }, [navigation]);
 
   const redirectToHome = useCallback(() => {
-    navigation.navigate(ScreenName.HOME_SCREEN, { replace: true });
+    navigation.reset({
+      index: 0,
+      routes: [{ name: ScreenName.HOME_SCREEN }],
+    });
   }, [navigation]);
 
   const redirectToOTP = useCallback(() => {

@@ -13,9 +13,19 @@ type Props = {
   alt?: string;
   color?: Exclude<ColorBase, "white" | "black">;
   withBorder?: boolean;
+  withBorderColor?: Exclude<ColorBase, "black">;
 };
 
-function Avatar({ uri, children, size, radius, alt = "avatar", color = "blue", withBorder }: Props) {
+function Avatar({
+  uri,
+  children,
+  size,
+  radius,
+  alt = "avatar",
+  color = "blue",
+  withBorder,
+  withBorderColor = "white",
+}: Props) {
   const [isDefault, setDefault] = useState<boolean>(false);
   const theme = new DomiTheme();
   const widthHeight = theme.sizes(size);
@@ -43,7 +53,7 @@ function Avatar({ uri, children, size, radius, alt = "avatar", color = "blue", w
         width: widthHeight + 3,
         borderRadius: borderRadius,
         borderWidth: withBorder ? 3 : 0,
-        borderColor: "#fff",
+        borderColor: withBorderColor !== "white" ? colors[`${withBorderColor}200`] : colors[withBorderColor],
       }}
       bg={`${color}100`}
       align="center"
