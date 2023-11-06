@@ -84,7 +84,16 @@ function LoginScreen({ navigation }: LoginScreenProps) {
   }, []);
 
   return (
-    <Container style={[sx.pxMd]} keyboardHeight={keyboardHeight}>
+    <Container
+      bg="white"
+      style={[
+        sx.pxMd,
+        {
+          paddingTop: 32,
+        },
+      ]}
+      keyboardHeight={keyboardHeight}
+    >
       <Stack style={{ height: "100%" }} justify="space-between">
         <Stack style={sx.mtXl}>
           <BranchApp position="center" />
@@ -99,7 +108,7 @@ function LoginScreen({ navigation }: LoginScreenProps) {
           </Stack>
         </Stack>
         <ButtonUI
-          color="orange"
+          color="sky"
           variant="filled"
           radius="xl"
           size="lg"

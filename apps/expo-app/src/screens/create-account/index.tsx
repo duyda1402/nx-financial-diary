@@ -45,7 +45,15 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
   useEffect(() => {}, []);
 
   return (
-    <Container style={[sx.pxMd]}>
+    <Container
+      bg="white"
+      style={[
+        sx.pxMd,
+        {
+          paddingTop: 32,
+        },
+      ]}
+    >
       <Stack style={[sx.hFull]} justify="space-between">
         <Stack style={sx.mtXl}>
           <BranchApp position="center" />
@@ -62,14 +70,7 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
           </Stack>
         </Stack>
         <Stack spacing="sm">
-          <ButtonUI
-            size="lg"
-            color="orange"
-            variant="filled"
-            radius="xl"
-            onPress={handlerSignUp}
-            loading={loadingSubmit}
-          >
+          <ButtonUI size="lg" color="sky" variant="filled" radius="xl" onPress={handlerSignUp} loading={loadingSubmit}>
             Sign up
           </ButtonUI>
           <ButtonUI size="lg" color="gray" variant="subtle" radius="xl" onPress={redirectToSignIn}>

@@ -17,7 +17,11 @@ const Container = ({ style = {}, children, keyboardHeight = 0, bg }: ContainerPr
   }, [keyboardHeight]);
   const styles = [style, { height: screen, backgroundColor: bg ? colors[bg] : undefined }] as StyleProp<ViewStyle>;
 
-  return <ScrollView style={styles}>{children}</ScrollView>;
+  return (
+    <ScrollView style={styles} keyboardShouldPersistTaps="handled">
+      {children}
+    </ScrollView>
+  );
 };
 
 export default Container;

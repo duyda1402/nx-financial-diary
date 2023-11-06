@@ -93,7 +93,16 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
   }, [ttl]);
 
   return (
-    <Container style={[sx.pxMd]} keyboardHeight={keyboardHeight}>
+    <Container
+      bg="white"
+      style={[
+        sx.pxMd,
+        {
+          paddingTop: 32,
+        },
+      ]}
+      keyboardHeight={keyboardHeight}
+    >
       <Stack justify="space-between" style={sx.hFull}>
         <Stack style={sx.mtXl}>
           <BranchApp position="center" />
@@ -106,7 +115,7 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
               <OtpInput name="otp" control={control} required noWrap />
               <Group position="center" spacing="xs">
                 {isResend ? (
-                  <ButtonUI size="lg" color="orange" variant="subtle" radius="xl" onPress={handlerResendOtp}>
+                  <ButtonUI size="lg" color="sky" variant="subtle" radius="xl" onPress={handlerResendOtp}>
                     Re-send the OTP
                   </ButtonUI>
                 ) : (
@@ -122,10 +131,10 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
           </Stack>
         </Stack>
         <Stack spacing="sm">
-          <ButtonUI size="lg" color="orange" radius="xl" onPress={handleSubmit(onSubmit)} loading={loadingSubmit}>
+          <ButtonUI size="lg" color="sky" radius="xl" onPress={handleSubmit(onSubmit)} loading={loadingSubmit}>
             Continue
           </ButtonUI>
-          <ButtonUI size="lg" color="orange" variant="subtle" radius="xl" onPress={redirectToLogin}>
+          <ButtonUI size="lg" color="sky" variant="subtle" radius="xl" onPress={redirectToLogin}>
             Other Email
           </ButtonUI>
         </Stack>

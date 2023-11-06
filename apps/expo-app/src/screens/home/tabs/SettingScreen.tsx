@@ -70,7 +70,7 @@ function SettingScreen({ navigation }: SettingTabProps) {
             {userInfo?.displayName}
           </TextUI>
           <TextUI color="gray300">{userInfo?.email}</TextUI>
-          <ButtonUI variant="outline" color="orange" onPress={redirectToEditUser}>
+          <ButtonUI variant="subtle" color="sky" onPress={redirectToEditUser}>
             Edit
           </ButtonUI>
         </Stack>
@@ -80,7 +80,15 @@ function SettingScreen({ navigation }: SettingTabProps) {
           <MenuItem title="Language" accessoryRight={<IconChevronRight />} />
           <MenuItem title="Currency" accessoryRight={<IconChevronRight />} />
           <MenuItem title="Rate app" accessoryRight={<IconChevronRight />} />
-          <MenuItem title="Log out" onPress={handlerLogout} accessoryRight={<IconChevronRight />} />
+          <MenuItem
+            title={
+              <TextUI size="sm" fw="semi-bold" color="rose500">
+                Log out
+              </TextUI>
+            }
+            onPress={handlerLogout}
+            accessoryRight={<IconChevronRight />}
+          />
         </Menu>
       </Stack>
       <Group position="center">

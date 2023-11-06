@@ -1,12 +1,21 @@
 import { sx } from "@nfd/styles";
-import { AvatarUI, ButtonUI, Container, Group, Stack } from "apps/expo-app/src/components/atom";
+import {
+  AvatarUI,
+  ButtonUI,
+  Container,
+  Group,
+  IconChevronLeft,
+  IconPlus,
+  Stack,
+  TextUI,
+} from "apps/expo-app/src/components/atom";
 import { RootState } from "apps/expo-app/src/store";
 import { mapUrlAsset } from "apps/expo-app/src/utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, Datepicker, Radio, RadioGroup } from "@ui-kitten/components";
 import * as ImagePicker from "expo-image-picker";
-import { Pressable } from "react-native";
+import { Pressable, ScrollView, TouchableOpacity } from "react-native";
 import { apiUploadAsset } from "../../api/auth.api";
 
 export interface SettingTabProps {
@@ -48,26 +57,45 @@ function EditUserScreen({ navigation }: SettingTabProps) {
   const handlerUpdate = () => {};
 
   return (
-    <Container bg="white" style={[sx.pxLg]}>
-      <Stack spacing={30}>
-        <Stack align="center" justify="center" bg="white" spacing={8}>
-          <Pressable onPress={pickImage}>
-            <AvatarUI size="xl" radius={9999} uri={uriImage} withBorder withBorderColor="gray" />
-          </Pressable>
-        </Stack>
-        <Stack>
-          <Input status="info" label="Display Name" placeholder="Enter your name" />
-          <Input status="info" label="Phone Number" placeholder="Enter phone" />
-          <Datepicker status="info" label="Date of birth" date={date} onSelect={(nextDate) => setDate(nextDate)} />
-          <RadioGroup style={{ margin: 2 }} selectedIndex={selectedIndex} onChange={(index) => setSelectedIndex(index)}>
-            <Radio status="info">Male</Radio>
-            <Radio status="info">Female</Radio>
-          </RadioGroup>
-          <Input status="info" label="Address" placeholder="Enter address" />
-        </Stack>
-        <ButtonUI onPress={handlerUpdate}>Update</ButtonUI>
+    <>
+      <Stack style={{ height: 100 }} bg="sky500" justify="flex-end">
+        <Group position="between" style={[sx.pySm, sx.pxMd]} align="center">
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <IconChevronLeft color="white" />
+          </TouchableOpacity>
+          <TextUI fw="bold" size="xl" color="white">
+            Edit Account
+          </TextUI>
+          <TouchableOpacity>{/* <IconPlus color="white" /> */}</TouchableOpacity>
+        </Group>
       </Stack>
-    </Container>
+      <ScrollView keyboardShouldPersistTaps="handled" style={{ paddingTop: 28, backgroundColor: "#fff" }}>
+        <Stack spacing={30} style={sx.pxMd}>
+          <Stack align="center" justify="center" bg="white" spacing={8}>
+            <Pressable onPress={pickImage}>
+              <AvatarUI size="xl" radius={9999} uri={uriImage} withBorder withBorderColor="gray" />
+            </Pressable>
+          </Stack>
+          <Stack>
+            <Input status="info" label="Display Name" placeholder="Enter your name" />
+            <Input status="info" label="Phone Number" placeholder="Enter phone" />
+            <Datepicker status="info" label="Date of birth" date={date} onSelect={(nextDate) => setDate(nextDate)} />
+            <RadioGroup
+              style={{ margin: 2 }}
+              selectedIndex={selectedIndex}
+              onChange={(index) => setSelectedIndex(index)}
+            >
+              <Radio status="info">Male</Radio>
+              <Radio status="info">Female</Radio>
+            </RadioGroup>
+            <Input status="info" label="Address" placeholder="Enter address" />
+          </Stack>
+          <ButtonUI color="sky" size="md" radius="xl" onPress={handlerUpdate}>
+            Update
+          </ButtonUI>
+        </Stack>
+      </ScrollView>
+    </>
   );
 }
 

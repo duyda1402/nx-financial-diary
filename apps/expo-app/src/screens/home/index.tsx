@@ -46,14 +46,8 @@ function SettingNavigator() {
   return (
     <SettingStack.Navigator initialRouteName="SettingDefault">
       <SettingStack.Screen name="SettingDefault" component={SettingScreen} options={{ headerShown: false }} />
-      <SettingStack.Screen
-        name={ScreenName.EDIT_USER}
-        component={EditUserScreen}
-        options={{
-          title: "",
-        }}
-      />
-      <SettingStack.Screen name={ScreenName.BUDGET_LIST} component={SettingScreen} />
+      <SettingStack.Screen name={ScreenName.EDIT_USER} component={EditUserScreen} options={{ headerShown: false }} />
+      <SettingStack.Screen name={ScreenName.BUDGET_LIST} component={SettingScreen} options={{ headerShown: false }} />
     </SettingStack.Navigator>
   );
 }

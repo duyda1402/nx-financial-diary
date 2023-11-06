@@ -49,7 +49,7 @@ function AddNewTab({ navigation }: AddNewTabProps) {
 
   return (
     <>
-      <Stack style={{ height: 100 }} bg="orange400" justify="flex-end">
+      <Stack style={{ height: 100 }} bg="sky500" justify="flex-end">
         <Group position="between" style={[sx.pySm]}>
           <View></View>
           <TextUI fw="bold" size="xl" color="white">
@@ -141,7 +141,7 @@ function AddNewTab({ navigation }: AddNewTabProps) {
               onPress={handleSubmit(onSubmit)}
               size="md"
               radius="xl"
-              color="orange"
+              color="sky"
               leftSection={<IconTextPlus color="white" />}
             >
               Save

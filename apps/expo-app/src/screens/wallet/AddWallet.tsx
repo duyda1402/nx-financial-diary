@@ -73,7 +73,7 @@ function AddWalletScreen({ navigation }: SettingTabProps) {
 
   return (
     <>
-      <Stack style={{ height: 100 }} bg="orange400" justify="flex-end">
+      <Stack style={{ height: 100 }} bg="sky500" justify="flex-end">
         <Group position="between" style={[sx.pySm, sx.pxMd]} align="center">
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <IconChevronLeft color="white" />
@@ -159,7 +159,7 @@ function AddWalletScreen({ navigation }: SettingTabProps) {
               </Group>
             </Stack>
           </Stack>
-          <ButtonUI size="md" radius="xl" loading={loadingSubmit} color="orange" onPress={handleSubmit(handlerSave)}>
+          <ButtonUI size="md" radius="xl" loading={loadingSubmit} color="sky" onPress={handleSubmit(handlerSave)}>
             Save
           </ButtonUI>
         </Stack>
