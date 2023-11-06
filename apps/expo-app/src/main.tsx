@@ -7,11 +7,15 @@ import React from "react";
 import LoginScreen from "./screens/login";
 import WelcomeScreen from "./screens/welcome";
 import { ScreenName } from "./common/enum";
-import CreateAccountScreen from "./screens/create-account";
-import ValidateOtpScreen from "./screens/validate-otp";
+import CreateAccountScreen from "./screens/signup";
+import ValidateOtpScreen from "./screens/verification";
 import HomeScreen from "./screens/home";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "./store";
+import { LogBox } from "react-native";
+
+LogBox.ignoreLogs(["Warning: ..."]); // Ignore log notification by message
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
 
@@ -20,7 +24,7 @@ export const AppMain = () => {
     <ApplicationProvider {...eva} theme={eva.light}>
       <ReduxProvider store={store}>
         <NavigationContainer>
-          <Stack.Navigator initialRouteName={ScreenName.SIGN_IN_SCREEN}>
+          <Stack.Navigator initialRouteName={ScreenName.WELCOME_SCREEN}>
             <Stack.Screen name={ScreenName.WELCOME_SCREEN} component={WelcomeScreen} options={{ headerShown: false }} />
             <Stack.Screen name={ScreenName.SIGN_IN_SCREEN} component={LoginScreen} options={{ headerShown: false }} />
             <Stack.Screen

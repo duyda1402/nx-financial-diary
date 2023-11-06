@@ -1,12 +1,10 @@
-import { sx } from "@nfd/styles";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Keyboard } from "react-native";
-import { apiFetchUserByEmail, apiGetMe, apiLoginInitialize } from "../../api/auth.api";
+import { Dimensions, Image, Keyboard } from "react-native";
+import { useDispatch } from "react-redux";
+import { apiFetchUserByEmail, apiLoginInitialize } from "../../api/auth.api";
 import { ScreenName } from "../../common/enum";
 import { ButtonUI, Container, EmailInput, Stack, TextUI } from "../../components/atom";
-import BranchApp from "../../components/logo";
-import { useDispatch } from "react-redux";
 import { actionSetCredentials, actionSetEmail, actionSetUserId, actionSetUserInfo } from "../../store/feature/auth";
 
 export interface LoginScreenProps {
@@ -14,11 +12,11 @@ export interface LoginScreenProps {
 }
 
 function LoginScreen({ navigation }: LoginScreenProps) {
-  console.log(LoginScreen.name);
   // State Init
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
   const dispatch = useDispatch();
+  const window = Dimensions.get("window");
   //Keyboard Init
   Keyboard.addListener("keyboardDidShow", (event) => {
     const keyboardHeight = event.endCoordinates.height;
@@ -33,13 +31,6 @@ function LoginScreen({ navigation }: LoginScreenProps) {
 
   const redirectToNewUser = useCallback(() => {
     navigation.navigate(ScreenName.CREATE_ACCOUNT_SCREEN, { replace: true });
-  }, [navigation]);
-
-  const redirectToHome = useCallback(() => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: ScreenName.HOME_SCREEN }],
-    });
   }, [navigation]);
 
   const redirectToOTP = useCallback(() => {
@@ -60,52 +51,38 @@ function LoginScreen({ navigation }: LoginScreenProps) {
         });
       })
       .catch((_error) => {
-        dispatch(actionSetEmail(email));
         redirectToNewUser();
       })
       .finally(() => {
+        dispatch(actionSetEmail(email));
         setLoadingSubmit(() => false);
       });
   };
 
-  //Effect Init
-  useEffect(() => {
-    const fetchAuth = async () => {
-      try {
-        const resMe = await apiGetMe();
-        if (resMe.code === 200) {
-          return redirectToHome();
-        }
-      } catch (err: any) {
-        console.log(err.message);
-      }
-    };
-    fetchAuth();
-  }, []);
-
   return (
-    <Container
-      bg="white"
-      style={[
-        sx.pxMd,
-        {
-          paddingTop: 32,
-        },
-      ]}
-      keyboardHeight={keyboardHeight}
-    >
-      <Stack style={{ height: "100%" }} justify="space-between">
-        <Stack style={sx.mtXl}>
-          <BranchApp position="center" />
-          <Stack style={sx.mtXl}>
-            <TextUI fw="bold" size="4xl" ta="center">
-              Sign in or sign up
-            </TextUI>
-            <Stack spacing="sm">
-              <TextUI>Your email!</TextUI>
-              <EmailInput defaultValue="nhc39102@omeie.com" name="email" control={control} required />
-            </Stack>
-          </Stack>
+    <Container bg="slate50">
+      <Stack
+        style={{ paddingTop: 40, paddingBottom: 60, padding: 20, height: window.height - keyboardHeight }}
+        justify="space-between"
+        bg="slate50"
+      >
+        <Stack align="center">
+          <Image
+            source={require("../../../assets/login-email.png")}
+            style={{
+              marginTop: 40,
+              width: 280,
+              height: 240,
+              resizeMode: "contain",
+            }}
+          />
+          <TextUI fw="semi-bold" size="2xl" color="gray600">
+            Sign in or sign up
+          </TextUI>
+          <TextUI color="gray400" ta="center" style={{ width: 300 }}>
+            Enter your email, we will send you OTP to verify later
+          </TextUI>
+          <EmailInput name="email" control={control} required />
         </Stack>
         <ButtonUI
           color="sky"

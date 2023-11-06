@@ -27,7 +27,10 @@ function SettingScreen({ navigation }: SettingTabProps) {
   }, []);
 
   const redirectToLogin = useCallback(() => {
-    navigation.navigate(ScreenName.SIGN_IN_SCREEN, { replace: true });
+    navigation.reset({
+      index: 0,
+      routes: [{ name: ScreenName.SIGN_IN_SCREEN }],
+    });
   }, [navigation]);
 
   const redirectToEditUser = useCallback(() => {

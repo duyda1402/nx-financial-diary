@@ -1,13 +1,11 @@
-import { sx } from "@nfd/styles";
-
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { ScreenName } from "../../common/enum";
 
-import { ButtonUI, Container, Group, Stack, TextUI } from "../../components/atom";
-import BranchApp from "../../components/logo";
+import { Dimensions, Image } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
 import { apiCreateUserByEmail, apiLoginInitialize } from "../../api/auth.api";
+import { ButtonUI, Container, Stack, TextUI } from "../../components/atom";
+import { RootState } from "../../store";
 import { actionSetCredentials, actionSetUserId, actionSetUserInfo } from "../../store/feature/auth";
 
 export interface CreateAccountScreenProps {
@@ -15,7 +13,7 @@ export interface CreateAccountScreenProps {
 }
 
 function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
-  console.log(CreateAccountScreen.name);
+  const window = Dimensions.get("window");
   // State Init
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const authStore = useSelector((state: RootState) => state.auth);
@@ -23,10 +21,6 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
   //Callback Init
   const redirectToValidateOtp = useCallback(() => {
     navigation.navigate(ScreenName.VALIDATE_OTP_SCREEN, { replace: true });
-  }, [navigation]);
-
-  const redirectToSignIn = useCallback(() => {
-    navigation.navigate(ScreenName.SIGN_IN_SCREEN, { replace: true });
   }, [navigation]);
 
   const handlerSignUp = async () => {
@@ -41,40 +35,40 @@ function CreateAccountScreen({ navigation }: CreateAccountScreenProps) {
     setLoadingSubmit(() => false);
   };
 
-  //Effect Init
-  useEffect(() => {}, []);
-
   return (
-    <Container
-      bg="white"
-      style={[
-        sx.pxMd,
-        {
-          paddingTop: 32,
-        },
-      ]}
-    >
-      <Stack style={[sx.hFull]} justify="space-between">
-        <Stack style={sx.mtXl}>
-          <BranchApp position="center" />
-          <Stack style={sx.mtXl}>
-            <TextUI fw="bold" size="4xl" ta="center">
-              Create account?
+    <Container bg="slate50">
+      <Stack
+        style={{ paddingTop: 40, paddingBottom: 60, padding: 20, height: window.height }}
+        justify="space-between"
+        bg="slate50"
+      >
+        <Stack align="center">
+          <Image
+            source={require("../../../assets/sign-up.png")}
+            style={{
+              marginTop: 40,
+              width: 280,
+              height: 240,
+              resizeMode: "contain",
+            }}
+          />
+          <TextUI fw="semi-bold" size="2xl" color="gray600">
+            Create account?
+          </TextUI>
+          <TextUI color="gray400" ta="center" style={{ width: 300 }}>
+            No account exists for{" "}
+            <TextUI fw="semi-bold" color="gray600">
+              {authStore.email}
             </TextUI>
-            <Stack spacing="sm">
-              <TextUI>
-                No account exists for <TextUI fw="semi-bold">{authStore.email}</TextUI>. Do you want to create a new
-                account?
-              </TextUI>
-            </Stack>
-          </Stack>
+            . Do you want to create a new account?
+          </TextUI>
         </Stack>
         <Stack spacing="sm">
           <ButtonUI size="lg" color="sky" variant="filled" radius="xl" onPress={handlerSignUp} loading={loadingSubmit}>
-            Sign up
+            Continue
           </ButtonUI>
-          <ButtonUI size="lg" color="gray" variant="subtle" radius="xl" onPress={redirectToSignIn}>
-            Back
+          <ButtonUI size="lg" color="sky" variant="subtle" radius="xl" onPress={() => navigation.goBack()}>
+            Other email
           </ButtonUI>
         </Stack>
       </Stack>

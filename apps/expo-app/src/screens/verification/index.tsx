@@ -1,7 +1,7 @@
 import { sx } from "@nfd/styles";
 import { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Alert, Keyboard } from "react-native";
+import { Alert, Keyboard, Image, Dimensions } from "react-native";
 import { ScreenName } from "../../common/enum";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -10,24 +10,23 @@ import BranchApp from "../../components/logo";
 import { RootState } from "../../store";
 import { apiLoginFinalize, apiLoginInitialize } from "../../api/auth.api";
 import { actionSetCredentials, actionSetTokenInfo } from "../../store/feature/auth";
-import { useNavigation } from "@react-navigation/native";
 
 export interface LoginScreenProps {
   navigation: any;
 }
 
 function ValidateOtpScreen({ navigation }: LoginScreenProps) {
-  //console.log(ValidateOtpScreen.name);
-  // const navigation = useNavigation();
-  // State Init
+  // Store Init
   const authStore = useSelector((state: RootState) => state.auth);
   const dispatch = useDispatch();
+  // State Init
   const [loadingSubmit, setLoadingSubmit] = useState<boolean>(false);
   const [keyboardHeight, setKeyboardHeight] = useState<number>(0);
   const [ttl, setTtl] = useState<number>(authStore?.credentials?.ttl || 300);
   const [isResend, setIsResend] = useState<boolean>(false);
 
   //Keyboard Init
+  const window = Dimensions.get("window");
   Keyboard.addListener("keyboardDidShow", (event) => {
     const keyboardHeight = event.endCoordinates.height;
     setKeyboardHeight(keyboardHeight);
@@ -43,13 +42,6 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
     navigation.reset({
       index: 0,
       routes: [{ name: ScreenName.HOME_SCREEN }],
-    });
-  }, [navigation]);
-
-  const redirectToLogin = useCallback(() => {
-    navigation.reset({
-      index: 0,
-      routes: [{ name: ScreenName.SIGN_IN_SCREEN }],
     });
   }, [navigation]);
 
@@ -93,49 +85,51 @@ function ValidateOtpScreen({ navigation }: LoginScreenProps) {
   }, [ttl]);
 
   return (
-    <Container
-      bg="white"
-      style={[
-        sx.pxMd,
-        {
-          paddingTop: 32,
-        },
-      ]}
-      keyboardHeight={keyboardHeight}
-    >
-      <Stack justify="space-between" style={sx.hFull}>
-        <Stack style={sx.mtXl}>
-          <BranchApp position="center" />
-          <Stack style={sx.mtXl}>
-            <TextUI fw="bold" size="4xl" ta="center">
-              Sign in
+    <Container bg="slate50" keyboardHeight={keyboardHeight}>
+      <Stack
+        style={{ paddingTop: 40, paddingBottom: 60, padding: 20, height: window.height }}
+        justify="space-between"
+        bg="slate50"
+      >
+        <Stack align="center">
+          <Image
+            source={require("../../../assets/verification.png")}
+            style={{
+              marginTop: 60,
+              width: 280,
+              height: 200,
+              resizeMode: "contain",
+            }}
+          />
+          <TextUI fw="semi-bold" size="2xl" color="gray600">
+            Verification
+          </TextUI>
+          <TextUI color="gray400" ta="center" style={{ width: 300 }}>
+            Enter 6 digit number that sen to{" "}
+            <TextUI color="gray600" fw="semi-bold">
+              {authStore.email}
             </TextUI>
-            <Stack spacing="sm">
-              <TextUI>Enter OTP:</TextUI>
-              <OtpInput name="otp" control={control} required noWrap />
-              <Group position="center" spacing="xs">
-                {isResend ? (
-                  <ButtonUI size="lg" color="sky" variant="subtle" radius="xl" onPress={handlerResendOtp}>
-                    Re-send the OTP
-                  </ButtonUI>
-                ) : (
-                  <>
-                    <TextUI color="gray500" style={sx.mtSm}>
-                      Re-send the OTP code in
-                    </TextUI>
-                    <TextUI fw="bold">{ttl}s</TextUI>
-                  </>
-                )}
-              </Group>
-            </Stack>
-          </Stack>
+          </TextUI>
+          <OtpInput name="otp" control={control} required noWrap />
+          <Group position="center" spacing="xs">
+            {isResend ? (
+              <ButtonUI size="lg" color="sky" variant="subtle" radius="xl" onPress={handlerResendOtp}>
+                Re-send the OTP
+              </ButtonUI>
+            ) : (
+              <>
+                <TextUI color="gray400">Re-send the OTP code in</TextUI>
+                <TextUI fw="semi-bold">{ttl}s</TextUI>
+              </>
+            )}
+          </Group>
         </Stack>
         <Stack spacing="sm">
           <ButtonUI size="lg" color="sky" radius="xl" onPress={handleSubmit(onSubmit)} loading={loadingSubmit}>
             Continue
           </ButtonUI>
-          <ButtonUI size="lg" color="sky" variant="subtle" radius="xl" onPress={redirectToLogin}>
-            Other Email
+          <ButtonUI size="lg" color="sky" variant="subtle" radius="xl" onPress={() => navigation.goBack()}>
+            Other email
           </ButtonUI>
         </Stack>
       </Stack>
