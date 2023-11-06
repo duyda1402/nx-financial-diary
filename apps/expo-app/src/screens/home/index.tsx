@@ -8,18 +8,20 @@ import { apiGetMe, apiGetUserById } from "../../api/auth.api";
 import { ScreenName } from "../../common/enum";
 import { useDispatch } from "react-redux";
 import { actionSetEmail, actionSetUserId, actionSetUserInfo } from "../../store/feature/auth";
-import { IconEye, Stack } from "../../components/atom";
+import { Stack } from "../../components/atom";
 import LoadingIndicator from "../../components/loader/LoaderIndicator";
 import EditUserScreen from "../edit-account";
 import { apiWalletByUser } from "../../api/wallet.api";
-import { actionSetWallets } from "../../store/feature/wallet";
+import { actionSetWallets } from "../../store/feature/resources";
 import { actionSelectWallet } from "../../store/feature/selector";
-import SelectWalletScreen from "../select-wallet";
-import IconHome from "../../components/atom/icons/IconHome";
+import SelectWalletScreen from "../wallet/SelectWallet";
 import { colors } from "@nfd/styles";
 import IconSettingsFilled from "../../components/atom/icons/IconSettingsFilled";
 import IconSquareRoundedPlusFilled from "../../components/atom/icons/IconSquareRoundedPlusFilled";
 import IconAppsFilled from "../../components/atom/icons/IconAppsFilled";
+import BudgetListScreen from "../budget/BudgetList";
+import TransactionListScreen from "../transaction/TransactionList";
+import AddWalletScreen from "../wallet/AddWallet";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -27,8 +29,13 @@ function HomeNavigator() {
   return (
     <HomeStack.Navigator initialRouteName="HomeDefault">
       <HomeStack.Screen name="HomeDefault" component={HomeTab} options={{ headerShown: false }} />
-      <HomeStack.Screen name={ScreenName.TRANSACTION_HISTORY} component={SettingScreen} />
-      <HomeStack.Screen name={ScreenName.BUDGET_LIST} component={SettingScreen} />
+      <HomeStack.Screen
+        name={ScreenName.TRANSACTION_HISTORY}
+        component={TransactionListScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen name={ScreenName.ADD_WALLET} component={AddWalletScreen} options={{ headerShown: false }} />
+      <HomeStack.Screen name={ScreenName.BUDGET_LIST} component={BudgetListScreen} options={{ headerShown: false }} />
     </HomeStack.Navigator>
   );
 }

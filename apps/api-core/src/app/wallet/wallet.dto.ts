@@ -9,12 +9,10 @@ export class CreateWalletDto {
   balance?: number;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
   thumbnail?: string;
 
   @IsOptional()
-  @IsNotEmpty()
   @IsString()
   description?: string;
 }

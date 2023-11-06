@@ -94,6 +94,7 @@ function HomeTab({ navigation }: HomeTabProps) {
                   variant="subtle"
                   leftSection={<IconPlus size={18} strokeWidth={2} color={colors.sky500} />}
                   color="sky"
+                  onPress={() => navigation.navigate(ScreenName.ADD_WALLET)}
                 >
                   Add New
                 </ButtonUI>
