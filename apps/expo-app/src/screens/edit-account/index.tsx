@@ -1,21 +1,12 @@
 import { sx } from "@nfd/styles";
-import {
-  AvatarUI,
-  ButtonUI,
-  Container,
-  Group,
-  IconChevronLeft,
-  IconPlus,
-  Stack,
-  TextUI,
-} from "apps/expo-app/src/components/atom";
+import { AvatarUI, ButtonUI, Group, IconChevronLeft, Stack, TextUI } from "apps/expo-app/src/components/atom";
 import { RootState } from "apps/expo-app/src/store";
 import { mapUrlAsset } from "apps/expo-app/src/utils";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Input, Datepicker, Radio, RadioGroup } from "@ui-kitten/components";
 import * as ImagePicker from "expo-image-picker";
-import { Pressable, ScrollView, TouchableOpacity } from "react-native";
+import { Platform, Pressable, ScrollView, TouchableOpacity } from "react-native";
 import { apiUploadAsset } from "../../api/auth.api";
 
 export interface SettingTabProps {
@@ -48,9 +39,16 @@ function EditUserScreen({ navigation }: SettingTabProps) {
 
     if (!result.canceled) {
       setUriImage(result.assets[0].uri);
-      //  const formData = new FormData();
-      //  formData.append("file",result.assets[0].uri);
-      //  formData.append("taxonomy", "avatar");
+      const formData = new FormData();
+      console.log(result.assets[0]);
+      const file = result.assets[0];
+      const fileData = {
+        uri: Platform.OS !== "android" ? "file://" + file?.uri : file?.uri,
+        type: file?.type,
+        filename: file?.fileName,
+      };
+      // formData.append("file", );
+      formData.append("taxonomy", "avatar");
       //  const resultUpload = await apiUploadAsset(formData);
     }
   };

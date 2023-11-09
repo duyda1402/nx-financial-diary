@@ -82,7 +82,7 @@ function LoginScreen({ navigation }: LoginScreenProps) {
           <TextUI color="gray400" ta="center" style={{ width: 300 }}>
             Enter your email, we will send you OTP to verify later
           </TextUI>
-          <EmailInput name="email" control={control} required />
+          <EmailInput defaultValue="nhc39102@omeie.com" name="email" control={control} required />
         </Stack>
         <ButtonUI
           color="sky"
