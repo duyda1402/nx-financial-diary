@@ -1,10 +1,10 @@
-import { AssetService } from "./../asset/asset.service";
-import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { DeepPartial, Repository, UpdateResult } from "typeorm";
-import { WalletEntity } from "./wallet.entity";
+import { DeepPartial, FindOptionsWhere, Repository, UpdateResult } from "typeorm";
 import { generateUUID } from "../../utils";
 import { AssetTaxonomy } from "../asset/enum/asset-taxonomy.enum";
+import { AssetService } from "./../asset/asset.service";
+import { WalletEntity } from "./wallet.entity";
 
 @Injectable()
 export class WalletService {
@@ -24,6 +24,12 @@ export class WalletService {
       },
     });
     return wallets;
+  }
+
+  async findWalletBy(
+    conditions: FindOptionsWhere<WalletEntity> | FindOptionsWhere<WalletEntity>[],
+  ): Promise<WalletEntity> {
+    return this.walletRepository.findOneBy(conditions);
   }
 
   async create(data: DeepPartial<WalletEntity>): Promise<WalletEntity> {

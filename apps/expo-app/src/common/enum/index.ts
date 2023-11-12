@@ -8,6 +8,8 @@ export enum ScreenName {
   BUDGET_LIST = "budget-list",
   EDIT_USER = "edit-user",
   SELECT_WALLET_LIST = "select-wallet-list",
+  SELECT_CATEGORY = "select-category-list",
+  SELECT_CATEGORY_ICON = "select-category-icon",
   ADD_WALLET = "add-wallet",
   CATEGORY_LIST = "category-list",
 }

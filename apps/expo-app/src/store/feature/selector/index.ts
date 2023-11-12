@@ -1,9 +1,6 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
-import { KEY_ACCESS_TOKEN, KEY_REFRESH_TOKEN } from "apps/expo-app/src/common";
+import { createSlice } from "@reduxjs/toolkit";
 import { CategoryInfo } from "apps/expo-app/src/common/types/category.types";
-import { CredentialOTP, TokenInfo, UserInfo } from "apps/expo-app/src/common/types/user.types";
 import { WalletInfo } from "apps/expo-app/src/common/types/wallet.type";
 
 // Define a type for the slice state

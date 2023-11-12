@@ -18,12 +18,14 @@ export interface ResourcesState {
   wallets: WalletInfo[];
   totalBalance: number;
   budgets: BudgetInfo[];
+  icons: AssetInfo[];
 }
 
 // Define the initial state using that type
 const initialState: ResourcesState = {
   categories: [],
   wallets: [],
+  icons: [],
   totalBalance: 0,
   budgets: [
     {
@@ -44,11 +46,14 @@ export const resourcesSlice = createSlice({
     actionSetWallets: (state, action: PayloadAction<WalletInfo[]>) => {
       state.wallets = action.payload;
     },
-    actionSelectCategory: (state, action: PayloadAction<CategoryInfo[]>) => {
+    actionSetCategory: (state, action: PayloadAction<CategoryInfo[]>) => {
       state.categories = action.payload;
     },
     actionSetTotalBalance: (state, action: PayloadAction<number>) => {
       state.totalBalance = action.payload;
+    },
+    actionSetIcons: (state, action: PayloadAction<AssetInfo[]>) => {
+      state.icons = action.payload;
     },
     actionAddWalletResources: (state, action: PayloadAction<WalletInfo>) => {
       state.wallets = state.wallets.concat(action.payload);
@@ -56,7 +61,7 @@ export const resourcesSlice = createSlice({
   },
 });
 
-export const { actionSetTotalBalance, actionSelectCategory, actionSetWallets, actionAddWalletResources } =
+export const { actionSetTotalBalance, actionSetCategory, actionSetWallets, actionAddWalletResources, actionSetIcons } =
   resourcesSlice.actions;
 
 export const resourcesReducer = resourcesSlice.reducer;

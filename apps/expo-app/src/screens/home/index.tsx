@@ -12,7 +12,7 @@ import { Stack } from "../../components/atom";
 import LoadingIndicator from "../../components/loader/LoaderIndicator";
 import EditUserScreen from "../edit-account";
 import { apiWalletByUser } from "../../api/wallet.api";
-import { actionSetWallets } from "../../store/feature/resources";
+import { actionSetCategory, actionSetWallets } from "../../store/feature/resources";
 import { actionSelectWallet } from "../../store/feature/selector";
 import SelectWalletScreen from "../wallet/SelectWallet";
 import { colors } from "@nfd/styles";
@@ -22,6 +22,9 @@ import IconAppsFilled from "../../components/atom/icons/IconAppsFilled";
 import BudgetListScreen from "../budget/BudgetList";
 import TransactionListScreen from "../transaction/TransactionList";
 import AddWalletScreen from "../wallet/AddWallet";
+import { apiGetCategories } from "../../api/category.api";
+import SelectCategoryScreen from "../category/SelectCategoryScreen";
+import SelectIconScreen from "../category/SelectIconScreen";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -63,6 +66,16 @@ function MiddleNavigator() {
         component={SelectWalletScreen}
         options={{ headerShown: false }}
       />
+      <MiddleStack.Screen
+        name={ScreenName.SELECT_CATEGORY}
+        component={SelectCategoryScreen}
+        options={{ headerShown: false }}
+      />
+      <MiddleStack.Screen
+        name={ScreenName.SELECT_CATEGORY_ICON}
+        component={SelectIconScreen}
+        options={{ headerShown: false }}
+      />
     </MiddleStack.Navigator>
   );
 }
@@ -95,6 +108,8 @@ function HomeScreen({ navigation }: Props) {
       const wallets = await apiWalletByUser();
       dispatch(actionSetWallets(wallets));
       dispatch(actionSelectWallet(wallets[0]));
+      const categories = await apiGetCategories();
+      dispatch(actionSetCategory(categories));
     };
     fetchAuth();
   }, []);
@@ -112,8 +127,8 @@ function HomeScreen({ navigation }: Props) {
             component={HomeNavigator}
             options={{
               headerShown: false,
-              tabBarInactiveTintColor: colors.gray400,
-              tabBarActiveTintColor: colors.orange400,
+              tabBarInactiveTintColor: colors.gray200,
+              tabBarActiveTintColor: colors.sky400,
               tabBarIcon: (props) => <IconAppsFilled size={30} color={props.color} />,
               tabBarShowLabel: false,
             }}
@@ -124,9 +139,9 @@ function HomeScreen({ navigation }: Props) {
             options={{
               headerShown: false,
               tabBarShowLabel: false,
-              tabBarInactiveTintColor: colors.gray400,
-              tabBarActiveTintColor: colors.orange400,
-              tabBarIcon: (props) => <IconSquareRoundedPlusFilled size={32} />,
+              tabBarInactiveTintColor: colors.gray200,
+              tabBarActiveTintColor: colors.sky400,
+              tabBarIcon: (props) => <IconSquareRoundedPlusFilled size={32} color={props.color} />,
             }}
           />
           <Tab.Screen
@@ -134,8 +149,8 @@ function HomeScreen({ navigation }: Props) {
             component={SettingNavigator}
             options={{
               headerShown: false,
-              tabBarInactiveTintColor: colors.gray400,
-              tabBarActiveTintColor: colors.orange400,
+              tabBarInactiveTintColor: colors.gray200,
+              tabBarActiveTintColor: colors.sky400,
               tabBarIcon: (props) => {
                 return <IconSettingsFilled size={30} color={props.color} />;
               },

@@ -1,20 +1,8 @@
-import {
-  Controller,
-  Get,
-  Req,
-  UseGuards,
-  Request,
-  Post,
-  Body,
-  Put,
-  Param,
-  BadRequestException,
-  BadGatewayException,
-} from "@nestjs/common";
-import { WalletService } from "./wallet.service";
-import { AuthGuard } from "../auth/guard/auth.guard";
+import { BadRequestException, Body, Controller, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
 import { ApiResponse } from "../../common/api.response";
+import { AuthGuard } from "../auth/guard/auth.guard";
 import { CreateWalletDto, UpdateWalletDto } from "./wallet.dto";
+import { WalletService } from "./wallet.service";
 
 @Controller("wallet")
 export class WalletController {

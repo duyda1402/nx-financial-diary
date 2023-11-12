@@ -47,6 +47,10 @@ function AddNewTab({ navigation }: AddNewTabProps) {
     navigation.navigate(ScreenName.SELECT_WALLET_LIST, { replace: true });
   }, [navigation]);
 
+  const redirectToSelectCategory = useCallback(() => {
+    navigation.navigate(ScreenName.SELECT_CATEGORY, { replace: true });
+  }, [navigation]);
+
   return (
     <>
       <Stack style={{ height: 100 }} bg="sky500" justify="flex-end">
@@ -76,7 +80,8 @@ function AddNewTab({ navigation }: AddNewTabProps) {
                 <IconChevronRight />
               </Group>
             </TouchableOpacity>
-            <TouchableOpacity>
+
+            <TouchableOpacity onPress={redirectToSelectCategory}>
               <Group align="center" noWrap position="between">
                 <AvatarUI radius="full" uri={mapUrlAsset(category?.thumbnail)} />
                 {!category ? (
@@ -91,6 +96,7 @@ function AddNewTab({ navigation }: AddNewTabProps) {
                 <IconChevronRight />
               </Group>
             </TouchableOpacity>
+
             <Controller
               control={control}
               name="amount"

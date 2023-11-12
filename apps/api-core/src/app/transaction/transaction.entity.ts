@@ -15,9 +15,6 @@ export class TransactionEntity extends BaseEntity {
   @Column()
   walletId: string;
 
-  @Column()
-  name: string;
-
   @Column({ default: 0 })
   amount: number;
 
@@ -31,10 +28,10 @@ export class TransactionEntity extends BaseEntity {
   walletReceiveId?: string;
 
   @Column({ nullable: true })
-  walletSenderId?: string;
-
-  @Column({ nullable: true })
   description?: string;
+
+  @Column()
+  releaseAt: Date;
 
   @CreateDateColumn()
   createdAt: Date;

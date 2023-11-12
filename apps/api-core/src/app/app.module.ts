@@ -12,6 +12,7 @@ import { AuthModule } from "./auth/auth.module";
 import { WalletModule } from "./wallet/wallet.module";
 import { AssetModule } from "./asset/asset.module";
 import { TransactionModule } from "./transaction/transaction.module";
+import { CategoryModule } from "./category/category.module";
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { TransactionModule } from "./transaction/transaction.module";
       synchronize: true,
     }),
     AssetModule,
+    CategoryModule,
     OtpModule,
     UserModule,
     AuthModule,

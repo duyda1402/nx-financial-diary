@@ -17,7 +17,7 @@ import LoadingIndicator from "apps/expo-app/src/components/loader/LoaderIndicato
 import RecentTransition from "apps/expo-app/src/components/recent";
 import Wallets from "apps/expo-app/src/components/wallets";
 import { RootState } from "apps/expo-app/src/store";
-import { formatNumberWithCommas } from "apps/expo-app/src/utils";
+import { formatNumberWithCommas, mapUrlAsset } from "apps/expo-app/src/utils";
 import { useEffect, useState } from "react";
 import { ImageBackground, Pressable, ScrollView } from "react-native";
 import { useSelector } from "react-redux";
@@ -63,7 +63,7 @@ function HomeTab({ navigation }: HomeTabProps) {
                 <TextUI style={{ maxWidth: 300 }} color="white" fw="bold" size="2xl" lineClamp={1}>
                   Hello {userInfo?.displayName ? userInfo?.displayName : userInfo?.email}!
                 </TextUI>
-                <AvatarUI uri={userInfo?.profileUrl} radius="xl" withBorder />
+                <AvatarUI uri={mapUrlAsset(userInfo?.profileUrl)} radius="xl" withBorder />
               </Group>
               <Stack style={[sx.hero]} bg="gray50">
                 <Stack spacing="sm">
