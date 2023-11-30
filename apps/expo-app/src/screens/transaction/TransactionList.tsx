@@ -8,9 +8,10 @@ import RecentTransition from "../../components/recent";
 
 type Props = {
   navigation?: any;
+  limit?: number;
 };
 
-const TransactionListScreen = ({ navigation }: Props) => {
+const TransactionListScreen = ({ navigation, limit = -1 }: Props) => {
   return (
     <>
       <Stack style={{ height: 100 }} bg="sky500" justify="flex-end">
@@ -27,7 +28,7 @@ const TransactionListScreen = ({ navigation }: Props) => {
         </Group>
       </Stack>
       <ScrollView keyboardShouldPersistTaps="handled" style={{ paddingTop: 16, backgroundColor: "#fff" }}>
-        <RecentTransition />
+        <RecentTransition limit={limit} />
       </ScrollView>
     </>
   );

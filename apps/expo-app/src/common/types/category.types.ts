@@ -1,3 +1,5 @@
+import { TransactionType } from "./transaction.type";
+
 export enum CategoryType {
   CUSTOM = "custom",
   SYSTEM = "system",
@@ -14,7 +16,7 @@ export type CategoryInfo = {
   thumbnail?: string;
   name: string;
   type: CategoryType;
-  taxonomy: CategoryTaxonomy;
+  taxonomy: TransactionType;
   categoryId?: string;
   description?: string;
   parentId?: string;

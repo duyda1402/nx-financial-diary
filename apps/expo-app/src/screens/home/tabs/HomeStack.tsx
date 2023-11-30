@@ -17,10 +17,11 @@ import LoadingIndicator from "apps/expo-app/src/components/loader/LoaderIndicato
 import RecentTransition from "apps/expo-app/src/components/recent";
 import Wallets from "apps/expo-app/src/components/wallets";
 import { RootState } from "apps/expo-app/src/store";
+import { actionSetTotalBalance } from "apps/expo-app/src/store/feature/resources";
 import { formatNumberWithCommas, mapUrlAsset } from "apps/expo-app/src/utils";
 import { useEffect, useState } from "react";
 import { ImageBackground, Pressable, ScrollView } from "react-native";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 export interface HomeTabProps {
   navigation?: any;
@@ -30,20 +31,23 @@ function HomeTab({ navigation }: HomeTabProps) {
   // Navigate Init
   // Store Init
   const userInfo = useSelector((state: RootState) => state.auth.info);
+  const resources = useSelector((state: RootState) => state.resources);
+  const dispatch = useDispatch();
   // State Init
   const [loading, setLoading] = useState<boolean>(false);
   const [isShowBalance, setIsShowBalance] = useState<boolean>(false);
-  const [totalBalance, setTotalBalance] = useState<number>(0);
   const [background, setBackground] = useState<string>("");
   //Effect Init
   useEffect(() => {
     const fetchTotalBalance = async () => {
       const total = await apiGetTotalBalance();
-      setTotalBalance(total ?? 0);
+      dispatch(actionSetTotalBalance(total ?? 0));
     };
-    fetchTotalBalance();
+    if (isShowBalance) {
+      fetchTotalBalance();
+    }
     setBackground(BG_BASE);
-  }, []);
+  }, [isShowBalance]);
 
   return (
     <ScrollView>
@@ -72,7 +76,7 @@ function HomeTab({ navigation }: HomeTabProps) {
                   </TextUI>
                   <Group position="between" align="center">
                     <TextUI color="sky400" size="xl" fw="bold">
-                      {isShowBalance ? formatNumberWithCommas(totalBalance) : "******"}
+                      {isShowBalance ? formatNumberWithCommas(resources.totalBalance) : "******"}
                     </TextUI>
                     <Pressable onPress={() => setIsShowBalance(!isShowBalance)}>
                       {isShowBalance ? <IconEyeOff color={colors.gray400} /> : <IconEye color={colors.gray400} />}
@@ -116,7 +120,7 @@ function HomeTab({ navigation }: HomeTabProps) {
                   See History
                 </ButtonUI>
               </Group>
-              <RecentTransition />
+              <RecentTransition limit={5} />
             </Stack>
 
             <Stack bg="white" style={[sx.pyMd]}>

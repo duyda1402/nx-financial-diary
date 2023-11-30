@@ -21,6 +21,9 @@ export class TransactionService {
         userId: userId,
         type: Not(TransactionType.TRANSFER),
       },
+      order: {
+        releaseAt: "DESC",
+      },
     });
     return transactions;
   }
@@ -37,6 +40,9 @@ export class TransactionService {
           userId: userId,
         },
       ],
+      order: {
+        releaseAt: "DESC",
+      },
     });
     return transactions;
   }
@@ -64,6 +70,7 @@ export class TransactionService {
     }
     const transaction = this.transactionRepository.create({
       ...data,
+      userId: userId,
       releaseAt: data?.releaseAt || new Date(),
       transactionId: transactionId,
     });

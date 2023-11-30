@@ -3,12 +3,13 @@ export type TransactionInfo = {
   transactionId: string;
   userId: string;
   walletId: string;
-  name: string;
+  subject: string;
+  thumbnail: string;
   amount: number;
   type: TransactionType;
   categoryId?: string;
   walletReceiveId?: string;
-  walletSenderId?: string;
+  releaseAt: Date;
   description?: string;
   createdAt: Date;
   updatedAt: Date;

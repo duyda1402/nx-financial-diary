@@ -1,6 +1,7 @@
 import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { CategoryInfo } from "apps/expo-app/src/common/types/category.types";
+import { TransactionType } from "apps/expo-app/src/common/types/transaction.type";
 import { WalletInfo } from "apps/expo-app/src/common/types/wallet.type";
 
 // Define a type for the slice state
@@ -8,12 +9,14 @@ import { WalletInfo } from "apps/expo-app/src/common/types/wallet.type";
 export interface SelectorState {
   category: CategoryInfo | null;
   wallet: WalletInfo | null;
+  transactionType: TransactionType;
 }
 
 // Define the initial state using that type
 const initialState: SelectorState = {
   category: null,
   wallet: null,
+  transactionType: TransactionType.EXPENSE,
 };
 
 export const selectorSlice = createSlice({
@@ -34,10 +37,18 @@ export const selectorSlice = createSlice({
     actionRemoveSelectWallet: (state) => {
       state.category = null;
     },
+    actionSelectTransactionType: (state, action: PayloadAction<TransactionType>) => {
+      state.transactionType = action.payload;
+    },
   },
 });
 
-export const { actionRemoveSelectCategory, actionRemoveSelectWallet, actionSelectCategory, actionSelectWallet } =
-  selectorSlice.actions;
+export const {
+  actionRemoveSelectCategory,
+  actionRemoveSelectWallet,
+  actionSelectCategory,
+  actionSelectWallet,
+  actionSelectTransactionType,
+} = selectorSlice.actions;
 
 export const selectorReducer = selectorSlice.reducer;

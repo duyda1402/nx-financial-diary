@@ -6,7 +6,7 @@ import SettingScreen from "./tabs/SettingScreen";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { apiGetMe, apiGetUserById } from "../../api/auth.api";
 import { ScreenName } from "../../common/enum";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { actionSetEmail, actionSetUserId, actionSetUserInfo } from "../../store/feature/auth";
 import { Stack } from "../../components/atom";
 import LoadingIndicator from "../../components/loader/LoaderIndicator";
@@ -25,6 +25,7 @@ import AddWalletScreen from "../wallet/AddWallet";
 import { apiGetCategories } from "../../api/category.api";
 import SelectCategoryScreen from "../category/SelectCategoryScreen";
 import SelectIconScreen from "../category/SelectIconScreen";
+import { RootState } from "../../store";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -86,6 +87,7 @@ type Props = { navigation?: any };
 
 function HomeScreen({ navigation }: Props) {
   //Store Init
+  const resources = useSelector((state: RootState) => state.resources);
   const dispatch = useDispatch();
   //State Init
   const [loadingScreen, setLoadingScreen] = useState<boolean>(true);

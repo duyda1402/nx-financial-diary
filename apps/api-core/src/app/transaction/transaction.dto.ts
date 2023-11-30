@@ -5,6 +5,9 @@ export class CreateTransactionDto {
   @IsOptional()
   amount: number;
 
+  @IsString()
+  subject: string;
+
   @IsNotEmpty()
   @IsString()
   walletId: string;
@@ -26,6 +29,10 @@ export class CreateTransactionDto {
   @IsOptional()
   @IsString()
   description?: string;
+
+  @IsOptional()
+  @IsString()
+  thumbnail?: string;
 }
 
 export class UpdateTransactionDto {

@@ -21,7 +21,7 @@ import { CreateTransactionDto, UpdateTransactionDto } from "./transaction.dto";
 export class TransactionController {
   constructor(private readonly transactionService: TransactionService) {}
 
-  @Get("user")
+  @Get("")
   @UseGuards(AuthGuard)
   async getTransactionByUser(@Req() req: Request): Promise<ApiResponse> {
     const userId = req["user"]?.sub;

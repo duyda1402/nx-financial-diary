@@ -28,3 +28,6 @@ export { default as IconSearch } from "./icons/IconSearch";
 export { default as IconSettingsFilled } from "./icons/IconSettingsFilled";
 export { default as IconSquareRoundedPlusFilled } from "./icons/IconSquareRoundedPlusFilled";
 export { default as IconTextPlus } from "./icons/IconTextPlus";
+export { default as IconCoins } from "./icons/IconCoins";
+export { default as IconTextCaption } from "./icons/IconTextCaption";
+export { default as IconChevronDown } from "./icons/IconChevronDown";

@@ -7,7 +7,7 @@ import { actionSelectCategory } from "../../store/feature/selector";
 import { CategoryInfo } from "../../common/types/category.types";
 import { sx } from "@nfd/styles";
 import { mapUrlAsset } from "../../utils";
-import { ICON_CHECK } from "../../common";
+
 import { ScreenName } from "../../common/enum";
 
 type Props = {
@@ -18,6 +18,7 @@ function SelectCategoryScreen({ navigation }: Props) {
   // State Init
   const categories = useSelector((state: RootState) => state.resources.categories);
   const categorySelected = useSelector((state: RootState) => state.selector.category);
+  const transactionType = useSelector((state: RootState) => state.selector.transactionType);
   const dispatch = useDispatch();
 
   const handlerSelect = (category: CategoryInfo) => {
@@ -48,23 +49,33 @@ function SelectCategoryScreen({ navigation }: Props) {
         <Stack style={[sx.mtMd]} spacing="xs">
           {categories.length ? (
             <>
-              {categories.map((category) => (
-                <TouchableOpacity key={category.id} onPress={() => handlerSelect(category)}>
-                  <Group noWrap align="center" position="between" bg="white" style={[sx.pMd]}>
-                    <Group align="center" noWrap>
-                      <AvatarUI radius="full" uri={mapUrlAsset(category?.thumbnail)} />
-                      <View>
-                        <TextUI fw="semi-bold" size="md" lineClamp={1}>
-                          {category.name}
-                        </TextUI>
-                      </View>
+              {categories
+                .filter((item) => item.taxonomy === transactionType)
+                .map((category) => (
+                  <TouchableOpacity key={category.id} onPress={() => handlerSelect(category)}>
+                    <Group noWrap align="center" position="between" bg="white" style={[sx.pMd]}>
+                      <Group align="center" noWrap>
+                        <AvatarUI radius="full" uri={mapUrlAsset(category?.thumbnail)} />
+                        <View>
+                          <TextUI fw="semi-bold" size="md" lineClamp={1}>
+                            {category.name}
+                          </TextUI>
+                        </View>
+                      </Group>
+                      {category.categoryId === categorySelected?.categoryId && (
+                        <Image
+                          source={require("../../../assets/icons/checked.png")}
+                          style={{
+                            width: 20,
+                            height: 20,
+                            resizeMode: "contain",
+                          }}
+                          alt="checked"
+                        />
+                      )}
                     </Group>
-                    {category.categoryId === categorySelected?.categoryId && (
-                      <Image source={{ uri: ICON_CHECK }} height={30} width={30} alt="checked" />
-                    )}
-                  </Group>
-                </TouchableOpacity>
-              ))}
+                  </TouchableOpacity>
+                ))}
             </>
           ) : (
             <TextUI color="gray600" size="xs">

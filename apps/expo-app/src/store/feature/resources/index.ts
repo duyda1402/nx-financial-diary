@@ -2,6 +2,7 @@ import type { PayloadAction } from "@reduxjs/toolkit";
 import { createSlice } from "@reduxjs/toolkit";
 import { AssetInfo } from "apps/expo-app/src/common/types/asset.types";
 import { CategoryInfo } from "apps/expo-app/src/common/types/category.types";
+import { TransactionInfo } from "apps/expo-app/src/common/types/transaction.type";
 import { WalletInfo } from "apps/expo-app/src/common/types/wallet.type";
 
 // Define a type for the slice state
@@ -19,6 +20,8 @@ export interface ResourcesState {
   totalBalance: number;
   budgets: BudgetInfo[];
   icons: AssetInfo[];
+  countLoading: number;
+  transactions: TransactionInfo[];
 }
 
 // Define the initial state using that type
@@ -27,6 +30,7 @@ const initialState: ResourcesState = {
   wallets: [],
   icons: [],
   totalBalance: 0,
+  countLoading: 0,
   budgets: [
     {
       id: 1,
@@ -35,6 +39,7 @@ const initialState: ResourcesState = {
       period: "01/11 - 30/11",
     },
   ],
+  transactions: [],
 };
 
 export const resourcesSlice = createSlice({
@@ -46,6 +51,15 @@ export const resourcesSlice = createSlice({
     actionSetWallets: (state, action: PayloadAction<WalletInfo[]>) => {
       state.wallets = action.payload;
     },
+    actionAddTransactions: (state, action: PayloadAction<TransactionInfo>) => {
+      const curTransactions = [...state.transactions];
+      curTransactions.unshift(action.payload);
+      state.transactions = curTransactions;
+    },
+    actionSetListTransactions: (state, action: PayloadAction<TransactionInfo[]>) => {
+      state.transactions = action.payload;
+    },
+
     actionSetCategory: (state, action: PayloadAction<CategoryInfo[]>) => {
       state.categories = action.payload;
     },
@@ -58,10 +72,21 @@ export const resourcesSlice = createSlice({
     actionAddWalletResources: (state, action: PayloadAction<WalletInfo>) => {
       state.wallets = state.wallets.concat(action.payload);
     },
+    actionLoadingCount: (state) => {
+      state.countLoading += 1;
+    },
   },
 });
 
-export const { actionSetTotalBalance, actionSetCategory, actionSetWallets, actionAddWalletResources, actionSetIcons } =
-  resourcesSlice.actions;
+export const {
+  actionSetTotalBalance,
+  actionSetCategory,
+  actionSetWallets,
+  actionAddWalletResources,
+  actionSetIcons,
+  actionLoadingCount,
+  actionAddTransactions,
+  actionSetListTransactions,
+} = resourcesSlice.actions;
 
 export const resourcesReducer = resourcesSlice.reducer;

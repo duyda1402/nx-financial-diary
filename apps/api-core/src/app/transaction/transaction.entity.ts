@@ -10,6 +10,9 @@ export class TransactionEntity extends BaseEntity {
   transactionId: string;
 
   @Column()
+  subject: string;
+
+  @Column()
   userId: string;
 
   @Column()
@@ -23,6 +26,9 @@ export class TransactionEntity extends BaseEntity {
 
   @Column({ nullable: true })
   categoryId?: string;
+
+  @Column({ nullable: true })
+  thumbnail?: string;
 
   @Column({ nullable: true })
   walletReceiveId?: string;
