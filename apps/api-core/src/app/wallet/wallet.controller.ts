@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Get, Param, Post, Put, Req, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Req, UseGuards } from "@nestjs/common";
 import { ApiResponse } from "../../common/api.response";
 import { AuthGuard } from "../auth/guard/auth.guard";
 import { CreateWalletDto, UpdateWalletDto } from "./wallet.dto";
@@ -24,7 +24,7 @@ export class WalletController {
     return ApiResponse.success(result);
   }
 
-  @Put(":walletId")
+  @Patch(":walletId")
   @UseGuards(AuthGuard)
   async updateWallet(
     @Param("walletId") walletId: string,
@@ -38,6 +38,26 @@ export class WalletController {
     } else {
       throw new BadRequestException("something went wrong!");
     }
+  }
+
+  @Delete(":walletId")
+  @UseGuards(AuthGuard)
+  async deleteWallet(@Param("walletId") walletId: string, @Req() req: Request): Promise<ApiResponse> {
+    const userId = req["user"]?.sub;
+    const result = await this.walletService.delete(walletId, userId);
+    if (result.affected !== 0) {
+      return ApiResponse.success();
+    } else {
+      throw new BadRequestException("something went wrong!");
+    }
+  }
+
+  @Get(":walletId")
+  @UseGuards(AuthGuard)
+  async getWallet(@Param("walletId") walletId: string, @Req() req: Request): Promise<ApiResponse> {
+    const userId = req["user"]?.sub;
+    const result = await this.walletService.getDetails(walletId, userId);
+    return ApiResponse.success(result);
   }
 
   @Get("balance")

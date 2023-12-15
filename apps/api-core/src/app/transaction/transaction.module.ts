@@ -1,9 +1,9 @@
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
-import { TransactionEntity } from "./transaction.entity";
-import { TransactionController } from "./transaction.controller";
-import { TransactionService } from "./transaction.service";
 import { WalletModule } from "../wallet/wallet.module";
+import { TransactionController } from "./transaction.controller";
+import { TransactionEntity } from "./transaction.entity";
+import { TransactionService } from "./transaction.service";
 
 @Module({
   imports: [TypeOrmModule.forFeature([TransactionEntity]), WalletModule],

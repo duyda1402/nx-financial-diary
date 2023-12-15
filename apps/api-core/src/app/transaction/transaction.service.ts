@@ -145,4 +145,12 @@ export class TransactionService {
     }
     return this.transactionRepository.delete({ transactionId });
   }
+
+  async deleteByWallet(walletId: string): Promise<DeleteResult> {
+    try {
+      return this.transactionRepository.delete({ walletId });
+    } catch (error: any) {
+      throw new BadRequestException(error.message);
+    }
+  }
 }
