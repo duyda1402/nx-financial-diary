@@ -1,3 +1,8 @@
+import { Dispatch } from "@reduxjs/toolkit";
+import { apiGetTotalBalance, apiWalletByUser } from "../api/wallet.api";
+import { apiGetTransactionByUser } from "../api/transaction.api";
+import { actionSetListTransactions, actionSetTotalBalance, actionSetWallets } from "../store/feature/resources";
+
 export function formatNumberWithCommas(number: number, prefix = "$") {
   return `${prefix} ${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
 }
@@ -45,4 +50,10 @@ function formatAmPm(inputDate: Date) {
 
   const formattedMinutes = minutes < 10 ? `0${minutes}` : minutes;
   return `${formattedHours}:${formattedMinutes} ${ampm}`;
+}
+
+export function reloadFullData(dispatch: Dispatch) {
+  apiWalletByUser().then((wallets) => dispatch(actionSetWallets(wallets)));
+  apiGetTotalBalance().then((balance) => dispatch(actionSetTotalBalance(balance)));
+  apiGetTransactionByUser().then((result) => dispatch(actionSetListTransactions(result)));
 }

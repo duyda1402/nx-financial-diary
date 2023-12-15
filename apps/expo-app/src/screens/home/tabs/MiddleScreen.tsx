@@ -25,7 +25,7 @@ import {
   actionSetWallets,
 } from "apps/expo-app/src/store/feature/resources";
 import { actionRemoveSelectCategory, actionSelectTransactionType } from "apps/expo-app/src/store/feature/selector";
-import { mapUrlAsset } from "apps/expo-app/src/utils";
+import { mapUrlAsset, reloadFullData } from "apps/expo-app/src/utils";
 import { useCallback, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Modal, Pressable, ScrollView, TextInput, TouchableOpacity, View, Image, Alert } from "react-native";
@@ -79,8 +79,7 @@ function AddNewTab({ navigation }: AddNewTabProps) {
       dispatch(actionAddTransactions(newTransaction));
       reset();
       dispatch(actionRemoveSelectCategory());
-      apiWalletByUser().then((wallets) => dispatch(actionSetWallets(wallets)));
-      apiGetTotalBalance().then((balance) => dispatch(actionSetTotalBalance(balance)));
+      reloadFullData(dispatch);
       Alert.alert("Create transaction successfully!");
     } catch (err: any) {
       setLoadingSubmit(() => false);

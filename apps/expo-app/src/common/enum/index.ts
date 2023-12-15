@@ -5,6 +5,7 @@ export enum ScreenName {
   VALIDATE_OTP_SCREEN = "validate-otp",
   HOME_SCREEN = "home",
   TRANSACTION_HISTORY = "transaction-history",
+  TRANSACTION_DETAILS = "transaction-details",
   BUDGET_LIST = "budget-list",
   EDIT_USER = "edit-user",
   SELECT_WALLET_LIST = "select-wallet-list",

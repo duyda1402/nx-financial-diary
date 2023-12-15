@@ -26,6 +26,7 @@ import { apiGetCategories } from "../../api/category.api";
 import SelectCategoryScreen from "../category/SelectCategoryScreen";
 import SelectIconScreen from "../category/SelectIconScreen";
 import { RootState } from "../../store";
+import TransactionDetailScreen from "../transaction/TransactionDetails";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -36,6 +37,21 @@ function HomeNavigator() {
       <HomeStack.Screen
         name={ScreenName.TRANSACTION_HISTORY}
         component={TransactionListScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name={ScreenName.TRANSACTION_DETAILS}
+        component={TransactionDetailScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name={ScreenName.SELECT_WALLET_LIST}
+        component={SelectWalletScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen
+        name={ScreenName.SELECT_CATEGORY}
+        component={SelectCategoryScreen}
         options={{ headerShown: false }}
       />
       <HomeStack.Screen name={ScreenName.ADD_WALLET} component={AddWalletScreen} options={{ headerShown: false }} />
@@ -87,7 +103,7 @@ type Props = { navigation?: any };
 
 function HomeScreen({ navigation }: Props) {
   //Store Init
-  const resources = useSelector((state: RootState) => state.resources);
+  // const resources = useSelector((state: RootState) => state.resources);
   const dispatch = useDispatch();
   //State Init
   const [loadingScreen, setLoadingScreen] = useState<boolean>(true);

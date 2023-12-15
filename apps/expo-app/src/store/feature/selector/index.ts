@@ -10,6 +10,7 @@ export interface SelectorState {
   category: CategoryInfo | null;
   wallet: WalletInfo | null;
   transactionType: TransactionType;
+  transactionId: string;
 }
 
 // Define the initial state using that type
@@ -17,6 +18,7 @@ const initialState: SelectorState = {
   category: null,
   wallet: null,
   transactionType: TransactionType.EXPENSE,
+  transactionId: "",
 };
 
 export const selectorSlice = createSlice({
@@ -25,10 +27,10 @@ export const selectorSlice = createSlice({
   initialState,
   reducers: {
     // Use the PayloadAction type to declare the contents of `action.payload`
-    actionSelectWallet: (state, action: PayloadAction<WalletInfo>) => {
+    actionSelectWallet: (state, action: PayloadAction<WalletInfo | null>) => {
       state.wallet = action.payload;
     },
-    actionSelectCategory: (state, action: PayloadAction<CategoryInfo>) => {
+    actionSelectCategory: (state, action: PayloadAction<CategoryInfo | null>) => {
       state.category = action.payload;
     },
     actionRemoveSelectCategory: (state) => {
@@ -40,6 +42,9 @@ export const selectorSlice = createSlice({
     actionSelectTransactionType: (state, action: PayloadAction<TransactionType>) => {
       state.transactionType = action.payload;
     },
+    actionSelectTransaction: (state, action: PayloadAction<string>) => {
+      state.transactionId = action.payload;
+    },
   },
 });
 
@@ -49,6 +54,7 @@ export const {
   actionSelectCategory,
   actionSelectWallet,
   actionSelectTransactionType,
+  actionSelectTransaction,
 } = selectorSlice.actions;
 
 export const selectorReducer = selectorSlice.reducer;

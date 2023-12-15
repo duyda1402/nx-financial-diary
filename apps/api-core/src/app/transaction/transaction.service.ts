@@ -76,7 +76,18 @@ export class TransactionService {
     });
     return this.transactionRepository.save(transaction);
   }
-
+  async getTransaction(transactionId: string, userId: string): Promise<TransactionEntity> {
+    const transaction = await this.transactionRepository.findOne({
+      where: {
+        transactionId,
+        userId,
+      },
+    });
+    if (!transaction) {
+      throw new BadRequestException("Record not found!");
+    }
+    return transaction;
+  }
   async update(transactionId: string, userId: string, data: UpdateTransactionDto): Promise<UpdateResult> {
     const curRecord = await this.transactionRepository.findOneBy({ transactionId, userId });
     if (!curRecord) {

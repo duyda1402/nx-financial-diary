@@ -37,6 +37,14 @@ export class TransactionController {
     return ApiResponse.success(result);
   }
 
+  @Get(":transactionId")
+  @UseGuards(AuthGuard)
+  async getTransaction(@Req() req: Request, @Param("transactionId") transactionId: string): Promise<ApiResponse> {
+    const userId = req["user"]?.sub;
+    const result = await this.transactionService.getTransaction(transactionId, userId);
+    return ApiResponse.success(result);
+  }
+
   @Patch(":transactionId")
   @UseGuards(AuthGuard)
   async updateTransaction(

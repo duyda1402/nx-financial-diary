@@ -31,3 +31,4 @@ export { default as IconTextPlus } from "./icons/IconTextPlus";
 export { default as IconCoins } from "./icons/IconCoins";
 export { default as IconTextCaption } from "./icons/IconTextCaption";
 export { default as IconChevronDown } from "./icons/IconChevronDown";
+export { default as IconTrash } from "./icons/IconTrash";
