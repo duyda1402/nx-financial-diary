@@ -250,7 +250,7 @@ export const sx = StyleSheet.create({
   hero: {
     borderRadius: 12,
     padding: 18,
-    marginBottom: 24,
+    // marginBottom: 24,
   },
   heroTitle: {
     flex: 1,

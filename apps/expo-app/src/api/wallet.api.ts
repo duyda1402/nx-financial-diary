@@ -28,3 +28,26 @@ export const apiCreateWallet = async ({ name, balance = 0, thumbnail, descriptio
   });
   return res.data;
 };
+
+export const apiWalletDetails = async (walletId: string): Promise<WalletInfo> => {
+  const res = await apiClient.get<any, ResponseAPI<WalletInfo>>("/wallet/" + walletId);
+  return res.data;
+};
+
+export const apiDeleteWallet = async (walletId: string): Promise<WalletInfo> => {
+  const res = await apiClient.delete<any, ResponseAPI<WalletInfo>>("/wallet/" + walletId);
+  return res.data;
+};
+
+export const apiUpdateWallet = async (
+  walletId: string,
+  { name, balance = 0, thumbnail, description }: BodyCreateWallet,
+): Promise<WalletInfo> => {
+  const res = await apiClient.patch<any, ResponseAPI<WalletInfo>>("/wallet/" + walletId, {
+    name,
+    balance,
+    thumbnail,
+    description,
+  });
+  return res.data;
+};

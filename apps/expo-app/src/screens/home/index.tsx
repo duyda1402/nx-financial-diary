@@ -25,8 +25,9 @@ import AddWalletScreen from "../wallet/AddWallet";
 import { apiGetCategories } from "../../api/category.api";
 import SelectCategoryScreen from "../category/SelectCategoryScreen";
 import SelectIconScreen from "../category/SelectIconScreen";
-import { RootState } from "../../store";
 import TransactionDetailScreen from "../transaction/TransactionDetails";
+import WalletDetailScreen from "../wallet/WalletDetails";
+import EditWalletScreen from "../wallet/EditWalletScreent";
 
 const HomeStack = createNativeStackNavigator();
 
@@ -54,6 +55,12 @@ function HomeNavigator() {
         component={SelectCategoryScreen}
         options={{ headerShown: false }}
       />
+      <HomeStack.Screen
+        name={ScreenName.WALLET_DETAILS}
+        component={WalletDetailScreen}
+        options={{ headerShown: false }}
+      />
+      <HomeStack.Screen name={ScreenName.WALLET_EDIT} component={EditWalletScreen} options={{ headerShown: false }} />
       <HomeStack.Screen name={ScreenName.ADD_WALLET} component={AddWalletScreen} options={{ headerShown: false }} />
       <HomeStack.Screen name={ScreenName.BUDGET_LIST} component={BudgetListScreen} options={{ headerShown: false }} />
     </HomeStack.Navigator>

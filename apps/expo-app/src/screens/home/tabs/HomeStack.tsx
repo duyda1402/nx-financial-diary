@@ -69,7 +69,7 @@ function HomeTab({ navigation }: HomeTabProps) {
                 </TextUI>
                 <AvatarUI uri={mapUrlAsset(userInfo?.profileUrl)} radius="xl" withBorder />
               </Group>
-              <Stack style={[sx.hero]} bg="gray50">
+              <Stack style={[sx.hero, { marginBottom: 24 }]} bg="gray50">
                 <Stack spacing="sm">
                   <TextUI color="gray400" fw="semi-bold">
                     Total balance:

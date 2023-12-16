@@ -13,4 +13,6 @@ export enum ScreenName {
   SELECT_CATEGORY_ICON = "select-category-icon",
   ADD_WALLET = "add-wallet",
   CATEGORY_LIST = "category-list",
+  WALLET_DETAILS = "wallet-details",
+  WALLET_EDIT = "wallet-edit",
 }

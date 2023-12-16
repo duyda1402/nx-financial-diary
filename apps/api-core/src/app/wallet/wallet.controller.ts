@@ -24,6 +24,34 @@ export class WalletController {
     return ApiResponse.success(result);
   }
 
+  @Get("balance")
+  @UseGuards(AuthGuard)
+  async getTotalBalance(@Req() req: Request): Promise<ApiResponse> {
+    const userId = req["user"]?.sub;
+    const result = await this.walletService.getTotalBalance(userId);
+    return ApiResponse.success(result);
+  }
+
+  @Get(":walletId")
+  @UseGuards(AuthGuard)
+  async getWallet(@Param("walletId") walletId: string, @Req() req: Request): Promise<ApiResponse> {
+    const userId = req["user"]?.sub;
+    const result = await this.walletService.getDetails(walletId, userId);
+    return ApiResponse.success(result);
+  }
+
+  @Delete(":walletId")
+  @UseGuards(AuthGuard)
+  async deleteWallet(@Param("walletId") walletId: string, @Req() req: Request): Promise<ApiResponse> {
+    const userId = req["user"]?.sub;
+    const result = await this.walletService.deleteWallet(walletId, userId);
+    if (result.affected !== 0) {
+      return ApiResponse.success();
+    } else {
+      throw new BadRequestException("something went wrong!");
+    }
+  }
+
   @Patch(":walletId")
   @UseGuards(AuthGuard)
   async updateWallet(
@@ -38,33 +66,5 @@ export class WalletController {
     } else {
       throw new BadRequestException("something went wrong!");
     }
-  }
-
-  @Delete(":walletId")
-  @UseGuards(AuthGuard)
-  async deleteWallet(@Param("walletId") walletId: string, @Req() req: Request): Promise<ApiResponse> {
-    const userId = req["user"]?.sub;
-    const result = await this.walletService.delete(walletId, userId);
-    if (result.affected !== 0) {
-      return ApiResponse.success();
-    } else {
-      throw new BadRequestException("something went wrong!");
-    }
-  }
-
-  @Get(":walletId")
-  @UseGuards(AuthGuard)
-  async getWallet(@Param("walletId") walletId: string, @Req() req: Request): Promise<ApiResponse> {
-    const userId = req["user"]?.sub;
-    const result = await this.walletService.getDetails(walletId, userId);
-    return ApiResponse.success(result);
-  }
-
-  @Get("balance")
-  @UseGuards(AuthGuard)
-  async getTotalBalance(@Req() req: Request): Promise<ApiResponse> {
-    const userId = req["user"]?.sub;
-    const result = await this.walletService.getTotalBalance(userId);
-    return ApiResponse.success(result);
   }
 }

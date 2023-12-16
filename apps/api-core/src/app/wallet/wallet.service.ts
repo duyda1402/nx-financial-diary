@@ -82,16 +82,17 @@ export class WalletService {
     }
   }
 
-  async delete(walletId: string, userId: string): Promise<DeleteResult> {
+  async deleteWallet(walletId: string, userId: string): Promise<DeleteResult> {
     const curRecord = await this.walletRepository.findOneBy({ walletId, userId });
     if (!curRecord) {
       throw new BadRequestException("Record not found");
     }
-
-    const result = await this.transactionRepository.delete({ walletId, userId });
-    if (result.affected === 0) {
-      throw new BadGatewayException("something went wrong!");
+    try {
+      const result = await this.transactionRepository.delete({ walletId, userId });
+    } catch (err: any) {
+      throw new BadRequestException(err?.message);
     }
+
     return this.walletRepository.delete({ walletId });
   }
 }

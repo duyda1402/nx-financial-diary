@@ -13,19 +13,24 @@ import { ScreenName } from "../../common/enum";
 import { actionSelectTransaction } from "../../store/feature/selector";
 
 type Props = {
-  limit: number;
+  limit?: number;
+  transactions?: TransactionInfo[];
 };
 
-function RecentTransition({ limit = -1 }: Props) {
+function RecentTransition({ limit = -1, transactions }: Props) {
   const resources = useSelector((state: RootState) => state.resources);
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const data = transactions ? transactions : resources.transactions;
+
   useEffect(() => {
     const fetchData = async () => {
       const result = await apiGetTransactionByUser();
       dispatch(actionSetListTransactions(result));
     };
-    fetchData();
+    if (!transactions) {
+      fetchData();
+    }
   }, []);
 
   //Callback Init
@@ -37,7 +42,8 @@ function RecentTransition({ limit = -1 }: Props) {
     [navigation],
   );
 
-  const dataSlice = limit > 0 ? resources.transactions.slice(0, limit) : resources.transactions;
+  const dataSlice = limit > 0 ? data.slice(0, limit) : data;
+
   return (
     <Stack style={[sx.pxMd]} spacing="sm">
       {dataSlice.at(0) ? (
